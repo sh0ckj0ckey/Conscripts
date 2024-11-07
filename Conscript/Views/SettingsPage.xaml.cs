@@ -78,7 +78,7 @@ namespace Conscript.Views
         {
             try
             {
-                await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/sh0ckj0ckey/Conscript"));
+                await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/sh0ckj0ckey/Conscripts"));
             }
             catch { }
         }
