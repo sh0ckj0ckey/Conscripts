@@ -2,7 +2,7 @@
 
 
 <p align="center">
-    <img src="Conscript/Assets/conscript_logo.png" alt="Hero image for Conscript" height="128" width="128"/>
+    <img src="Conscripts/Assets/Conscripts_logo.png" alt="Hero image for Conscripts" height="128" width="128"/>
     <h2 align="center">Conscripts — 脚本文件启动中心</h4>
 </p>
 
@@ -10,9 +10,9 @@
 
 #### 点击下方按钮即可下载
 
-<a href="https://apps.microsoft.com/store/detail/9PPNDNTLQ86Q?launch=true&mode=mini">
+<a href="https://apps.microsoft.com/store/detail/9PPNDNTLQ86Q?launch=true&mode=full">
 	<img src="https://get.microsoft.com/images/zh-CN%20dark.svg"/>
 </a>
 
 #### 一睹芳容
-![screenshot.png](Conscript/Assets/screenshot1.png)
+![screenshot.png](Conscripts/Assets/screenshot1.png)
