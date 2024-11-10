@@ -24,7 +24,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="添加" Margin="20,28,20,8" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
+        <TextBlock Grid.Row="0" Text="添加" Margin="20,28,20,8" FontWeight="Bold" FontSize="20"/>
         <StackPanel Grid.Row="1" Orientation="Vertical" Spacing="4" Padding="20,20,20,0">
             <Grid AllowDrop="True">
                 <Rectangle RadiusX="4" RadiusY="4" HorizontalAlignment="Stretch" Height="128" Fill="#10888888" StrokeDashArray="3" StrokeThickness="0" Stroke="{ThemeResource ControlElevationBorderBrush}"/>
@@ -33,10 +33,10 @@
                     <Button Margin="0,0,8,0" Click="OnClickChooseFile">
                         <StackPanel Orientation="Horizontal">
                             <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE838;" FontSize="15" Margin="0,0,6,0" Opacity="0.9"/>
-                            <TextBlock Text="选择文件" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.9" CharacterSpacing="64"/>
+                            <TextBlock Text="选择文件" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.9"/>
                         </StackPanel>
                     </Button>
-                    <!--<TextBlock Text="或拖拽文件至此" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.8" CharacterSpacing="64"/>-->
+                    <!--<TextBlock Text="或拖拽文件至此" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.8"/>-->
                 </StackPanel>
                 <StackPanel x:Name="FileSelectedStackPanel" Margin="0,0,0,-24" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Image x:Name="Ps1FileIconImage" Source="/Assets/Icons/file_ps1_icon.png" Width="100" Height="70" Stretch="Uniform" Margin="0,0,8,0" VerticalAlignment="Center"/>
@@ -46,12 +46,12 @@
                             <Button Margin="0,0,8,0" Click="OnClickChooseFile">
                                 <StackPanel Orientation="Horizontal">
                                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE838;" FontSize="15" Margin="0,0,6,0" Opacity="0.9"/>
-                                    <TextBlock Text="重新选择" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.9" CharacterSpacing="64"/>
+                                    <TextBlock Text="重新选择" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.9"/>
                                 </StackPanel>
                             </Button>
-                            <!--<TextBlock Text="或拖拽文件至此" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0.8" CharacterSpacing="64"/>-->
+                            <!--<TextBlock Text="或拖拽文件至此" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0.8"/>-->
                         </StackPanel>
-                        <TextBlock x:Name="CopyTipTextBlock" Text="" Margin="0,8,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" Opacity="0.5" CharacterSpacing="64"/>
+                        <TextBlock x:Name="CopyTipTextBlock" Text="" Margin="0,8,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" Opacity="0.5"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -191,7 +191,7 @@
                     Click="OnClickCreate">
                 <StackPanel Orientation="Horizontal">
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE109;" FontSize="15" Margin="0,0,6,0" Foreground="White"/>
-                    <TextBlock Text="添加" HorizontalAlignment="Center" VerticalAlignment="Center" CharacterSpacing="64" Foreground="White"/>
+                    <TextBlock Text="添加" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
                 </StackPanel>
             </Button>
         </Grid>

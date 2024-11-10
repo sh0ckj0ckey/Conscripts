@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Windows.Storage;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Conscripts.Models
 {
     public class ShortcutModel : ObservableObject
     {
-        private bool _available = true;
-
         private string _shortcutName = string.Empty;
 
         private string _shortcutIcon = string.Empty;
 
-        private ShortcutTypeEnum _shortcutType = ShortcutTypeEnum.Ps1;
+        private ShortcutTypeEnum _shortcutType = ShortcutTypeEnum.None;
 
         private ShortcutColorEnum _shortcutColor = ShortcutColorEnum.Transparent;
 
@@ -30,16 +22,6 @@ namespace Conscripts.Models
         /// 脚本文件路径
         /// </summary>
         public string ScriptFilePath { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 文件是否存在
-        /// </summary>
-        [System.Text.Json.Serialization.JsonIgnore]
-        public bool Available
-        {
-            get => _available;
-            set => SetProperty(ref _available, value);
-        }
 
         /// <summary>
         /// 脚本名称

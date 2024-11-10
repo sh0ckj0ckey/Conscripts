@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Windows.Storage;
 
-namespace Conscripts.Core
+namespace Conscripts.Helpers
 {
     public class SettingsService : ObservableObject
     {

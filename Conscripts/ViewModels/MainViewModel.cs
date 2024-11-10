@@ -4,20 +4,11 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.WinUI.Helpers;
-using Conscripts.Core;
 using Conscripts.Helpers;
 using Conscripts.Models;
-using Microsoft.UI.Xaml.Shapes;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
-using static System.Net.Mime.MediaTypeNames;
-using static Conscripts.Helpers.InstalledFont;
 
 namespace Conscripts.ViewModels
 {
@@ -130,46 +121,86 @@ namespace Conscripts.ViewModels
                     _allShortcuts.Clear();
                     this.GroupedShortcuts.Clear();
 
-                    string shortcutsJson = await StorageFilesService.ReadFileAsync("shortcuts.json");
-                    if (!string.IsNullOrWhiteSpace(shortcutsJson))
+                    try
                     {
-                        var shortcuts = JsonSerializer.Deserialize<ObservableCollection<ShortcutModel>>(shortcutsJson);
-
-                        foreach (var shortcut in shortcuts)
+                        string shortcutsJson = await StorageFilesService.ReadFileAsync("shortcuts.json");
+                        if (!string.IsNullOrWhiteSpace(shortcutsJson))
                         {
-                            if (string.IsNullOrWhiteSpace(shortcut.Category))
+                            var shortcuts = JsonSerializer.Deserialize<ObservableCollection<ShortcutModel>>(shortcutsJson);
+
+                            foreach (var shortcut in shortcuts)
                             {
-                                shortcut.Category = "未分类";
+                                if (string.IsNullOrWhiteSpace(shortcut.Category))
+                                {
+                                    shortcut.Category = "未分类";
+                                }
+
+                                // 存储已有的分类名称，用于建议用户
+                                if (!_categories.Contains(shortcut.Category))
+                                {
+                                    _categories.Add(shortcut.Category);
+                                    this.Categories.Add(shortcut.Category);
+                                }
+
+                                _allShortcuts.Add(shortcut);
                             }
 
-                            // 存储已有的分类名称，用于建议用户
-                            if (!_categories.Contains(shortcut.Category))
+                            var groupedList =
+                                (from item in _allShortcuts
+                                 group item by item.Category into newItems
+                                 select
+                                 new ShortcutsGroupModel
+                                 {
+                                     Category = newItems.Key,
+                                     Shortcuts = new(newItems.ToList())
+                                 }).OrderBy(x => x.Category).ToList();
+
+                            foreach (var item in groupedList)
                             {
-                                _categories.Add(shortcut.Category);
-                                this.Categories.Add(shortcut.Category);
+                                this.GroupedShortcuts.Add(item);
                             }
-
-                            // 检查文件是否存在
-                            shortcut.Available = File.Exists(shortcut.ScriptFilePath);
-
-                            _allShortcuts.Add(shortcut);
-                        }
-
-                        var groupedList =
-                            (from item in _allShortcuts
-                             group item by item.Category into newItems
-                             select
-                             new ShortcutsGroupModel
-                             {
-                                 Category = newItems.Key,
-                                 Shortcuts = new(newItems.ToList())
-                             }).OrderBy(x => x.Category).ToList();
-
-                        foreach (var item in groupedList)
-                        {
-                            this.GroupedShortcuts.Add(item);
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        Trace.WriteLine(ex);
+                    }
+
+                    // 添加系统菜单
+                    this.GroupedShortcuts.Add(new ShortcutsGroupModel
+                    {
+                        Category = "",
+                        Shortcuts = new ObservableCollection<ShortcutModel>
+                        {
+                            new ShortcutModel
+                            {
+                                Category = "add",
+                                ShortcutColor = ShortcutColorEnum.Transparent,
+                                ShortcutType = ShortcutTypeEnum.None,
+                                ShortcutName = "添加",
+                                ShortcutIcon = "\uE710",
+                                ShortcutRunas = false,
+                            },
+                            new ShortcutModel
+                            {
+                                Category = "whatsnew",
+                                ShortcutColor = ShortcutColorEnum.Transparent,
+                                ShortcutType = ShortcutTypeEnum.None,
+                                ShortcutName = "更新日志",
+                                ShortcutIcon = "\uF133",
+                                ShortcutRunas = false,
+                            },
+                            new ShortcutModel
+                            {
+                                Category = "settings",
+                                ShortcutColor = ShortcutColorEnum.Transparent,
+                                ShortcutType = ShortcutTypeEnum.None,
+                                ShortcutName = "设置",
+                                ShortcutIcon = "\uE713",
+                                ShortcutRunas = false,
+                            },
+                        }
+                    });
                 }
                 catch (Exception e) { Debug.WriteLine(e.Message); }
             }

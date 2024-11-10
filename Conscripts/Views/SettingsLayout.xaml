@@ -6,12 +6,11 @@
     xmlns:local="using:Conscripts.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
-    mc:Ignorable="d">
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
         <StackPanel Orientation="Vertical" Margin="16,0,20,0">
-            <TextBlock Text="设置" Margin="4,28,0,20" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
+            <TextBlock Text="设置" Margin="4,28,0,20" FontWeight="Bold" FontSize="20"/>
             <controls:SettingsCard>
                 <controls:SettingsCard.Header>
                     <StackPanel Orientation="Horizontal">
@@ -21,11 +20,11 @@
                             </Image.Source>
                         </Image>
                         <StackPanel Margin="12,0,0,0" Spacing="0" Orientation="Vertical" VerticalAlignment="Center">
-                            <TextBlock FontSize="18" FontWeight="Medium" CharacterSpacing="42">
+                            <TextBlock FontSize="18" FontWeight="Medium">
                                     <Run Text="Conscripts"/>
                                     <Run Text="{x:Bind _appVersion}" FontSize="12" FontWeight="Normal"/>
                             </TextBlock>
-                            <TextBlock Text="脚本文件启动中心" FontSize="13" Opacity="0.7" CharacterSpacing="64"/>
+                            <TextBlock Text="脚本文件启动中心" FontSize="13" Opacity="0.7"/>
                         </StackPanel>
                     </StackPanel>
                 </controls:SettingsCard.Header>
@@ -36,7 +35,7 @@
                     </StackPanel>
                 </Button>
             </controls:SettingsCard>
-            <TextBlock Text="个性化" Margin="4,10,0,10" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
+            <TextBlock Text="个性化" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
             <controls:SettingsCard Header="主题" Description="选择 &quot;Conscripts&quot; 的外观">
                 <controls:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE771;"/>
@@ -58,7 +57,7 @@
                     <ComboBoxItem Content="亚克力"/>
                 </ComboBox>
             </controls:SettingsCard>
-            <TextBlock Text="数据" Margin="4,10,0,10" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
+            <TextBlock Text="数据" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
             <controls:SettingsCard Header="文件" Description="所有的脚本文件都存放在 &quot;文档&quot; 中">
                 <controls:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE838;"/>
@@ -66,11 +65,11 @@
                 <Button Height="32" MinWidth="114" Click="OnClickDbPath">
                     <StackPanel Orientation="Horizontal" Spacing="6">
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE838;" FontSize="12"/>
-                        <TextBlock Text="前往查看" CharacterSpacing="64"/>
+                        <TextBlock Text="前往查看"/>
                     </StackPanel>
                 </Button>
             </controls:SettingsCard>
-            <TextBlock Text="关于" Margin="4,10,0,10" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
+            <TextBlock Text="关于" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
             <controls:SettingsCard Header="反馈" Description="如果您遇到问题或有任何建议">
                 <controls:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xED15;"/>
@@ -82,7 +81,7 @@
                                 <BitmapImage UriSource="ms-appx:///Assets/Icons/icon_mail.png" DecodePixelHeight="40" DecodePixelType="Logical"/>
                             </Image.Source>
                         </Image>
-                        <TextBlock Text="发送邮件" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0" CharacterSpacing="40"/>
+                        <TextBlock Text="发送邮件" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0"/>
                     </StackPanel>
                     <Button.Flyout>
                         <Flyout>
@@ -100,12 +99,12 @@
                 <Button Height="34" Click="OnClickGoGitHub" ToolTipService.ToolTip="GitHub 存储库">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <BitmapIcon UriSource="ms-appx:///Assets/Icons/icon_github.png" Width="20" ShowAsMonochrome="True"/>
-                        <TextBlock Text="GitHub 存储库" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0" CharacterSpacing="40"/>
+                        <TextBlock Text="GitHub 存储库" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0"/>
                     </StackPanel>
                 </Button>
             </controls:SettingsCard>
             <Grid>
-                <TextBlock Text="©2024 NoMewing." Opacity="0.5" FontFamily="Consolas" CharacterSpacing="48" FontSize="12" Margin="4,8,0,8"/>
+                <TextBlock Text="©2024 NoMewing." Opacity="0.5" FontFamily="Consolas" FontSize="12" Margin="4,8,0,8"/>
             </Grid>
         </StackPanel>
     </ScrollViewer>

@@ -16,11 +16,6 @@
     <Page.Resources>
         <converters:Int2VisibilityConverter x:Key="Int2Vis"/>
         <converters:Enum2ColorConverter x:Key="Enum2Color"/>
-
-        <SolidColorBrush x:Key="GridViewHeaderItemDividerStroke" Color="Transparent"/>
-        <!--<SolidColorBrush x:Key="GridViewItemBackgroundPointerOver" Color="Transparent"/>
-        <SolidColorBrush x:Key="GridViewItemBackgroundPressed" Color="Transparent"/>
-        <SolidColorBrush x:Key="GridViewItemBackgroundSelectedPointerOver" Color="Transparent"/>-->
     </Page.Resources>
 
     <Grid>
@@ -50,13 +45,7 @@
             <TextBlock Grid.Column="1" Margin="8,0,0,0" Text="Conscripts" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
 
-        <StackPanel Grid.Row="1" Visibility="{x:Bind _viewModel.GroupedShortcuts.Count,Mode=OneWay,Converter={StaticResource Int2Vis},ConverterParameter=-}" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
-            <BitmapIcon UriSource="ms-appx:///Assets/Consrcipts_Placeholder.png" Width="96" ShowAsMonochrome="True" Opacity="0.05" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="这里空空如也" Opacity="0.15" FontWeight="Bold" Margin="0,16,0,64" FontSize="14" CharacterSpacing="64" TextAlignment="Center"/>
-        </StackPanel>
-
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled"
-                      Visibility="{x:Bind _viewModel.GroupedShortcuts.Count,Mode=OneWay,Converter={StaticResource Int2Vis}}">
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
             <controls:ItemsRepeater Margin="20,0,20,16" ItemsSource="{x:Bind _viewModel.GroupedShortcuts,Mode=OneWay}">
                 <controls:ItemsRepeater.Layout>
                     <StackLayout Orientation="Vertical"/>
@@ -77,11 +66,27 @@
                             </controls:ItemsRepeater.Layout>
                             <DataTemplate x:DataType="models:ShortcutModel">
                                 <Grid CornerRadius="4" Background="{x:Bind ShortcutColor,Mode=OneWay,Converter={StaticResource Enum2Color}}">
-                                    <Button DataContext="{x:Bind }" Click="OnClickShortcut" Padding="0" Background="Transparent" ToolTipService.ToolTip="{x:Bind ShortcutName,Mode=OneWay}"
-                                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Button DataContext="{x:Bind }" Padding="0" Background="Transparent" ToolTipService.ToolTip="{x:Bind ShortcutName,Mode=OneWay}"
+                                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                            ContextRequested="Button_ContextRequested" Click="Button_Click">
+                                        <Button.Resources>
+                                            <MenuFlyout x:Key="ShortcutMenuFlyout" Placement="Bottom">
+                                                <MenuFlyoutItem x:Name="InfoMenuItem" Text="属性" Click="InfoMenuItem_Click">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE90F;"/>
+                                                    </MenuFlyoutItem.Icon>
+                                                </MenuFlyoutItem>
+                                                <MenuFlyoutSeparator/>
+                                                <MenuFlyoutItem x:Name="DeleteMenuItem" Text="删除" Click="DeleteMenuItem_Click">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE74D;"/>
+                                                    </MenuFlyoutItem.Icon>
+                                                </MenuFlyoutItem>
+                                            </MenuFlyout>
+                                        </Button.Resources>
                                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                            <TextBlock FontSize="14" Margin="12,12,8,0" Foreground="White" FontWeight="Bold" Text="{x:Bind ShortcutName,Mode=OneWay}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top" CharacterSpacing="64"/>
-                                            <TextBlock FontSize="40" Opacity="0.5" Foreground="White" Margin="0,0,8,8" Text="{x:Bind ShortcutIcon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                            <TextBlock FontSize="14" Margin="12,12,12,12" Foreground="White" FontWeight="Bold" Text="{x:Bind ShortcutName,Mode=OneWay}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                            <TextBlock FontSize="36" Opacity="0.5" Foreground="White" Margin="0,0,8,8" Text="{x:Bind ShortcutIcon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                                         </Grid>
                                     </Button>
                                 </Grid>
@@ -91,6 +96,5 @@
                 </DataTemplate>
             </controls:ItemsRepeater>
         </ScrollViewer>
-
     </Grid>
 </Page>

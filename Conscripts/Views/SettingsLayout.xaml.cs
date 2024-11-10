@@ -1,21 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Conscripts.Core;
-using Conscripts.Core.Utils;
+using System.Diagnostics;
+using Conscripts.Helpers;
 using Conscripts.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using Windows.ApplicationModel;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.System;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -25,15 +14,36 @@ namespace Conscripts.Views
 {
     public sealed partial class SettingsLayout : UserControl
     {
-        private MainViewModel _viewModel = null;
-        private string _appVersion = string.Empty;
+        private readonly MainViewModel _viewModel = null;
+        private readonly string _appVersion = string.Empty;
 
         public SettingsLayout()
         {
             this.InitializeComponent();
 
             _viewModel = MainViewModel.Instance;
-            _appVersion = $"v{AppVersionUtil.GetAppVersion()}";
+            _appVersion = $"v{GetAppVersion()}";
+        }
+
+        /// <summary>
+        /// ªÒ»°∞Ê±æ∫≈
+        /// </summary>
+        /// <returns></returns>
+        private string GetAppVersion()
+        {
+            try
+            {
+                Package package = Package.Current;
+                PackageId packageId = package.Id;
+                PackageVersion version = packageId.Version;
+                return string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Build);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+            }
+
+            return "";
         }
 
         /// <summary>
@@ -74,7 +84,7 @@ namespace Conscripts.Views
         {
             try
             {
-                await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/sh0ckj0ckey/Conscripts"));
+                await Launcher.LaunchUriAsync(new Uri("https://github.com/sh0ckj0ckey/Conscripts"));
             }
             catch { }
         }

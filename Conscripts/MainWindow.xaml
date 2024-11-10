@@ -14,7 +14,7 @@
     <windowex:WindowEx.Content>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="32"/>
+                <RowDefinition Height="64"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid x:Name="AppTitleBar" Grid.Row="0" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
