@@ -27,7 +27,7 @@
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">
-                <StackPanel Grid.Column="0" Spacing="8" Orientation="Vertical" Margin="20,20,10,20">
+                <StackPanel Grid.Column="0" Spacing="8" Orientation="Vertical" Margin="20,20,20,8">
                     <Grid HorizontalAlignment="Stretch">
                         <Rectangle RadiusX="4" RadiusY="4" HorizontalAlignment="Stretch" Height="228" Fill="#10888888" StrokeDashArray="3" StrokeThickness="2" Stroke="{ThemeResource ControlElevationBorderBrush}"/>
                         <StackPanel x:Name="NoFileSelectedStackPanel" Spacing="12" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">

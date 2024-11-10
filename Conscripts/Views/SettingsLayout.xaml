@@ -63,7 +63,7 @@
                 </controls:SettingsCard.HeaderIcon>
                 <Button Height="32" MinWidth="114" Click="OnClickDbPath">
                     <StackPanel Orientation="Horizontal" Spacing="6">
-                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE838;" FontSize="12"/>
+                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE838;" FontSize="14"/>
                         <TextBlock Text="前往查看"/>
                     </StackPanel>
                 </Button>
