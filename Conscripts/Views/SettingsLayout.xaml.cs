@@ -17,11 +17,11 @@ namespace Conscripts.Views
         private readonly MainViewModel _viewModel = null;
         private readonly string _appVersion = string.Empty;
 
-        public SettingsLayout()
+        public SettingsLayout(MainViewModel viewModel)
         {
             this.InitializeComponent();
 
-            _viewModel = MainViewModel.Instance;
+            _viewModel = viewModel;
             _appVersion = $"v{GetAppVersion()}";
         }
 

@@ -1,12 +1,20 @@
-#nullable enable
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Conscripts.Helpers;
-using Conscripts.ViewModels;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
+using Conscripts.ViewModels;
 using Windows.Storage;
+using Conscripts.Helpers;
 using Windows.Storage.Pickers;
 using WinUIEx;
 
@@ -15,33 +23,31 @@ using WinUIEx;
 
 namespace Conscripts.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class AddingPage : Page
+    public sealed partial class AddingLayout : UserControl
     {
-        private MainViewModel? MainViewModel = null;
+        private MainViewModel _viewModel = null;
 
         private string _desireFileName = string.Empty;
 
-        private StorageFile? _chosenFile = null;
+        private StorageFile _chosenFile = null;
 
-        public AddingPage()
+        private Action _closeAddingAction = null;
+
+        public AddingLayout(MainViewModel viewModel, Action closeAddingAction)
         {
             this.InitializeComponent();
 
-            MainViewModel = MainViewModel.Instance;
+            _viewModel = viewModel;
 
-            MainViewModel.Instance.LoadSegoeFluentIcons();
+            viewModel.LoadSegoeFluentIcons();
 
-            this.Loaded += (s, e) =>
-            {
-                ResetLayout();
-            };
+            this.Loaded += (_, _) => ResetLayout();
+
+            _closeAddingAction += closeAddingAction;
         }
 
         /// <summary>
-        /// ÁÇπÂáªÈÄâÊã©Êñá‰ª∂
+        /// µ„ª˜—°‘ÒŒƒº˛
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -59,7 +65,7 @@ namespace Conscripts.Views
         }
 
         /// <summary>
-        /// ÁÇπÂáªÁ°ÆËÆ§ÂàõÂª∫ÔºåÂ§çÂà∂Êñá‰ª∂ÔºåÊ∑ªÂä†ÂàóË°®
+        /// µ„ª˜»∑»œ¥¥Ω®£¨∏¥÷∆Œƒº˛£¨ÃÌº”¡–±Ì
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -76,25 +82,34 @@ namespace Conscripts.Views
                     {
                         int colorIndex = AddingShortcutColorComboBox.SelectedIndex + 1;
                         int iconIndex = AddingShortcutIconGridView.SelectedIndex;
-                        string name = string.IsNullOrEmpty(AddingShortcutNameTextBox.Text) ? _chosenFile.DisplayName : AddingShortcutNameTextBox.Text;
+                        string name = string.IsNullOrWhiteSpace(AddingShortcutNameTextBox.Text) ? _chosenFile.DisplayName : AddingShortcutNameTextBox.Text;
                         bool runas = AddingShortcutRunasCheckBox.IsChecked == true;
-                        MainViewModel.Instance.AddShortcut(colorIndex, iconIndex, name, ext, copiedFile.Path, runas);
+                        bool noWindow = AddingShortcutNoWindowCheckBox.IsChecked == true;
 
-                        ResetLayout();
+                        _viewModel.AddShortcut(colorIndex, iconIndex, name, ext, copiedFile.Path, runas);
 
-                        //this.Frame.Navigate(typeof(ShortcutsPage));
+                        _closeAddingAction?.Invoke();
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Ê†πÊçÆÂΩìÂâçÈÄâÊã©ÁöÑÊñá‰ª∂ÔºåÊõ¥Êñ∞UI
+        /// µ„ª˜÷ÿ÷√
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnClickReset(object sender, RoutedEventArgs e)
+        {
+            ResetLayout();
+        }
+
+        /// <summary>
+        /// ∏˘æ›µ±«∞—°‘ÒµƒŒƒº˛£¨∏¸–¬UI
+        /// </summary>
         private void UpdateLayoutByChosenFile()
         {
-            AddingShortcutNameTextBox.PlaceholderText = "ÈªòËÆ§‰ΩøÁî®ËÑöÊú¨Êñá‰ª∂Âêç";
+            AddingShortcutNameTextBox.PlaceholderText = "ƒ¨»œ π”√Ω≈±æŒƒº˛√˚";
 
             if (string.IsNullOrWhiteSpace(_chosenFile?.Name))
             {
@@ -110,7 +125,7 @@ namespace Conscripts.Views
                     FileSelectedStackPanel.Visibility = Visibility.Visible;
                     Ps1FileIconImage.Visibility = Visibility.Collapsed;
                     BatFileIconImage.Visibility = Visibility.Visible;
-                    CopyTipTextBlock.Text = $"Êñá‰ª∂Â∞Ü‰Ωú‰∏∫ {_desireFileName}.bat Â§çÂà∂Âà∞ \"ÊñáÊ°£\\NoMewing\\Conscript\"";
+                    CopyTipTextBlock.Text = $"Ω´◊˜Œ™ {_desireFileName}.bat ∏¥÷∆µΩ \"Œƒµµ\\NoMewing\\Conscript\\\"";
                     AddingShortcutNameTextBox.PlaceholderText = _chosenFile.DisplayName;
                 }
                 else if (fileExt == ".ps1")
@@ -119,7 +134,7 @@ namespace Conscripts.Views
                     FileSelectedStackPanel.Visibility = Visibility.Visible;
                     Ps1FileIconImage.Visibility = Visibility.Visible;
                     BatFileIconImage.Visibility = Visibility.Collapsed;
-                    CopyTipTextBlock.Text = $"Êñá‰ª∂Â∞Ü‰Ωú‰∏∫ {_desireFileName}.ps1 Â§çÂà∂Âà∞ \"ÊñáÊ°£\\NoMewing\\Conscript\"";
+                    CopyTipTextBlock.Text = $"Ω´◊˜Œ™ {_desireFileName}.ps1 ∏¥÷∆µΩ \"Œƒµµ\\NoMewing\\Conscript\\\"";
                     AddingShortcutNameTextBox.PlaceholderText = _chosenFile.DisplayName;
                 }
                 else
@@ -131,9 +146,9 @@ namespace Conscripts.Views
         }
 
         /// <summary>
-        /// ÈáçÁΩÆUI
+        /// ÷ÿ÷√UI
         /// </summary>
-        private void ResetLayout()
+        public void ResetLayout()
         {
             try
             {
@@ -141,15 +156,39 @@ namespace Conscripts.Views
                 _chosenFile = null;
 
                 AddingShortcutNameTextBox.Text = "";
-                AddingShortcutNameTextBox.PlaceholderText = "ÈªòËÆ§‰ΩøÁî®ËÑöÊú¨Êñá‰ª∂Âêç";
+                AddingShortcutNameTextBox.PlaceholderText = "ƒ¨»œ π”√Ω≈±æŒƒº˛√˚";
                 AddingShortcutColorComboBox.SelectedIndex = 4;
                 AddingShortcutIconGridView.SelectedIndex = 0;
-                AddingShortcutRunasCheckBox.IsChecked = true;
+                AddingShortcutRunasCheckBox.IsChecked = false;
+                AddingShortcutNoWindowCheckBox.IsEnabled = true;
+                AddingShortcutNoWindowCheckBox.IsChecked = false;
                 UpdateLayoutByChosenFile();
 
                 AddingShortcutIconGridView.ScrollIntoView(AddingShortcutIconGridView.Items.First());
             }
             catch { }
         }
+
+        /// <summary>
+        /// π¥—°π‹¿Ì‘±»®œﬁ ±£¨≤ªø…π¥—°Œﬁ¥∞ø⁄
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddingShortcutRunasCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            AddingShortcutNoWindowCheckBox.IsChecked = false;
+            AddingShortcutNoWindowCheckBox.IsEnabled = false;
+        }
+
+        /// <summary>
+        /// »°œ˚π¥—°π‹¿Ì‘±»®œﬁ ±£¨‘ –Ìπ¥—°Œﬁ¥∞ø⁄
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddingShortcutRunasCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            AddingShortcutNoWindowCheckBox.IsEnabled = true;
+        }
+
     }
 }

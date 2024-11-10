@@ -16,13 +16,17 @@ namespace Conscripts.Views
     {
         private MainViewModel _viewModel = null;
 
+        private AddingLayout _addingLayout = null;
+
+        private SettingsLayout _settingsLayout = null;
+
         public MainPage()
         {
             _viewModel = MainViewModel.Instance;
 
             this.InitializeComponent();
 
-            MainViewModel.Instance.DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+            _viewModel.DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -33,7 +37,8 @@ namespace Conscripts.Views
                 {
                     if (shortcut.Category == "add")
                     {
-
+                        AddingBorder.Child ??= _addingLayout = new AddingLayout(_viewModel, CloseAddingLayout);
+                        AddingGrid.Visibility = Visibility.Visible;
                     }
                     else if (shortcut.Category == "whatsnew")
                     {
@@ -41,7 +46,8 @@ namespace Conscripts.Views
                     }
                     else if (shortcut.Category == "settings")
                     {
-
+                        SettingsBorder.Child ??= _settingsLayout = new SettingsLayout(_viewModel);
+                        SettingsGrid.Visibility = Visibility.Visible;
                     }
                 }
             }
@@ -76,6 +82,27 @@ namespace Conscripts.Views
         private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void CloseSettings_Click(object sender, RoutedEventArgs e)
+        {
+            CloseSettingsLayout();
+        }
+
+        private void CloseAdding_Click(object sender, RoutedEventArgs e)
+        {
+            CloseAddingLayout();
+        }
+
+        private void CloseSettingsLayout()
+        {
+            SettingsGrid.Visibility = Visibility.Collapsed;
+        }
+
+        private void CloseAddingLayout()
+        {
+            AddingGrid.Visibility = Visibility.Collapsed;
+            _addingLayout?.ResetLayout();
         }
     }
 }

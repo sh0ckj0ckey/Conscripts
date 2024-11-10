@@ -11,11 +11,14 @@
     xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:converters="using:Conscripts.Converters"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
     mc:Ignorable="d" NavigationCacheMode="Required">
 
     <Page.Resources>
         <converters:Int2VisibilityConverter x:Key="Int2Vis"/>
         <converters:Enum2ColorConverter x:Key="Enum2Color"/>
+        <converters:Equal2VisibilityConverter x:Key="Eql2Vis"/>
+        <converters:Unequal2VisibilityConverter x:Key="Uneql2Vis"/>
     </Page.Resources>
 
     <Grid>
@@ -82,8 +85,19 @@
                                             </MenuFlyout>
                                         </Button.Resources>
                                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                            <TextBlock FontSize="14" Margin="12,12,12,12" Foreground="White" FontWeight="Bold" Text="{x:Bind ShortcutName,Mode=OneWay}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                            <TextBlock FontSize="38" Opacity="0.5" Foreground="White" Margin="0,0,8,8" Text="{x:Bind ShortcutIcon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                            <TextBlock FontSize="14" Foreground="White" Margin="12,12,12,12" FontWeight="Bold" Text="{x:Bind ShortcutName,Mode=OneWay}" 
+                                                       TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                       Visibility="{x:Bind ShortcutColor,Mode=OneWay,Converter={StaticResource Uneql2Vis},ConverterParameter=Transparent}"/>
+                                            <TextBlock FontSize="38" Foreground="White" Opacity="0.5" Margin="0,0,8,8" Text="{x:Bind ShortcutIcon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                       HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                                       Visibility="{x:Bind ShortcutColor,Mode=OneWay,Converter={StaticResource Uneql2Vis},ConverterParameter=Transparent}"/>
+                                            
+                                            <TextBlock FontSize="14" Margin="12,12,12,12" FontWeight="Bold" Text="{x:Bind ShortcutName,Mode=OneWay}" 
+                                                       TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                                       Visibility="{x:Bind ShortcutColor,Mode=OneWay,Converter={StaticResource Eql2Vis},ConverterParameter=Transparent}"/>
+                                            <TextBlock FontSize="38" Opacity="0.5" Margin="0,0,8,8" Text="{x:Bind ShortcutIcon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                       HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                                       Visibility="{x:Bind ShortcutColor,Mode=OneWay,Converter={StaticResource Eql2Vis},ConverterParameter=Transparent}"/>
                                         </Grid>
                                     </Button>
                                 </Grid>
@@ -93,5 +107,59 @@
                 </DataTemplate>
             </controls:ItemsRepeater>
         </ScrollViewer>
+
+        <Grid x:Name="SettingsGrid" Grid.RowSpan="2" Opacity="0" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SmokeFillColorDefault}">
+            <animations:Implicit.ShowAnimations>
+                <animations:OpacityAnimation To="1" Duration="0:0:0.4"/>
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:OpacityAnimation To="0" Duration="0:0:0.2"/>
+            </animations:Implicit.HideAnimations>
+            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72" MaxWidth="680">
+                <animations:Implicit.ShowAnimations>
+                    <animations:TranslationAnimation From="0,32,0" To="0,0,0" EasingMode="EaseInOut" EasingType="Default" Duration="0:0:0.4"/>
+                </animations:Implicit.ShowAnimations>
+                <animations:Implicit.HideAnimations>
+                    <animations:TranslationAnimation To="0,32,0" EasingMode="EaseInOut" EasingType="Default" Duration="0:0:0.2"/>
+                </animations:Implicit.HideAnimations>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="设置" Margin="24,20,0,20" FontWeight="Bold" FontSize="20"/>
+                <Button Height="38" Width="38" Padding="0" Margin="0,0,20,0" Background="Transparent" BorderBrush="Transparent" 
+                        HorizontalAlignment="Right" VerticalAlignment="Center" Click="CloseSettings_Click">
+                    <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
+                </Button>
+                <Border x:Name="SettingsBorder" Grid.Row="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" BorderThickness="0,1,0,0"/>
+            </Grid>
+        </Grid>
+
+        <Grid x:Name="AddingGrid" Grid.RowSpan="2" Opacity="0" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SmokeFillColorDefault}">
+            <animations:Implicit.ShowAnimations>
+                <animations:OpacityAnimation To="1" Duration="0:0:0.4"/>
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:OpacityAnimation To="0" Duration="0:0:0.2"/>
+            </animations:Implicit.HideAnimations>
+            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72">
+                <animations:Implicit.ShowAnimations>
+                    <animations:TranslationAnimation From="0,32,0" To="0,0,0" EasingMode="EaseInOut" EasingType="Default" Duration="0:0:0.4"/>
+                </animations:Implicit.ShowAnimations>
+                <animations:Implicit.HideAnimations>
+                    <animations:TranslationAnimation To="0,32,0" EasingMode="EaseInOut" EasingType="Default" Duration="0:0:0.2"/>
+                </animations:Implicit.HideAnimations>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="添加" Margin="24,20,0,20" FontWeight="Bold" FontSize="20"/>
+                <Button Height="38" Width="38" Padding="0" Margin="0,0,20,0" Background="Transparent" BorderBrush="Transparent" 
+                        HorizontalAlignment="Right" VerticalAlignment="Center" Click="CloseAdding_Click">
+                    <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
+                </Button>
+                <Border x:Name="AddingBorder" Grid.Row="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" BorderThickness="0,1,0,0"/>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>

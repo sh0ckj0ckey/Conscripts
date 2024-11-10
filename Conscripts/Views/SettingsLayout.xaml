@@ -9,8 +9,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
-        <StackPanel Orientation="Vertical" Margin="16,0,20,0">
-            <TextBlock Text="设置" Margin="4,28,0,20" FontWeight="Bold" FontSize="20"/>
+        <StackPanel Orientation="Vertical" Margin="20,20,20,0">
             <controls:SettingsCard>
                 <controls:SettingsCard.Header>
                     <StackPanel Orientation="Horizontal">
