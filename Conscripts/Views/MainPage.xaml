@@ -42,10 +42,10 @@
                     </Image.Source>
                 </Image>
             </Grid>
-            <TextBlock Grid.Column="1" Margin="8,0,0,0" Text="Conscripts" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="1" Margin="8,0,0,0" Text="Conscripts" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">
             <controls:ItemsRepeater Margin="20,0,20,16" ItemsSource="{x:Bind _viewModel.GroupedShortcuts,Mode=OneWay}">
                 <controls:ItemsRepeater.Layout>
                     <StackLayout Orientation="Vertical"/>
@@ -59,10 +59,7 @@
                         <TextBlock Grid.Row="0" FontSize="16" Margin="12,24,0,16" FontWeight="Bold" Text="{x:Bind Category}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         <controls:ItemsRepeater Grid.Row="1" ItemsSource="{x:Bind Shortcuts,Mode=OneWay}">
                             <controls:ItemsRepeater.Layout>
-                                <controls:UniformGridLayout Orientation="Horizontal" 
-                                                            MinItemWidth="156" MinItemHeight="96"
-                                                            MinColumnSpacing="8" MinRowSpacing="8"
-                                                            ItemsStretch="Uniform"/>
+                                <controls:UniformGridLayout Orientation="Horizontal" MinItemWidth="156" MinItemHeight="96" MinColumnSpacing="8" MinRowSpacing="8" ItemsStretch="Uniform"/>
                             </controls:ItemsRepeater.Layout>
                             <DataTemplate x:DataType="models:ShortcutModel">
                                 <Grid CornerRadius="4" Background="{x:Bind ShortcutColor,Mode=OneWay,Converter={StaticResource Enum2Color}}">
@@ -86,7 +83,7 @@
                                         </Button.Resources>
                                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                             <TextBlock FontSize="14" Margin="12,12,12,12" Foreground="White" FontWeight="Bold" Text="{x:Bind ShortcutName,Mode=OneWay}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                            <TextBlock FontSize="36" Opacity="0.5" Foreground="White" Margin="0,0,8,8" Text="{x:Bind ShortcutIcon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                            <TextBlock FontSize="38" Opacity="0.5" Foreground="White" Margin="0,0,8,8" Text="{x:Bind ShortcutIcon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                                         </Grid>
                                     </Button>
                                 </Grid>
