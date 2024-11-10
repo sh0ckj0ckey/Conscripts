@@ -15,7 +15,6 @@
         <converters:Int2VisibilityConverter x:Key="Int2Vis"/>
         <converters:Enum2ColorConverter x:Key="Enum2Color"/>
         <converters:Enum2FileExtConverter x:Key="Enum2Ext"/>
-        <converters:NullOrEmpty2VisibilityConverter x:Key="Str2Vis"/>
         <converters:Bool2VisibilityConverter x:Key="Boo2Vis"/>
     </Page.Resources>
 
