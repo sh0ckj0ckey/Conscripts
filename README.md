@@ -11,7 +11,7 @@
 #### 点击下方按钮即可下载
 
 <a href="https://apps.microsoft.com/store/detail/9PPNDNTLQ86Q?launch=true&mode=full">
-	<img src="https://get.microsoft.com/images/zh-CN%20dark.svg"/>
+	<img src="https://get.microsoft.com/images/zh-CN%20dark.svg" height=64/>
 </a>
 
 #### 一睹芳容
