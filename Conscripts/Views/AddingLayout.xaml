@@ -24,12 +24,12 @@
 
         <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <ScrollViewer x:Name="AddingShortcutScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">
                 <StackPanel Grid.Column="0" Spacing="8" Orientation="Vertical" Margin="20,20,20,8">
-                    <Grid HorizontalAlignment="Stretch">
+                    <Grid AllowDrop="True" DragOver="Grid_DragOver" Drop="Grid_Drop" HorizontalAlignment="Stretch">
                         <Rectangle RadiusX="4" RadiusY="4" HorizontalAlignment="Stretch" Height="196" Fill="#10888888" StrokeDashArray="3" StrokeThickness="2" Stroke="{ThemeResource ControlElevationBorderBrush}"/>
                         <StackPanel x:Name="NoFileSelectedStackPanel" Spacing="12" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Button Padding="12,8" Click="OnClickChooseFile">
@@ -179,7 +179,7 @@
                     </GridView.Header>
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="fontModel:Character">
-                            <Grid Width="48" Height="48">
+                            <Grid Width="42" Height="42">
                                 <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="{x:Bind Char}" FontSize="16"/>
                             </Grid>
                         </DataTemplate>

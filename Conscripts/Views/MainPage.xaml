@@ -74,13 +74,13 @@
                                             ContextRequested="Button_ContextRequested" Click="Button_Click" IsEnabled="{x:Bind Running,Mode=OneWay,Converter={StaticResource BoolReverse}}">
                                         <Button.Resources>
                                             <MenuFlyout x:Key="ShortcutMenuFlyout" Placement="Bottom">
-                                                <MenuFlyoutItem x:Name="InfoMenuItem" Text="属性" Click="InfoMenuItem_Click">
+                                                <MenuFlyoutItem x:Name="InfoMenuItem" DataContext="{x:Bind }" Text="属性" Click="InfoMenuItem_Click">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE90F;"/>
                                                     </MenuFlyoutItem.Icon>
                                                 </MenuFlyoutItem>
                                                 <MenuFlyoutSeparator/>
-                                                <MenuFlyoutItem x:Name="DeleteMenuItem" Text="删除" Click="DeleteMenuItem_Click">
+                                                <MenuFlyoutItem x:Name="DeleteMenuItem" DataContext="{x:Bind }" Text="删除" Click="DeleteMenuItem_Click">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE74D;"/>
                                                     </MenuFlyoutItem.Icon>
@@ -150,7 +150,7 @@
             <animations:Implicit.HideAnimations>
                 <animations:OpacityAnimation To="0" Duration="0:0:0.2"/>
             </animations:Implicit.HideAnimations>
-            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72" MaxWidth="560">
+            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72" MaxWidth="540">
                 <animations:Implicit.ShowAnimations>
                     <animations:TranslationAnimation From="0,32,0" To="0,0,0" EasingMode="EaseInOut" EasingType="Default" Duration="0:0:0.4"/>
                 </animations:Implicit.ShowAnimations>
@@ -169,7 +169,7 @@
                 <Border x:Name="WhatsNewBorder" Grid.Row="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" BorderThickness="0,1,0,0"/>
             </Grid>
         </Grid>
-        
+
         <Grid x:Name="AddingGrid" Grid.RowSpan="2" Opacity="0" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SmokeFillColorDefault}">
             <animations:Implicit.ShowAnimations>
                 <animations:OpacityAnimation To="1" Duration="0:0:0.4"/>
@@ -194,6 +194,33 @@
                     <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
                 </Button>
                 <Border x:Name="AddingBorder" Grid.Row="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" BorderThickness="0,1,0,0"/>
+            </Grid>
+        </Grid>
+
+        <Grid x:Name="PropertyGrid" Grid.RowSpan="2" Opacity="0" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SmokeFillColorDefault}">
+            <animations:Implicit.ShowAnimations>
+                <animations:OpacityAnimation To="1" Duration="0:0:0.4"/>
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:OpacityAnimation To="0" Duration="0:0:0.2"/>
+            </animations:Implicit.HideAnimations>
+            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="72" MaxWidth="420">
+                <animations:Implicit.ShowAnimations>
+                    <animations:TranslationAnimation From="0,32,0" To="0,0,0" EasingMode="EaseInOut" EasingType="Default" Duration="0:0:0.4"/>
+                </animations:Implicit.ShowAnimations>
+                <animations:Implicit.HideAnimations>
+                    <animations:TranslationAnimation To="0,32,0" EasingMode="EaseInOut" EasingType="Default" Duration="0:0:0.2"/>
+                </animations:Implicit.HideAnimations>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="属性" Margin="24,20,0,20" FontWeight="Bold" FontSize="20"/>
+                <Button Height="38" Width="38" Padding="0" Margin="0,0,20,0" Background="Transparent" BorderBrush="Transparent" 
+                        HorizontalAlignment="Right" VerticalAlignment="Center" Click="CloseProperty_Click">
+                    <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
+                </Button>
+                <Border x:Name="PropertyBorder" Grid.Row="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" BorderThickness="0,1,0,0"/>
             </Grid>
         </Grid>
     </Grid>

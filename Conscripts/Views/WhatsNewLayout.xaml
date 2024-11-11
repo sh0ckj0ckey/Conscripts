@@ -11,10 +11,17 @@
 
     <ScrollViewer x:Name="WhatsNewScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
         <StackPanel Orientation="Vertical" Margin="20,20,20,0">
-            <TextBlock Text="2024年11月更新" Margin="0,0,0,10" FontWeight="Bold" FontSize="14"/>
-            <TextBlock Margin="0,0,0,10" FontSize="14">
-                <Run Text="&#xEA3B;" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="10"/>
-                <Run Text=" 用户界面重做"/>
+            <Image Height="96" Width="96" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <Image.Source>
+                    <BitmapImage UriSource="/Assets/Conscripts_Placeholder.png" DecodePixelType="Logical" DecodePixelHeight="192"/>
+                </Image.Source>
+            </Image>
+            <TextBlock Text="2024年11月更新" Margin="0,20,0,0" FontWeight="Bold" FontSize="16"/>
+            <TextBlock Margin="0,0,0,4" FontSize="14" LineHeight="20" TextWrapping="WrapWholeWords" CharacterSpacing="48">
+                <LineBreak/><Run Text="对应用图标和用户界面进行了翻新；"/><LineBreak/>
+                <LineBreak/><Run Text="现在点击脚本卡片将会立即运行，其他操作移至卡片的右键菜单中；"/><LineBreak/>
+                <LineBreak/><Run Text="添加脚本时，新增&quot;分类&quot;选项，脚本列表将会据此分组显示；"/><LineBreak/>
+                <LineBreak/><Run Text="添加脚本时，新增&quot;无窗口&quot;选项，运行时不会弹出新的窗口，如果您需要与命令行交互或者查看输出，则不要勾选此选项。"/><LineBreak/>
             </TextBlock>
         </StackPanel>
     </ScrollViewer>

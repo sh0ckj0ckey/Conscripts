@@ -24,7 +24,7 @@ namespace Conscripts.ViewModels
         /// <summary>
         /// 全部脚本列表
         /// </summary>
-        private List<ShortcutModel> _allShortcuts = new();
+        private readonly List<ShortcutModel> _allShortcuts = new();
 
         /// <summary>
         /// 经过分类的脚本列表
@@ -34,7 +34,7 @@ namespace Conscripts.ViewModels
         /// <summary>
         /// 目前已有的分类名称
         /// </summary>
-        private HashSet<string> _categories = new();
+        private readonly HashSet<string> _categories = new();
 
         /// <summary>
         /// 目前已有的分类名称
@@ -52,14 +52,24 @@ namespace Conscripts.ViewModels
         }
 
         /// <summary>
-        /// 启动指定的脚本快捷项
+        /// 启动指定的脚本项
         /// </summary>
         /// <param name="shortcut"></param>
         public async void LaunchShortcut(ShortcutModel shortcut)
         {
             if (shortcut != null)
             {
-                await Task.Run(async () =>
+                if (string.IsNullOrWhiteSpace(shortcut.ScriptFilePath) || !File.Exists(shortcut.ScriptFilePath))
+                {
+                    return;
+                }
+
+                if (shortcut.ShortcutType == ShortcutTypeEnum.None)
+                {
+                    return;
+                }
+
+                await Task.Run(() =>
                 {
                     try
                     {
@@ -124,55 +134,46 @@ namespace Conscripts.ViewModels
         }
 
         /// <summary>
-        /// 加载保存的脚本快捷项
+        /// 更新脚本列表
         /// </summary>
-        private async void LoadShortcuts()
+        private void UpdateGroupedShortcuts()
         {
             try
             {
-                _allShortcuts.Clear();
-                this.GroupedShortcuts.Clear();
-                _categories.Clear();
-                this.Categories.Clear();
-
                 try
                 {
-                    string shortcutsJson = await StorageFilesService.ReadFileAsync("shortcuts.json");
-                    if (!string.IsNullOrWhiteSpace(shortcutsJson))
+                    _categories.Clear();
+                    this.Categories.Clear();
+                    this.GroupedShortcuts.Clear();
+
+                    foreach (var shortcut in _allShortcuts)
                     {
-                        var shortcuts = JsonSerializer.Deserialize<ObservableCollection<ShortcutModel>>(shortcutsJson);
-
-                        foreach (var shortcut in shortcuts)
+                        if (string.IsNullOrWhiteSpace(shortcut.Category))
                         {
-                            if (string.IsNullOrWhiteSpace(shortcut.Category))
-                            {
-                                shortcut.Category = "未分类";
-                            }
-
-                            // 存储已有的分类名称，用于建议用户
-                            if (!_categories.Contains(shortcut.Category))
-                            {
-                                _categories.Add(shortcut.Category);
-                                this.Categories.Add(shortcut.Category);
-                            }
-
-                            _allShortcuts.Add(shortcut);
+                            shortcut.Category = "未分类";
                         }
 
-                        var groupedList =
-                            (from item in _allShortcuts
-                             group item by item.Category into newItems
-                             select
-                             new ShortcutsGroupModel
-                             {
-                                 Category = newItems.Key,
-                                 Shortcuts = new(newItems.ToList())
-                             }).OrderBy(x => x.Category).ToList();
-
-                        foreach (var item in groupedList)
+                        // 存储已有的分类名称，用于建议用户
+                        if (!_categories.Contains(shortcut.Category))
                         {
-                            this.GroupedShortcuts.Add(item);
+                            _categories.Add(shortcut.Category);
+                            this.Categories.Add(shortcut.Category);
                         }
+                    }
+
+                    var groupedList =
+                        (from item in _allShortcuts
+                         group item by item.Category into newItems
+                         select
+                         new ShortcutsGroupModel
+                         {
+                             Category = newItems.Key,
+                             Shortcuts = new(newItems.ToList())
+                         }).OrderBy(x => x.Category).ToList();
+
+                    foreach (var item in groupedList)
+                    {
+                        this.GroupedShortcuts.Add(item);
                     }
                 }
                 catch (Exception ex)
@@ -219,6 +220,33 @@ namespace Conscripts.ViewModels
                     }
                 });
             }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+            }
+        }
+
+        /// <summary>
+        /// 加载保存的脚本项
+        /// </summary>
+        private async void LoadShortcuts()
+        {
+            try
+            {
+                _allShortcuts.Clear();
+
+                string shortcutsJson = await StorageFilesService.ReadFileAsync("shortcuts.json");
+                if (!string.IsNullOrWhiteSpace(shortcutsJson))
+                {
+                    var shortcuts = JsonSerializer.Deserialize<ObservableCollection<ShortcutModel>>(shortcutsJson);
+                    foreach (var shortcut in shortcuts)
+                    {
+                        _allShortcuts.Add(shortcut);
+                    }
+                }
+
+                UpdateGroupedShortcuts();
+            }
             catch (Exception e)
             {
                 Trace.WriteLine(e.Message);
@@ -226,13 +254,33 @@ namespace Conscripts.ViewModels
         }
 
         /// <summary>
-        /// 添加新的脚本快捷项并保存
+        /// 保存脚本项列表
         /// </summary>
-        /// <param name="color"></param>
-        /// <param name="iconIndex"></param>
+        private async void SaveShortcuts()
+        {
+            try
+            {
+                string shortcutsSaveJson = JsonSerializer.Serialize(_allShortcuts);
+                await StorageFilesService.WriteFileAsync("shortcuts.json", shortcutsSaveJson);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// 添加新的脚本项并保存
+        /// </summary>
         /// <param name="name"></param>
+        /// <param name="category"></param>
+        /// <param name="color"></param>
+        /// <param name="runas"></param>
+        /// <param name="noWindow"></param>
+        /// <param name="iconIndex"></param>
         /// <param name="ext"></param>
-        public async void AddShortcut(string name, string category, int color, bool runas, bool noWindow, int iconIndex, string ext, string path)
+        /// <param name="path"></param>
+        public void AddShortcut(string name, string category, int color, bool runas, bool noWindow, string icon, string ext, string path)
         {
             try
             {
@@ -240,7 +288,7 @@ namespace Conscripts.ViewModels
                 {
                     ScriptFilePath = path,
                     ShortcutName = name,
-                    ShortcutIcon = this.AllIcons[iconIndex].Char,
+                    ShortcutIcon = icon,
                     ShortcutType = ext == ".ps1" ? ShortcutTypeEnum.Ps1 : ext == ".bat" ? ShortcutTypeEnum.Bat : ShortcutTypeEnum.None,
                     ShortcutColor = (ShortcutColorEnum)(Math.Max(1, Math.Min(color, 9))),
                     ShortcutRunas = runas,
@@ -248,10 +296,9 @@ namespace Conscripts.ViewModels
                     Category = category,
                 });
 
-                string shortcutsSaveJson = JsonSerializer.Serialize(_allShortcuts);
-                await StorageFilesService.WriteFileAsync("shortcuts.json", shortcutsSaveJson);
+                SaveShortcuts();
 
-                LoadShortcuts();
+                UpdateGroupedShortcuts();
             }
             catch (Exception e)
             {
@@ -260,10 +307,10 @@ namespace Conscripts.ViewModels
         }
 
         /// <summary>
-        /// 移除指定脚本快捷项并保存
+        /// 移除指定脚本项并保存
         /// </summary>
         /// <param name="deletingShortcut"></param>
-        public async void DelShortcut(ShortcutModel deletingShortcut)
+        public void DeleteShortcut(ShortcutModel deletingShortcut)
         {
             try
             {
@@ -276,10 +323,40 @@ namespace Conscripts.ViewModels
                     File.Delete(deleteFilePath);
                 }
 
-                string shortcutsSaveJson = JsonSerializer.Serialize(_allShortcuts);
-                await StorageFilesService.WriteFileAsync("shortcuts.json", shortcutsSaveJson);
+                SaveShortcuts();
 
-                LoadShortcuts();
+                UpdateGroupedShortcuts();
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// 编辑指定脚本项并保存
+        /// </summary>
+        /// <param name="editingShortcut"></param>
+        /// <param name="name"></param>
+        /// <param name="category"></param>
+        /// <param name="color"></param>
+        /// <param name="runas"></param>
+        /// <param name="noWindow"></param>
+        /// <param name="iconIndex"></param>
+        public void EditShortcut(ShortcutModel editingShortcut, string name, string category, int color, bool runas, bool noWindow, string icon)
+        {
+            try
+            {
+                editingShortcut.ShortcutName = name;
+                editingShortcut.ShortcutIcon = icon;
+                editingShortcut.ShortcutColor = (ShortcutColorEnum)(Math.Max(1, Math.Min(color, 9)));
+                editingShortcut.ShortcutRunas = runas;
+                editingShortcut.NoWindow = noWindow;
+                editingShortcut.Category = category;
+
+                SaveShortcuts();
+
+                UpdateGroupedShortcuts();
             }
             catch (Exception e)
             {

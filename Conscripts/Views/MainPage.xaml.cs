@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using Conscripts.Models;
 using Conscripts.ViewModels;
 using Microsoft.UI.Xaml;
@@ -22,6 +24,8 @@ namespace Conscripts.Views
 
         private SettingsLayout _settingsLayout = null;
 
+        private PropertyLayout _propertyLayout = null;
+
         public MainPage()
         {
             _viewModel = MainViewModel.Instance;
@@ -36,7 +40,7 @@ namespace Conscripts.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.DataContext is ShortcutModel shortcut)
             {
@@ -44,23 +48,38 @@ namespace Conscripts.Views
                 {
                     if (shortcut.Category == "add")
                     {
-                        AddingBorder.Child ??= _addingLayout = new AddingLayout(_viewModel, CloseAddingLayout);
                         AddingGrid.Visibility = Visibility.Visible;
+                        AddingBorder.Child ??= _addingLayout = new AddingLayout(_viewModel, CloseAddingLayout);
                     }
                     else if (shortcut.Category == "whatsnew")
                     {
-                        WhatsNewBorder.Child ??= _whatsNewLayout = new WhatsNewLayout(_viewModel);
                         WhatsNewGrid.Visibility = Visibility.Visible;
+                        WhatsNewBorder.Child ??= _whatsNewLayout = new WhatsNewLayout(_viewModel);
                     }
                     else if (shortcut.Category == "settings")
                     {
-                        SettingsBorder.Child ??= _settingsLayout = new SettingsLayout(_viewModel);
                         SettingsGrid.Visibility = Visibility.Visible;
+                        SettingsBorder.Child ??= _settingsLayout = new SettingsLayout(_viewModel);
                     }
                 }
                 else
                 {
-                    _viewModel.LaunchShortcut(shortcut);
+                    if (string.IsNullOrWhiteSpace(shortcut.ScriptFilePath) ||
+                        !File.Exists(shortcut.ScriptFilePath))
+                    {
+                        await new ContentDialog
+                        {
+                            Title = "无法运行这个脚本",
+                            Content = $"文件不存在，可能文件已经被删除或者重命名。\r\n文件路径是 {shortcut.ScriptFilePath}。",
+                            CloseButtonText = "我知道了",
+                            XamlRoot = this.XamlRoot,
+                            RequestedTheme = this.ActualTheme,
+                        }.ShowAsync();
+                    }
+                    else
+                    {
+                        _viewModel.LaunchShortcut(shortcut);
+                    }
                 }
             }
         }
@@ -101,18 +120,41 @@ namespace Conscripts.Views
         /// <param name="e"></param>
         private void InfoMenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            if (sender is MenuFlyoutItem menuItem && menuItem.DataContext is ShortcutModel shortcut)
+            {
+                PropertyGrid.Visibility = Visibility.Visible;
+                PropertyBorder.Child ??= _propertyLayout = new PropertyLayout(_viewModel, ClosePropertyLayout);
+                _propertyLayout.SetLayout(shortcut);
+            }
         }
 
         /// <summary>
-        /// 删除脚本
+        /// 删除脚本项
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
+        private async void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            if (sender is MenuFlyoutItem menuItem && menuItem.DataContext is ShortcutModel shortcut)
+            {
+                ContentDialogResult result = await new ContentDialog
+                {
+                    Title = "删除脚本",
+                    Content = $"确定要删除脚本 \"{shortcut?.ShortcutName}\" 吗？删除后将无法恢复。",
+                    PrimaryButtonText = "删除",
+                    CloseButtonText = "取消",
+                    XamlRoot = this.XamlRoot,
+                    RequestedTheme = this.ActualTheme,
+                    DefaultButton = ContentDialogButton.Close
+                }.ShowAsync();
 
+                if (result == ContentDialogResult.Primary)
+                {
+                    _viewModel.DeleteShortcut(shortcut);
+                }
+            }
         }
+
 
         private void CloseSettings_Click(object sender, RoutedEventArgs e)
         {
@@ -127,6 +169,11 @@ namespace Conscripts.Views
         private void CloseAdding_Click(object sender, RoutedEventArgs e)
         {
             CloseAddingLayout();
+        }
+
+        private void CloseProperty_Click(object sender, RoutedEventArgs e)
+        {
+            ClosePropertyLayout();
         }
 
         private void CloseSettingsLayout()
@@ -145,6 +192,12 @@ namespace Conscripts.Views
         {
             AddingGrid.Visibility = Visibility.Collapsed;
             _addingLayout?.ResetLayout();
+        }
+
+        private void ClosePropertyLayout()
+        {
+            PropertyGrid.Visibility = Visibility.Collapsed;
+            _propertyLayout?.ResetLayout();
         }
     }
 }

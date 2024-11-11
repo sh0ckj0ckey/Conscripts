@@ -41,8 +41,8 @@
 		<None Remove="ThemeResources\ThemeDictionary.xaml" />
 		<None Remove="Views\AddingLayout.xaml" />
 		<None Remove="Views\MainPage.xaml" />
+		<None Remove="Views\PropertyLayout.xaml" />
 		<None Remove="Views\SettingsLayout.xaml" />
-		<None Remove="Views\ShortcutInfoPage.xaml" />
 		<None Remove="Views\WhatsNewLayout.xaml" />
 	</ItemGroup>
 
@@ -68,6 +68,11 @@
 		<ProjectCapability Include="Msix" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Page Update="Views\PropertyLayout.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+	<ItemGroup>
 	  <Page Update="Views\WhatsNewLayout.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
@@ -79,11 +84,6 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Page Update="Views\SettingsLayout.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
-	<ItemGroup>
-	  <Page Update="Views\ShortcutInfoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
 	</ItemGroup>

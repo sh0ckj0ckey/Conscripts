@@ -1,10 +1,12 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Conscripts.Helpers;
 using Conscripts.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using WinUIEx;
@@ -26,15 +28,16 @@ namespace Conscripts.Views
 
         public AddingLayout(MainViewModel viewModel, Action closeAddingAction)
         {
+            _viewModel = viewModel;
+            _closeAddingAction += closeAddingAction;
+
             this.InitializeComponent();
 
-            _viewModel = viewModel;
-
-            viewModel.LoadSegoeFluentIcons();
-
-            this.Loaded += (_, _) => ResetLayout();
-
-            _closeAddingAction += closeAddingAction;
+            this.Loaded += (_, _) =>
+            {
+                ResetLayout();
+                _viewModel.LoadSegoeFluentIcons();
+            };
         }
 
         /// <summary>
@@ -82,9 +85,9 @@ namespace Conscripts.Views
                             int colorIndex = AddingShortcutColorComboBox.SelectedIndex + 1;
                             bool runas = AddingShortcutRunasCheckBox.IsChecked == true;
                             bool noWindow = AddingShortcutNoWindowCheckBox.IsChecked == true;
-                            int iconIndex = AddingShortcutIconGridView.SelectedIndex;
+                            string icon = AddingShortcutIconGridView.SelectedItem?.ToString();
 
-                            _viewModel.AddShortcut(name, category, colorIndex, runas, noWindow, iconIndex, ext, copiedFile.Path);
+                            _viewModel.AddShortcut(name, category, colorIndex, runas, noWindow, icon, ext, copiedFile.Path);
 
                             _closeAddingAction?.Invoke();
                         }
@@ -125,7 +128,7 @@ namespace Conscripts.Views
                     FileSelectedStackPanel.Visibility = Visibility.Visible;
                     Ps1FileIconImage.Visibility = Visibility.Collapsed;
                     BatFileIconImage.Visibility = Visibility.Visible;
-                    CopyTipTextBlock.Text = $"将作为 {_desireFileName}.bat 复制到 \"文档\\NoMewing\\Conscript\\\"";
+                    CopyTipTextBlock.Text = $"将作为 {_desireFileName}.bat 复制到\r\n \"文档\\NoMewing\\Conscript\\\"";
                     AddingShortcutNameTextBox.PlaceholderText = _chosenFile.DisplayName;
                 }
                 else if (fileExt == ".ps1")
@@ -134,7 +137,7 @@ namespace Conscripts.Views
                     FileSelectedStackPanel.Visibility = Visibility.Visible;
                     Ps1FileIconImage.Visibility = Visibility.Visible;
                     BatFileIconImage.Visibility = Visibility.Collapsed;
-                    CopyTipTextBlock.Text = $"将作为 {_desireFileName}.ps1 复制到 \"文档\\NoMewing\\Conscript\\\"";
+                    CopyTipTextBlock.Text = $"将作为 {_desireFileName}.ps1 复制到\r\n \"文档\\NoMewing\\Conscript\\\"";
                     AddingShortcutNameTextBox.PlaceholderText = _chosenFile.DisplayName;
                 }
                 else
@@ -159,7 +162,7 @@ namespace Conscripts.Views
                 AddingShortcutNameTextBox.PlaceholderText = "默认使用脚本文件名";
                 AddingShortcutCategoryTextBox.Text = "";
                 AddingShortcutColorComboBox.SelectedIndex = 4;
-                AddingShortcutIconGridView.SelectedIndex = 0;
+                AddingShortcutIconGridView.SelectedIndex = AddingShortcutIconGridView.Items.Count > 0 ? 0 : -1;
                 AddingShortcutRunasCheckBox.IsChecked = false;
                 AddingShortcutNoWindowCheckBox.IsEnabled = true;
                 AddingShortcutNoWindowCheckBox.IsChecked = false;
@@ -192,5 +195,65 @@ namespace Conscripts.Views
             AddingShortcutNoWindowCheckBox.IsEnabled = true;
         }
 
+        /// <summary>
+        /// 支持拖拽文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Grid_DragOver(object sender, DragEventArgs e)
+        {
+            e.AcceptedOperation = DataPackageOperation.Copy;
+
+            //try
+            //{
+            //    e.AcceptedOperation = DataPackageOperation.None;
+
+            //    if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            //    {
+            //        var items = await e.DataView.GetStorageItemsAsync();
+
+            //        if (items?.Count == 1 &&
+            //            items[0] is StorageFile file &&
+            //            (file.FileType.Equals(".bat", StringComparison.CurrentCultureIgnoreCase) ||
+            //            file.FileType.Equals(".ps1", StringComparison.CurrentCultureIgnoreCase)))
+            //        {
+            //            e.AcceptedOperation = DataPackageOperation.Copy;
+            //            e.DragUIOverride.Caption = "释放以选择此文件";
+            //        }
+            //        else
+            //        {
+            //            e.DragUIOverride.Caption = "只接受单个.bat或.ps1文件";
+            //        }
+            //    }
+            //}
+            //catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
+        }
+
+        /// <summary>
+        /// 释放文件时选中
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Grid_Drop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                if (e.DataView.Contains(StandardDataFormats.StorageItems))
+                {
+                    var items = await e.DataView.GetStorageItemsAsync();
+                    foreach (StorageFile file in items.Cast<StorageFile>())
+                    {
+                        if (file.FileType.Equals(".bat", StringComparison.CurrentCultureIgnoreCase) ||
+                            file.FileType.Equals(".ps1", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            _chosenFile = file;
+                            UpdateLayoutByChosenFile();
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
+        }
     }
 }
