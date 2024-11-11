@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Conscripts.Helpers;
 using Conscripts.ViewModels;
 using Microsoft.UI.Xaml;
@@ -81,11 +80,11 @@ namespace Conscripts.Views
                         if (copiedFile is not null)
                         {
                             string name = string.IsNullOrWhiteSpace(AddingShortcutNameTextBox.Text) ? _chosenFile.DisplayName : AddingShortcutNameTextBox.Text;
-                            string category = string.IsNullOrWhiteSpace(AddingShortcutCategoryTextBox.Text) ? "未分类" : AddingShortcutCategoryTextBox.Text;
+                            string category = string.IsNullOrWhiteSpace(AddingShortcutCategoryTextBox.Text) ? "" : AddingShortcutCategoryTextBox.Text;
                             int colorIndex = AddingShortcutColorComboBox.SelectedIndex + 1;
                             bool runas = AddingShortcutRunasCheckBox.IsChecked == true;
                             bool noWindow = AddingShortcutNoWindowCheckBox.IsChecked == true;
-                            string icon = AddingShortcutIconGridView.SelectedItem?.ToString();
+                            string icon = AddingShortcutIconGridView.SelectedItem is Character character ? character.Char : "\uE756";
 
                             _viewModel.AddShortcut(name, category, colorIndex, runas, noWindow, icon, ext, copiedFile.Path);
 
@@ -162,13 +161,17 @@ namespace Conscripts.Views
                 AddingShortcutNameTextBox.PlaceholderText = "默认使用脚本文件名";
                 AddingShortcutCategoryTextBox.Text = "";
                 AddingShortcutColorComboBox.SelectedIndex = 4;
-                AddingShortcutIconGridView.SelectedIndex = AddingShortcutIconGridView.Items.Count > 0 ? 0 : -1;
+                AddingShortcutIconGridView.SelectedIndex = -1;
                 AddingShortcutRunasCheckBox.IsChecked = false;
                 AddingShortcutNoWindowCheckBox.IsEnabled = true;
                 AddingShortcutNoWindowCheckBox.IsChecked = false;
                 UpdateLayoutByChosenFile();
 
-                AddingShortcutIconGridView.ScrollIntoView(AddingShortcutIconGridView.Items.First());
+                if (AddingShortcutIconGridView.Items.Count > 0)
+                {
+                    AddingShortcutIconGridView.ScrollIntoView(AddingShortcutIconGridView.Items.First());
+                }
+
                 AddingShortcutScrollViewer.ChangeView(0, 0, null, true);
             }
             catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
@@ -254,6 +257,19 @@ namespace Conscripts.Views
                 }
             }
             catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
+        }
+
+        /// <summary>
+        /// 分类输入框聚焦后立即弹出建议列表
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddingShortcutCategoryTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.Categories.Count > 0)
+            {
+                AddingShortcutCategoryTextBox.IsSuggestionListOpen = true;
+            }
         }
     }
 }

@@ -52,7 +52,7 @@
         </Grid>
 
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">
-            <controls:ItemsRepeater Margin="20,0,20,16" ItemsSource="{x:Bind _viewModel.GroupedShortcuts,Mode=OneWay}">
+            <controls:ItemsRepeater Margin="20,0,20,20" ItemsSource="{x:Bind _viewModel.GroupedShortcuts,Mode=OneWay}">
                 <controls:ItemsRepeater.Layout>
                     <StackLayout Orientation="Vertical"/>
                 </controls:ItemsRepeater.Layout>
@@ -74,6 +74,11 @@
                                             ContextRequested="Button_ContextRequested" Click="Button_Click" IsEnabled="{x:Bind Running,Mode=OneWay,Converter={StaticResource BoolReverse}}">
                                         <Button.Resources>
                                             <MenuFlyout x:Key="ShortcutMenuFlyout" Placement="Bottom">
+                                                <MenuFlyoutItem x:Name="FrontMenuItem" DataContext="{x:Bind }" Text="置于最前" Click="FrontMenuItem_Click">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEA4F;"/>
+                                                    </MenuFlyoutItem.Icon>
+                                                </MenuFlyoutItem>
                                                 <MenuFlyoutItem x:Name="InfoMenuItem" DataContext="{x:Bind }" Text="属性" Click="InfoMenuItem_Click">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE90F;"/>
@@ -134,7 +139,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="设置" Margin="24,20,0,20" FontWeight="Bold" FontSize="20"/>
+                <TextBlock Text="设置" Margin="24,16,0,16" FontWeight="Bold" FontSize="20"/>
                 <Button Height="38" Width="38" Padding="0" Margin="0,0,20,0" Background="Transparent" BorderBrush="Transparent" 
                         HorizontalAlignment="Right" VerticalAlignment="Center" Click="CloseSettings_Click">
                     <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
@@ -150,7 +155,7 @@
             <animations:Implicit.HideAnimations>
                 <animations:OpacityAnimation To="0" Duration="0:0:0.2"/>
             </animations:Implicit.HideAnimations>
-            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72" MaxWidth="540">
+            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="72" MaxWidth="540">
                 <animations:Implicit.ShowAnimations>
                     <animations:TranslationAnimation From="0,32,0" To="0,0,0" EasingMode="EaseInOut" EasingType="Default" Duration="0:0:0.4"/>
                 </animations:Implicit.ShowAnimations>
@@ -161,7 +166,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="最近更新" Margin="24,20,0,20" FontWeight="Bold" FontSize="20"/>
+                <TextBlock Text="最近更新" Margin="24,16,0,16" FontWeight="Bold" FontSize="20"/>
                 <Button Height="38" Width="38" Padding="0" Margin="0,0,20,0" Background="Transparent" BorderBrush="Transparent" 
                         HorizontalAlignment="Right" VerticalAlignment="Center" Click="CloseWhatsNew_Click">
                     <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
@@ -188,7 +193,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="添加" Margin="24,20,0,20" FontWeight="Bold" FontSize="20"/>
+                <TextBlock Text="添加" Margin="24,16,0,16" FontWeight="Bold" FontSize="20"/>
                 <Button Height="38" Width="38" Padding="0" Margin="0,0,20,0" Background="Transparent" BorderBrush="Transparent" 
                         HorizontalAlignment="Right" VerticalAlignment="Center" Click="CloseAdding_Click">
                     <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
@@ -204,7 +209,7 @@
             <animations:Implicit.HideAnimations>
                 <animations:OpacityAnimation To="0" Duration="0:0:0.2"/>
             </animations:Implicit.HideAnimations>
-            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="72" MaxWidth="420">
+            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72" MaxWidth="420">
                 <animations:Implicit.ShowAnimations>
                     <animations:TranslationAnimation From="0,32,0" To="0,0,0" EasingMode="EaseInOut" EasingType="Default" Duration="0:0:0.4"/>
                 </animations:Implicit.ShowAnimations>
@@ -215,7 +220,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="属性" Margin="24,20,0,20" FontWeight="Bold" FontSize="20"/>
+                <TextBlock Text="属性" Margin="24,16,0,16" FontWeight="Bold" FontSize="20"/>
                 <Button Height="38" Width="38" Padding="0" Margin="0,0,20,0" Background="Transparent" BorderBrush="Transparent" 
                         HorizontalAlignment="Right" VerticalAlignment="Center" Click="CloseProperty_Click">
                     <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>

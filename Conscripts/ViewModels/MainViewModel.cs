@@ -150,11 +150,11 @@ namespace Conscripts.ViewModels
                     {
                         if (string.IsNullOrWhiteSpace(shortcut.Category))
                         {
-                            shortcut.Category = "未分类";
+                            shortcut.Category = "";
                         }
 
                         // 存储已有的分类名称，用于建议用户
-                        if (!_categories.Contains(shortcut.Category))
+                        if (!string.IsNullOrWhiteSpace(shortcut.Category) && !_categories.Contains(shortcut.Category))
                         {
                             _categories.Add(shortcut.Category);
                             this.Categories.Add(shortcut.Category);
@@ -184,7 +184,7 @@ namespace Conscripts.ViewModels
                 // 添加系统菜单
                 this.GroupedShortcuts.Add(new ShortcutsGroupModel
                 {
-                    Category = "",
+                    Category = " ",
                     Shortcuts = new ObservableCollection<ShortcutModel>
                     {
                         new ShortcutModel
@@ -297,7 +297,26 @@ namespace Conscripts.ViewModels
                 });
 
                 SaveShortcuts();
+                UpdateGroupedShortcuts();
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.Message);
+            }
+        }
 
+        /// <summary>
+        /// 将脚本项移至最前
+        /// </summary>
+        /// <param name="shortcut"></param>
+        public void PlaceShortcutFront(ShortcutModel shortcut)
+        {
+            try
+            {
+                _allShortcuts.Remove(shortcut);
+                _allShortcuts.Insert(0, shortcut);
+
+                SaveShortcuts();
                 UpdateGroupedShortcuts();
             }
             catch (Exception e)
@@ -324,7 +343,6 @@ namespace Conscripts.ViewModels
                 }
 
                 SaveShortcuts();
-
                 UpdateGroupedShortcuts();
             }
             catch (Exception e)
@@ -355,7 +373,6 @@ namespace Conscripts.ViewModels
                 editingShortcut.Category = category;
 
                 SaveShortcuts();
-
                 UpdateGroupedShortcuts();
             }
             catch (Exception e)

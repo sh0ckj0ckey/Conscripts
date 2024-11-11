@@ -36,8 +36,7 @@ namespace Conscripts.Helpers
             string text = string.Empty;
             try
             {
-                if (applicationFolder == null)
-                    applicationFolder = await GetDataFolder();
+                applicationFolder ??= await GetDataFolder();
 
                 var storageFile = await applicationFolder.GetFileAsync(fileName);
 

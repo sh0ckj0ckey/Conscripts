@@ -114,6 +114,19 @@ namespace Conscripts.Views
         }
 
         /// <summary>
+        /// 将脚本置于最前
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FrontMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuFlyoutItem menuItem && menuItem.DataContext is ShortcutModel shortcut)
+            {
+                _viewModel.PlaceShortcutFront(shortcut);
+            }
+        }
+
+        /// <summary>
         /// 查看脚本信息
         /// </summary>
         /// <param name="sender"></param>
@@ -199,5 +212,6 @@ namespace Conscripts.Views
             PropertyGrid.Visibility = Visibility.Collapsed;
             _propertyLayout?.ResetLayout();
         }
+
     }
 }

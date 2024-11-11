@@ -1,20 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using CommunityToolkit.Mvvm.ComponentModel;
+using Conscripts.Helpers;
 using Conscripts.Models;
 using Conscripts.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 
@@ -29,6 +20,9 @@ namespace Conscripts.Views
 
         private Action _closePropertyAction = null;
 
+        /// <summary>
+        /// 当前正在查看和编辑的脚本项
+        /// </summary>
         private ShortcutModel _shortcut = null;
 
         public PropertyLayout(MainViewModel viewModel, Action closePropertyAction)
@@ -39,6 +33,30 @@ namespace Conscripts.Views
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// 点击更换图标
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChangeIconButton_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.LoadSegoeFluentIcons();
+        }
+
+        /// <summary>
+        /// 选择图标
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShortcutIconGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ShortcutIcon.Glyph = ShortcutIconGridView.SelectedItem is Character character ? character.Char : "\uE756";
+        }
+
+        /// <summary>
+        /// 设置当前正在查看和编辑的脚本项
+        /// </summary>
+        /// <param name="shortcut"></param>
         public void SetLayout(ShortcutModel shortcut)
         {
             _shortcut = shortcut;
@@ -97,7 +115,14 @@ namespace Conscripts.Views
                 //    ShortcutFileNameTextBlock.Visibility = Visibility.Collapsed;
                 //}
 
-                //ShortcutIconGridView.ScrollIntoView(AddingShortcutIconGridView.Items.First());
+                ChangeIconButton.IsChecked = false;
+
+                ShortcutIconGridView.SelectedIndex = -1;
+                if (ShortcutIconGridView.Items.Count > 0)
+                {
+                    ShortcutIconGridView.ScrollIntoView(ShortcutIconGridView.Items.First());
+                }
+
                 PropertyScrollViewer.ChangeView(0, 0, null, true);
             }
             catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
@@ -159,6 +184,39 @@ namespace Conscripts.Views
             {
                 System.Diagnostics.Trace.WriteLine(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// 点击重置UI
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetLayout();
+        }
+
+        /// <summary>
+        /// 点击确认修改属性
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ConfirmEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string name = string.IsNullOrWhiteSpace(ShortcutNameTextBox.Text) ? _shortcut.ShortcutName : ShortcutNameTextBox.Text;
+                string category = string.IsNullOrWhiteSpace(ShortcutCategoryTextBox.Text) ? _shortcut.Category : ShortcutCategoryTextBox.Text;
+                int colorIndex = ShortcutColorComboBox.SelectedIndex + 1;
+                bool runas = ShortcutRunasCheckBox.IsChecked == true;
+                bool noWindow = ShortcutNoWindowCheckBox.IsChecked == true;
+                string icon = ShortcutIcon.Glyph;
+
+                _viewModel.EditShortcut(_shortcut, name, category, colorIndex, runas, noWindow, icon);
+
+                _closePropertyAction?.Invoke();
+            }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
         }
     }
 }

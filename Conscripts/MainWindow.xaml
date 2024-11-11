@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:windowex="using:WinUIEx"
     TaskBarIcon="Assets/Conscripts.ico"
-    Title="Conscripts" MinWidth="680" MinHeight="386"
+    Title="Conscripts" MinWidth="680" MinHeight="460"
     mc:Ignorable="d" Closed="OnMainWindowClosed">
 
     <windowex:WindowEx.Content>
