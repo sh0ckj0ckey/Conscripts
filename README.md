@@ -2,7 +2,7 @@
 
 
 <p align="center">
-    <img src="Conscripts/Assets/Conscripts_logo.png" alt="Hero image for Conscripts" height="128" width="128"/>
+    <img src="Conscripts/Assets/Conscripts_Logo.png" alt="Hero image for Conscripts" height="128" width="128"/>
     <h2 align="center">Conscripts — 脚本文件启动中心</h4>
 </p>
 
