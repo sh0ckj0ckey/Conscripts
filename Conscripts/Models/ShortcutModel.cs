@@ -7,7 +7,7 @@ namespace Conscripts.Models
     {
         private string _shortcutName = string.Empty;
 
-        private string _shortcutIcon = string.Empty;
+        private string _shortcutIcon = "\uE756";
 
         private ShortcutTypeEnum _shortcutType = ShortcutTypeEnum.None;
 

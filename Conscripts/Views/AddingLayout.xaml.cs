@@ -76,7 +76,7 @@ namespace Conscripts.Views
                     if (ext == ".ps1" || ext == ".bat")
                     {
                         var dataFolder = await StorageFilesService.GetDataFolder();
-                        var copiedFile = await _chosenFile.CopyAsync(dataFolder, $"{_desireFileName}{ext}", NameCollisionOption.ReplaceExisting);
+                        var copiedFile = await _chosenFile.CopyAsync(dataFolder, $"{_desireFileName}{ext}", NameCollisionOption.GenerateUniqueName);
                         if (copiedFile is not null)
                         {
                             string name = string.IsNullOrWhiteSpace(AddingShortcutNameTextBox.Text) ? _chosenFile.DisplayName : AddingShortcutNameTextBox.Text;
