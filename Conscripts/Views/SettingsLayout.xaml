@@ -6,7 +6,8 @@
     xmlns:local="using:Conscripts.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:CommunityToolkit.WinUI.Controls">
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    mc:Ignorable="d">
 
     <ScrollViewer x:Name="SettingsScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
         <StackPanel Orientation="Vertical" Margin="20,20,20,0">
@@ -20,8 +21,8 @@
                         </Image>
                         <StackPanel Margin="12,0,0,0" Spacing="0" Orientation="Vertical" VerticalAlignment="Center">
                             <TextBlock FontSize="18" FontWeight="Medium">
-                                    <Run Text="Conscripts"/>
-                                    <Run Text="{x:Bind _appVersion}" FontSize="12" FontWeight="Normal"/>
+                                <Run Text="Conscripts"/>
+                                <Run Text="{x:Bind _appVersion}" FontSize="12" FontWeight="Normal"/>
                             </TextBlock>
                             <TextBlock Text="脚本文件启动中心" FontSize="13" Opacity="0.7"/>
                         </StackPanel>
@@ -102,9 +103,7 @@
                     </StackPanel>
                 </Button>
             </controls:SettingsCard>
-            <Grid>
-                <TextBlock Text="©2024 NoMewing." Opacity="0.5" FontFamily="Consolas" FontSize="12" Margin="4,8,0,8"/>
-            </Grid>
+            <TextBlock Text="©2024 NoMewing." Opacity="0.5" FontFamily="Consolas" FontSize="12" Margin="4,8,4,8"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

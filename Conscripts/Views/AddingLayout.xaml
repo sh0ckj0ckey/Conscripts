@@ -8,7 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:Conscripts.Converters" 
-    xmlns:fontModel="using:Conscripts.Helpers">
+    xmlns:fontModel="using:Conscripts.Helpers"
+    mc:Ignorable="d">
 
     <UserControl.Resources>
         <converters:Int2VisibilityConverter x:Key="Int2Vis"/>
@@ -178,7 +179,7 @@
                     </GridView.Header>
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="fontModel:Character">
-                            <Grid Width="56" Height="56">
+                            <Grid Width="48" Height="48">
                                 <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="{x:Bind Char}" FontSize="16"/>
                             </Grid>
                         </DataTemplate>

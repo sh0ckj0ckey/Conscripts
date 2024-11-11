@@ -43,6 +43,7 @@
 		<None Remove="Views\MainPage.xaml" />
 		<None Remove="Views\SettingsLayout.xaml" />
 		<None Remove="Views\ShortcutInfoPage.xaml" />
+		<None Remove="Views\WhatsNewLayout.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -65,6 +66,11 @@
   -->
 	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
 		<ProjectCapability Include="Msix" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Page Update="Views\WhatsNewLayout.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 	<ItemGroup>
 	  <Page Update="Views\AddingLayout.xaml">

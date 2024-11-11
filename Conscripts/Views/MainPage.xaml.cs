@@ -18,6 +18,8 @@ namespace Conscripts.Views
 
         private AddingLayout _addingLayout = null;
 
+        private WhatsNewLayout _whatsNewLayout = null;
+
         private SettingsLayout _settingsLayout = null;
 
         public MainPage()
@@ -47,7 +49,8 @@ namespace Conscripts.Views
                     }
                     else if (shortcut.Category == "whatsnew")
                     {
-
+                        WhatsNewBorder.Child ??= _whatsNewLayout = new WhatsNewLayout(_viewModel);
+                        WhatsNewGrid.Visibility = Visibility.Visible;
                     }
                     else if (shortcut.Category == "settings")
                     {
@@ -116,6 +119,11 @@ namespace Conscripts.Views
             CloseSettingsLayout();
         }
 
+        private void CloseWhatsNew_Click(object sender, RoutedEventArgs e)
+        {
+            CloseWhatsNewLayout();
+        }
+
         private void CloseAdding_Click(object sender, RoutedEventArgs e)
         {
             CloseAddingLayout();
@@ -125,6 +133,12 @@ namespace Conscripts.Views
         {
             SettingsGrid.Visibility = Visibility.Collapsed;
             _settingsLayout?.ResetLayout();
+        }
+
+        private void CloseWhatsNewLayout()
+        {
+            WhatsNewGrid.Visibility = Visibility.Collapsed;
+            _whatsNewLayout?.ResetLayout();
         }
 
         private void CloseAddingLayout()

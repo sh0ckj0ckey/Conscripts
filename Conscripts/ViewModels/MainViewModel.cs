@@ -201,7 +201,7 @@ namespace Conscripts.ViewModels
                             Category = "whatsnew",
                             ShortcutColor = ShortcutColorEnum.Transparent,
                             ShortcutType = ShortcutTypeEnum.None,
-                            ShortcutName = "更新日志",
+                            ShortcutName = "最近更新",
                             ShortcutIcon = "\uF133",
                             ShortcutRunas = false,
                             NoWindow = true,
