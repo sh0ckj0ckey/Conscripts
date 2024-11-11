@@ -57,7 +57,7 @@ namespace Conscripts.Views
             {
                 await Launcher.LaunchUriAsync(new Uri($"ms-windows-store:REVIEW?PFN={Package.Current.Id.FamilyName}"));
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Conscripts.Views
                 var folder = await StorageFilesService.GetDataFolder();
                 await Launcher.LaunchFolderAsync(folder);
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
         }
 
         /// <summary>
@@ -86,7 +86,19 @@ namespace Conscripts.Views
             {
                 await Launcher.LaunchUriAsync(new Uri("https://github.com/sh0ckj0ckey/Conscripts"));
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
+        }
+
+        /// <summary>
+        /// ÷ÿ÷√UI
+        /// </summary>
+        public void ResetLayout()
+        {
+            try
+            {
+                SettingsScrollViewer.ChangeView(0, 0, null, true);
+            }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
         }
     }
 }

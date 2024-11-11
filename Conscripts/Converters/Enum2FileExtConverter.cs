@@ -19,7 +19,7 @@ namespace Conscripts.Converters
                         return ".bat";
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
             return "";
         }
 

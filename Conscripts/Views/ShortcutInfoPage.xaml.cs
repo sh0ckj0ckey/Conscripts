@@ -35,7 +35,7 @@ namespace Conscripts.Views
                     this.Frame.GoBack();
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
         }
 
         private void OnClickRun(object sender, RoutedEventArgs e)
@@ -46,7 +46,7 @@ namespace Conscripts.Views
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 System.Diagnostics.Trace.WriteLine(ex.Message);
             }
         }
 
@@ -63,7 +63,7 @@ namespace Conscripts.Views
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 System.Diagnostics.Trace.WriteLine(ex.Message);
             }
         }
 
@@ -90,7 +90,7 @@ namespace Conscripts.Views
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                 System.Diagnostics.Trace.WriteLine(ex.Message);
             }
         }
     }

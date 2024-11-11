@@ -46,7 +46,7 @@ namespace Conscripts.Helpers
                         }
                     }
                 }
-                catch { }
+                catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
                 if (_appearanceIndex < 0) _appearanceIndex = 0;
                 return _appearanceIndex < 0 ? 0 : _appearanceIndex;
             }
@@ -86,7 +86,7 @@ namespace Conscripts.Helpers
                         }
                     }
                 }
-                catch { }
+                catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
                 if (_backdropIndex < 0) _backdropIndex = 0;
                 return _backdropIndex < 0 ? 0 : _backdropIndex;
             }

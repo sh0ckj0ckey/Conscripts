@@ -58,7 +58,7 @@
             <Button Grid.Column="1" Margin="8,0,0,0" Padding="12" HorizontalAlignment="Left" Click="OnClickRun">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEA18;" FontSize="14" Visibility="{x:Bind _shortcutModel.ShortcutRunas,Mode=OneWay,Converter={StaticResource Boo2Vis}}"/>
-                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xF5B0;" FontSize="14" Visibility="{x:Bind _shortcutModel.ShortcutRunas,Mode=OneWay,Converter={StaticResource Boo2Vis},ConverterParameter=-}"/>
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xF5B0;" FontSize="14" Visibility="{x:Bind _shortcutModel.ShortcutRunas,Mode=OneWay,Converter={StaticResource Boo2Vis},ConverterParameter=!}"/>
                     <TextBlock Text="立即运行" FontSize="14" FontWeight="Bold" Margin="8,0,0,0"/>
                 </StackPanel>
             </Button>

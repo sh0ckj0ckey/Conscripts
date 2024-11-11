@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using SharpDX.DirectWrite;
@@ -31,7 +32,7 @@ namespace Conscripts.Helpers
                     }
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
 
             return _allSegoeFluentIconsChar;
         }

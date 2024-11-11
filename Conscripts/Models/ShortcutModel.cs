@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Text.Json.Serialization;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Conscripts.Models
 {
@@ -17,6 +18,8 @@ namespace Conscripts.Models
         private bool _noWindow = false;
 
         private string _category = "";
+
+        private bool _running = false;
 
         /// <summary>
         /// 脚本文件路径
@@ -84,6 +87,16 @@ namespace Conscripts.Models
         {
             get => _category;
             set => SetProperty(ref _category, value);
+        }
+
+        /// <summary>
+        /// 是否正在运行
+        /// </summary>
+        [JsonIgnore]
+        public bool Running
+        {
+            get => _running;
+            set => SetProperty(ref _running, value);
         }
     }
 }

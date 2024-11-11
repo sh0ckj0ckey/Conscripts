@@ -145,7 +145,7 @@ namespace Conscripts
                     }
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
         }
 
         /// <summary>

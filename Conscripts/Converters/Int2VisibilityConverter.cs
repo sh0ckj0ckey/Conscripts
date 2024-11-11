@@ -25,7 +25,7 @@ namespace Conscripts.Converters
                     return parameter.ToString() == value.ToString() ? Visibility.Visible : Visibility.Collapsed;
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
             return Visibility.Collapsed;
         }
 

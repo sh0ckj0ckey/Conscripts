@@ -25,7 +25,11 @@ namespace Conscripts
 
             _dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 
-            UnhandledException += (s, e) => { e.Handled = true; };
+            UnhandledException += (s, e) =>
+            {
+                System.Diagnostics.Trace.WriteLine(e);
+                e.Handled = true;
+            };
         }
 
         /// <summary>

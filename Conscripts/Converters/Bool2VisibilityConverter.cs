@@ -15,12 +15,12 @@ namespace Conscripts.Converters
                     return bool.Parse(value?.ToString() ?? "False") ? Visibility.Visible : Visibility.Collapsed;
                 }
 
-                if (parameter != null && value != null && parameter.ToString() == "-")
+                if (parameter != null && value != null && parameter.ToString() == "!")
                 {
                     return !bool.Parse(value?.ToString() ?? "True") ? Visibility.Visible : Visibility.Collapsed;
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
             return Visibility.Collapsed;
         }
 

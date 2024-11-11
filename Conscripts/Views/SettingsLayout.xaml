@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
+    <ScrollViewer x:Name="SettingsScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
         <StackPanel Orientation="Vertical" Margin="20,20,20,0">
             <controls:SettingsCard>
                 <controls:SettingsCard.Header>

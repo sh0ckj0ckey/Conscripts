@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Data;
 
 namespace Conscripts.Converters
 {
@@ -15,7 +15,7 @@ namespace Conscripts.Converters
                     return value?.ToString() == parameter?.ToString() ? Visibility.Visible : Visibility.Collapsed;
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
             return Visibility.Collapsed;
         }
 

@@ -1,20 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Conscripts.Helpers;
+using Conscripts.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Conscripts.ViewModels;
 using Windows.Storage;
-using Conscripts.Helpers;
 using Windows.Storage.Pickers;
 using WinUIEx;
 
@@ -53,15 +44,19 @@ namespace Conscripts.Views
         /// <param name="e"></param>
         private async void OnClickChooseFile(object sender, RoutedEventArgs e)
         {
-            var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
-            WinRT.Interop.InitializeWithWindow.Initialize(openPicker, App.MainWindow.GetWindowHandle());
-            openPicker.ViewMode = PickerViewMode.Thumbnail;
-            openPicker.FileTypeFilter.Add(".ps1");
-            openPicker.FileTypeFilter.Add(".bat");
+            try
+            {
+                var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
+                WinRT.Interop.InitializeWithWindow.Initialize(openPicker, App.MainWindow.GetWindowHandle());
+                openPicker.ViewMode = PickerViewMode.Thumbnail;
+                openPicker.FileTypeFilter.Add(".ps1");
+                openPicker.FileTypeFilter.Add(".bat");
 
-            _chosenFile = await openPicker.PickSingleFileAsync();
+                _chosenFile = await openPicker.PickSingleFileAsync();
 
-            UpdateLayoutByChosenFile();
+                UpdateLayoutByChosenFile();
+            }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
         }
 
         /// <summary>
@@ -71,27 +66,32 @@ namespace Conscripts.Views
         /// <param name="e"></param>
         private async void OnClickCreate(object sender, RoutedEventArgs e)
         {
-            if (_chosenFile is not null)
+            try
             {
-                var ext = Path.GetExtension(_chosenFile.Name);
-                if (ext == ".ps1" || ext == ".bat")
+                if (_chosenFile is not null)
                 {
-                    var dataFolder = await StorageFilesService.GetDataFolder();
-                    var copiedFile = await _chosenFile.CopyAsync(dataFolder, $"{_desireFileName}{ext}", NameCollisionOption.ReplaceExisting);
-                    if (copiedFile is not null)
+                    var ext = Path.GetExtension(_chosenFile.Name);
+                    if (ext == ".ps1" || ext == ".bat")
                     {
-                        int colorIndex = AddingShortcutColorComboBox.SelectedIndex + 1;
-                        int iconIndex = AddingShortcutIconGridView.SelectedIndex;
-                        string name = string.IsNullOrWhiteSpace(AddingShortcutNameTextBox.Text) ? _chosenFile.DisplayName : AddingShortcutNameTextBox.Text;
-                        bool runas = AddingShortcutRunasCheckBox.IsChecked == true;
-                        bool noWindow = AddingShortcutNoWindowCheckBox.IsChecked == true;
+                        var dataFolder = await StorageFilesService.GetDataFolder();
+                        var copiedFile = await _chosenFile.CopyAsync(dataFolder, $"{_desireFileName}{ext}", NameCollisionOption.ReplaceExisting);
+                        if (copiedFile is not null)
+                        {
+                            string name = string.IsNullOrWhiteSpace(AddingShortcutNameTextBox.Text) ? _chosenFile.DisplayName : AddingShortcutNameTextBox.Text;
+                            string category = string.IsNullOrWhiteSpace(AddingShortcutCategoryTextBox.Text) ? "未分类" : AddingShortcutCategoryTextBox.Text;
+                            int colorIndex = AddingShortcutColorComboBox.SelectedIndex + 1;
+                            bool runas = AddingShortcutRunasCheckBox.IsChecked == true;
+                            bool noWindow = AddingShortcutNoWindowCheckBox.IsChecked == true;
+                            int iconIndex = AddingShortcutIconGridView.SelectedIndex;
 
-                        _viewModel.AddShortcut(colorIndex, iconIndex, name, ext, copiedFile.Path, runas);
+                            _viewModel.AddShortcut(name, category, colorIndex, runas, noWindow, iconIndex, ext, copiedFile.Path);
 
-                        _closeAddingAction?.Invoke();
+                            _closeAddingAction?.Invoke();
+                        }
                     }
                 }
             }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
         }
 
         /// <summary>
@@ -157,6 +157,7 @@ namespace Conscripts.Views
 
                 AddingShortcutNameTextBox.Text = "";
                 AddingShortcutNameTextBox.PlaceholderText = "默认使用脚本文件名";
+                AddingShortcutCategoryTextBox.Text = "";
                 AddingShortcutColorComboBox.SelectedIndex = 4;
                 AddingShortcutIconGridView.SelectedIndex = 0;
                 AddingShortcutRunasCheckBox.IsChecked = false;
@@ -165,8 +166,9 @@ namespace Conscripts.Views
                 UpdateLayoutByChosenFile();
 
                 AddingShortcutIconGridView.ScrollIntoView(AddingShortcutIconGridView.Items.First());
+                AddingShortcutScrollViewer.ChangeView(0, 0, null, true);
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
         }
 
         /// <summary>

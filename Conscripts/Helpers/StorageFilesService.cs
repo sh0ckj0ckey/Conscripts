@@ -50,7 +50,7 @@ namespace Conscripts.Helpers
                     }
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
             return text;
         }
 
@@ -86,10 +86,10 @@ namespace Conscripts.Helpers
                     {
                         await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(1));
                     }
-                    catch { }
+                    catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
             return false;
         }
     }

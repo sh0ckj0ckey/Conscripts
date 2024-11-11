@@ -26,18 +26,18 @@
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">
+            <ScrollViewer x:Name="AddingShortcutScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">
                 <StackPanel Grid.Column="0" Spacing="8" Orientation="Vertical" Margin="20,20,20,8">
                     <Grid HorizontalAlignment="Stretch">
-                        <Rectangle RadiusX="4" RadiusY="4" HorizontalAlignment="Stretch" Height="228" Fill="#10888888" StrokeDashArray="3" StrokeThickness="2" Stroke="{ThemeResource ControlElevationBorderBrush}"/>
-                        <StackPanel x:Name="NoFileSelectedStackPanel" Spacing="12" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Rectangle RadiusX="4" RadiusY="4" HorizontalAlignment="Stretch" Height="196" Fill="#10888888" StrokeDashArray="3" StrokeThickness="2" Stroke="{ThemeResource ControlElevationBorderBrush}"/>
+                        <StackPanel x:Name="NoFileSelectedStackPanel" Spacing="12" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Button Padding="12,8" Click="OnClickChooseFile">
                                 <StackPanel Orientation="Horizontal">
                                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE838;" FontSize="15" Margin="0,0,6,0" Opacity="0.9"/>
                                     <TextBlock Text="选择文件" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.9"/>
                                 </StackPanel>
                             </Button>
-                            <!--<TextBlock Text="或拖拽文件至此" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.8"/>-->
+                            <TextBlock Text="或拖拽文件至此" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7"/>
                         </StackPanel>
                         <StackPanel x:Name="FileSelectedStackPanel" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                             <Image x:Name="Ps1FileIconImage" Source="/Assets/Icons/file_ps1_icon.png" Width="100" Height="70" Stretch="Uniform" Margin="0,0,8,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -58,6 +58,14 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="名称" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
                         <TextBox x:Name="AddingShortcutNameTextBox" Grid.Column="1" PlaceholderText="" FontSize="14" Height="34" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                    </Grid>
+                    <Grid ColumnSpacing="16" Margin="0,8,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="分类" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
+                        <AutoSuggestBox x:Name="AddingShortcutCategoryTextBox" Grid.Column="1" MaxSuggestionListHeight="128" ItemsSource="{x:Bind _viewModel.Categories,Mode=OneWay}" PlaceholderText="未分类" FontSize="14" Height="34" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                     </Grid>
                     <Grid ColumnSpacing="16" Margin="0,8,0,8" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>

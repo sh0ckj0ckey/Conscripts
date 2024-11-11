@@ -29,6 +29,11 @@ namespace Conscripts.Views
             _viewModel.DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
         }
 
+        /// <summary>
+        /// 点击打开启动对应的脚本或者功能项
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.DataContext is ShortcutModel shortcut)
@@ -50,11 +55,16 @@ namespace Conscripts.Views
                         SettingsGrid.Visibility = Visibility.Visible;
                     }
                 }
+                else
+                {
+                    _viewModel.LaunchShortcut(shortcut);
+                }
             }
         }
 
         /// <summary>
         /// 如果直接给Button添加了ContextFlyout右键菜单，则不会触发这个事件
+        /// 因此要使用资源字典的方式来添加右键菜单，在这个事件里面处理弹出
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
@@ -68,17 +78,34 @@ namespace Conscripts.Views
                 }
                 else
                 {
-                    MenuFlyout flyout = (MenuFlyout)btn.Resources["ShortcutMenuFlyout"];
-                    flyout.ShowAt(btn);
+                    if (shortcut.Running)
+                    {
+                        args.Handled = true;
+                    }
+                    else
+                    {
+                        MenuFlyout flyout = (MenuFlyout)btn.Resources["ShortcutMenuFlyout"];
+                        flyout.ShowAt(btn);
+                    }
                 }
             }
         }
 
+        /// <summary>
+        /// 查看脚本信息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void InfoMenuItem_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// 删除脚本
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
         {
 
@@ -97,6 +124,7 @@ namespace Conscripts.Views
         private void CloseSettingsLayout()
         {
             SettingsGrid.Visibility = Visibility.Collapsed;
+            _settingsLayout?.ResetLayout();
         }
 
         private void CloseAddingLayout()

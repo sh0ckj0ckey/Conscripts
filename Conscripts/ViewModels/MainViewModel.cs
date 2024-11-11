@@ -46,7 +46,7 @@ namespace Conscripts.ViewModels
         /// </summary>
         public ObservableCollection<Character> AllIcons { get; set; } = new();
 
-        public MainViewModel()
+        private MainViewModel()
         {
             LoadShortcuts();
         }
@@ -59,10 +59,15 @@ namespace Conscripts.ViewModels
         {
             if (shortcut != null)
             {
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     try
                     {
+                        DispatcherQueue.TryEnqueue(() =>
+                        {
+                            shortcut.Running = true;
+                        });
+
                         var processInfo = new ProcessStartInfo
                         {
                             CreateNoWindow = !shortcut.ShortcutRunas && shortcut.NoWindow,
@@ -88,8 +93,17 @@ namespace Conscripts.ViewModels
                         }
 
                         var process = Process.Start(processInfo);
+
+                        process.WaitForExit();
                     }
-                    catch { }
+                    catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
+                    finally
+                    {
+                        DispatcherQueue.TryEnqueue(() =>
+                        {
+                            shortcut.Running = false;
+                        });
+                    }
                 });
             }
         }
@@ -116,97 +130,98 @@ namespace Conscripts.ViewModels
         {
             try
             {
+                _allShortcuts.Clear();
+                this.GroupedShortcuts.Clear();
+                _categories.Clear();
+                this.Categories.Clear();
+
                 try
                 {
-                    _allShortcuts.Clear();
-                    this.GroupedShortcuts.Clear();
-
-                    try
+                    string shortcutsJson = await StorageFilesService.ReadFileAsync("shortcuts.json");
+                    if (!string.IsNullOrWhiteSpace(shortcutsJson))
                     {
-                        string shortcutsJson = await StorageFilesService.ReadFileAsync("shortcuts.json");
-                        if (!string.IsNullOrWhiteSpace(shortcutsJson))
+                        var shortcuts = JsonSerializer.Deserialize<ObservableCollection<ShortcutModel>>(shortcutsJson);
+
+                        foreach (var shortcut in shortcuts)
                         {
-                            var shortcuts = JsonSerializer.Deserialize<ObservableCollection<ShortcutModel>>(shortcutsJson);
-
-                            foreach (var shortcut in shortcuts)
+                            if (string.IsNullOrWhiteSpace(shortcut.Category))
                             {
-                                if (string.IsNullOrWhiteSpace(shortcut.Category))
-                                {
-                                    shortcut.Category = "未分类";
-                                }
-
-                                // 存储已有的分类名称，用于建议用户
-                                if (!_categories.Contains(shortcut.Category))
-                                {
-                                    _categories.Add(shortcut.Category);
-                                    this.Categories.Add(shortcut.Category);
-                                }
-
-                                _allShortcuts.Add(shortcut);
+                                shortcut.Category = "未分类";
                             }
 
-                            var groupedList =
-                                (from item in _allShortcuts
-                                 group item by item.Category into newItems
-                                 select
-                                 new ShortcutsGroupModel
-                                 {
-                                     Category = newItems.Key,
-                                     Shortcuts = new(newItems.ToList())
-                                 }).OrderBy(x => x.Category).ToList();
-
-                            foreach (var item in groupedList)
+                            // 存储已有的分类名称，用于建议用户
+                            if (!_categories.Contains(shortcut.Category))
                             {
-                                this.GroupedShortcuts.Add(item);
+                                _categories.Add(shortcut.Category);
+                                this.Categories.Add(shortcut.Category);
                             }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Trace.WriteLine(ex);
-                    }
 
-                    // 添加系统菜单
-                    this.GroupedShortcuts.Add(new ShortcutsGroupModel
-                    {
-                        Category = "",
-                        Shortcuts = new ObservableCollection<ShortcutModel>
-                        {
-                            new ShortcutModel
-                            {
-                                Category = "add",
-                                ShortcutColor = ShortcutColorEnum.Transparent,
-                                ShortcutType = ShortcutTypeEnum.None,
-                                ShortcutName = "添加",
-                                ShortcutIcon = "\uE710",
-                                ShortcutRunas = false,
-                            },
-                            new ShortcutModel
-                            {
-                                Category = "whatsnew",
-                                ShortcutColor = ShortcutColorEnum.Transparent,
-                                ShortcutType = ShortcutTypeEnum.None,
-                                ShortcutName = "更新日志",
-                                ShortcutIcon = "\uF133",
-                                ShortcutRunas = false,
-                            },
-                            new ShortcutModel
-                            {
-                                Category = "settings",
-                                ShortcutColor = ShortcutColorEnum.Transparent,
-                                ShortcutType = ShortcutTypeEnum.None,
-                                ShortcutName = "设置",
-                                ShortcutIcon = "\uE713",
-                                ShortcutRunas = false,
-                            },
+                            _allShortcuts.Add(shortcut);
                         }
-                    });
+
+                        var groupedList =
+                            (from item in _allShortcuts
+                             group item by item.Category into newItems
+                             select
+                             new ShortcutsGroupModel
+                             {
+                                 Category = newItems.Key,
+                                 Shortcuts = new(newItems.ToList())
+                             }).OrderBy(x => x.Category).ToList();
+
+                        foreach (var item in groupedList)
+                        {
+                            this.GroupedShortcuts.Add(item);
+                        }
+                    }
                 }
-                catch (Exception e) { Debug.WriteLine(e.Message); }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine(ex);
+                }
+
+                // 添加系统菜单
+                this.GroupedShortcuts.Add(new ShortcutsGroupModel
+                {
+                    Category = "",
+                    Shortcuts = new ObservableCollection<ShortcutModel>
+                    {
+                        new ShortcutModel
+                        {
+                            Category = "add",
+                            ShortcutColor = ShortcutColorEnum.Transparent,
+                            ShortcutType = ShortcutTypeEnum.None,
+                            ShortcutName = "添加",
+                            ShortcutIcon = "\uE710",
+                            ShortcutRunas = false,
+                            NoWindow = true,
+                        },
+                        new ShortcutModel
+                        {
+                            Category = "whatsnew",
+                            ShortcutColor = ShortcutColorEnum.Transparent,
+                            ShortcutType = ShortcutTypeEnum.None,
+                            ShortcutName = "更新日志",
+                            ShortcutIcon = "\uF133",
+                            ShortcutRunas = false,
+                            NoWindow = true,
+                        },
+                        new ShortcutModel
+                        {
+                            Category = "settings",
+                            ShortcutColor = ShortcutColorEnum.Transparent,
+                            ShortcutType = ShortcutTypeEnum.None,
+                            ShortcutName = "设置",
+                            ShortcutIcon = "\uE713",
+                            ShortcutRunas = false,
+                            NoWindow = true,
+                        },
+                    }
+                });
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
+                Trace.WriteLine(e.Message);
             }
         }
 
@@ -217,26 +232,30 @@ namespace Conscripts.ViewModels
         /// <param name="iconIndex"></param>
         /// <param name="name"></param>
         /// <param name="ext"></param>
-        public async void AddShortcut(int color, int iconIndex, string name, string ext, string path, bool runas)
+        public async void AddShortcut(string name, string category, int color, bool runas, bool noWindow, int iconIndex, string ext, string path)
         {
             try
             {
-                this._allShortcuts.Insert(0, new ShortcutModel()
+                _allShortcuts.Insert(0, new ShortcutModel()
                 {
-                    ShortcutColor = (ShortcutColorEnum)(Math.Max(1, Math.Min(color, 9))),
-                    ShortcutIcon = this.AllIcons[iconIndex].Char,
-                    ShortcutName = name,
-                    ShortcutType = ext == ".ps1" ? ShortcutTypeEnum.Ps1 : ShortcutTypeEnum.Bat,
                     ScriptFilePath = path,
-                    ShortcutRunas = runas
+                    ShortcutName = name,
+                    ShortcutIcon = this.AllIcons[iconIndex].Char,
+                    ShortcutType = ext == ".ps1" ? ShortcutTypeEnum.Ps1 : ext == ".bat" ? ShortcutTypeEnum.Bat : ShortcutTypeEnum.None,
+                    ShortcutColor = (ShortcutColorEnum)(Math.Max(1, Math.Min(color, 9))),
+                    ShortcutRunas = runas,
+                    NoWindow = noWindow,
+                    Category = category,
                 });
 
                 string shortcutsSaveJson = JsonSerializer.Serialize(_allShortcuts);
-                _ = await StorageFilesService.WriteFileAsync("shortcuts.json", shortcutsSaveJson);
+                await StorageFilesService.WriteFileAsync("shortcuts.json", shortcutsSaveJson);
+
+                LoadShortcuts();
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
+                Trace.WriteLine(e.Message);
             }
         }
 
@@ -250,7 +269,7 @@ namespace Conscripts.ViewModels
             {
                 string deleteFilePath = deletingShortcut.ScriptFilePath;
 
-                this._allShortcuts.Remove(deletingShortcut);
+                _allShortcuts.Remove(deletingShortcut);
 
                 if (File.Exists(deleteFilePath))
                 {
@@ -258,11 +277,13 @@ namespace Conscripts.ViewModels
                 }
 
                 string shortcutsSaveJson = JsonSerializer.Serialize(_allShortcuts);
-                _ = await StorageFilesService.WriteFileAsync("shortcuts.json", shortcutsSaveJson);
+                await StorageFilesService.WriteFileAsync("shortcuts.json", shortcutsSaveJson);
+
+                LoadShortcuts();
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
+                Trace.WriteLine(e.Message);
             }
         }
     }

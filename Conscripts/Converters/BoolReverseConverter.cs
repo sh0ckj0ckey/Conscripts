@@ -1,22 +1,25 @@
 ﻿using System;
-using Microsoft.UI.Xaml;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Data;
 
 namespace Conscripts.Converters
 {
-    internal class Unequal2VisibilityConverter : IValueConverter
+    internal class BoolReverseConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             try
             {
-                if (value != null && parameter != null)
+                if (value != null)
                 {
-                    return value?.ToString() != parameter?.ToString() ? Visibility.Visible : Visibility.Collapsed;
+                    return bool.Parse(value?.ToString() ?? "True") ? false : true;
                 }
             }
-            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
-            return Visibility.Collapsed;
+            catch { }
+            return false;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
