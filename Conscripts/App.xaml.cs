@@ -38,16 +38,6 @@ namespace Conscripts
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            // 首次启动设置默认窗口尺寸
-            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            if (localSettings.Values["firstRun"] == null)
-            {
-                localSettings.Values["firstRun"] = true;
-                MainWindow.Height = 960;
-                MainWindow.Width = 1280;
-                MainWindow.CenterOnScreen();
-            }
-
             MainWindow.Activate();
         }
 

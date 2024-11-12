@@ -24,10 +24,13 @@ namespace Conscripts
         public MainWindow()
         {
             this.InitializeComponent();
-            this.AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets/Conscripts.ico"));
             this.PersistenceId = "ConscriptsMainWindow";
             this.ExtendsContentIntoTitleBar = true;
             this.SetTitleBar(AppTitleBar);
+
+            string iconPath = Path.Combine(AppContext.BaseDirectory, "Assets/Conscripts.ico");
+            this.SetIcon(iconPath);
+            this.SetTaskBarIcon(Icon.FromFile(iconPath));
 
             this.SwitchAppBackdrop();
 
@@ -45,6 +48,16 @@ namespace Conscripts
 
             // 监听系统主题变化
             ListenThemeColorChange();
+
+            // 首次启动设置默认窗口尺寸
+            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            if (localSettings.Values["firstRun"] == null)
+            {
+                localSettings.Values["firstRun"] = true;
+                this.Height = 680;
+                this.Width = 960;
+                this.CenterOnScreen();
+            }
         }
 
         /// <summary>
