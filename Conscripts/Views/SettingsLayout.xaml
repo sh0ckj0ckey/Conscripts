@@ -36,7 +36,7 @@
                 </Button>
             </controls:SettingsCard>
             <TextBlock Text="个性化" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
-            <controls:SettingsCard Header="主题" Description="选择 &quot;Conscripts&quot; 的外观">
+            <controls:SettingsCard Header="主题" Description="选择 Conscripts 的外观">
                 <controls:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE771;"/>
                 </controls:SettingsCard.HeaderIcon>
@@ -47,7 +47,7 @@
                     <ComboBoxItem Content="明亮"/>
                 </ComboBox>
             </controls:SettingsCard>
-            <controls:SettingsCard Header="背景" Description="选择 &quot;Conscripts&quot; 的背景材质">
+            <controls:SettingsCard Header="背景" Description="选择 Conscripts 的背景材质">
                 <controls:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE727;"/>
                 </controls:SettingsCard.HeaderIcon>
@@ -68,6 +68,18 @@
                         <TextBlock Text="前往查看"/>
                     </StackPanel>
                 </Button>
+            </controls:SettingsCard>
+
+            <TextBlock Text="功能"
+                    Margin="4,10,0,10"
+                    FontWeight="Bold"
+                    FontSize="14"/>
+            <controls:SettingsCard Header="一次性模式"
+                    Description="脚本运行成功后自动退出 Conscripts">
+                <controls:SettingsCard.HeaderIcon>
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            Glyph="&#xE838;"/>
+                </controls:SettingsCard.HeaderIcon>
             </controls:SettingsCard>
             <TextBlock Text="关于" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
             <controls:SettingsCard Header="反馈" Description="如果您遇到问题或有任何建议">
