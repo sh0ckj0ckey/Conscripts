@@ -78,7 +78,7 @@
                     Description="脚本运行成功后自动退出 Conscripts">
                 <controls:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                            Glyph="&#xE838;"/>
+                            Glyph="&#xE945;"/>
                 </controls:SettingsCard.HeaderIcon>
             </controls:SettingsCard>
             <TextBlock Text="关于" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
