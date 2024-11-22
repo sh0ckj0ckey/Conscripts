@@ -24,61 +24,61 @@
                                 <Run Text="Conscripts"/>
                                 <Run Text="{x:Bind _appVersion}" FontSize="12" FontWeight="Normal"/>
                             </TextBlock>
-                            <TextBlock Text="脚本文件启动中心" FontSize="13" Opacity="0.7"/>
+                            <TextBlock x:Uid="SettingsDescriptionTextBlock" FontSize="13" Opacity="0.7"/>
                         </StackPanel>
                     </StackPanel>
                 </controls:SettingsCard.Header>
                 <Button HorizontalAlignment="Right" VerticalAlignment="Center" Click="OnClickGoToStoreRate">
                     <StackPanel Orientation="Horizontal" Spacing="4">
                         <FontIcon FontFamily="Segoe UI Emoji" Glyph="&#x2B50;" FontSize="14" VerticalAlignment="Center"/>
-                        <TextBlock Text="给个好评" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="SettingsRateTextBlock" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
             </controls:SettingsCard>
-            <TextBlock Text="个性化" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
-            <controls:SettingsCard Header="主题" Description="选择 Conscripts 的外观">
+            <TextBlock x:Uid="SettingsPersonalizationTextBlock" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
+            <controls:SettingsCard x:Uid="SettingsThemeSettingsCard">
                 <controls:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE771;"/>
                 </controls:SettingsCard.HeaderIcon>
                 <ComboBox x:Name="ThemeComboBox" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4,0,0,0" MinWidth="128"
-                              SelectedIndex="{x:Bind _viewModel.AppSettings.AppearanceIndex,Mode=TwoWay}">
-                    <ComboBoxItem Content="跟随系统"/>
-                    <ComboBoxItem Content="黑暗"/>
-                    <ComboBoxItem Content="明亮"/>
+                          SelectedIndex="{x:Bind _viewModel.AppSettings.AppearanceIndex,Mode=TwoWay}">
+                    <ComboBoxItem x:Uid="SettingsThemeDefaultComboBoxItem"/>
+                    <ComboBoxItem x:Uid="SettingsThemeDarkComboBoxItem"/>
+                    <ComboBoxItem x:Uid="SettingsThemeLightComboBoxItem"/>
                 </ComboBox>
             </controls:SettingsCard>
-            <controls:SettingsCard Header="背景" Description="选择 Conscripts 的背景材质">
+            <controls:SettingsCard x:Uid="SettingsBackdropSettingsCard">
                 <controls:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE727;"/>
                 </controls:SettingsCard.HeaderIcon>
                 <ComboBox x:Name="BackdropComboBox" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4,0,0,0" MinWidth="128"
-                              SelectedIndex="{x:Bind _viewModel.AppSettings.BackdropIndex,Mode=TwoWay}">
-                    <ComboBoxItem Content="云母"/>
-                    <ComboBoxItem Content="亚克力"/>
+                          SelectedIndex="{x:Bind _viewModel.AppSettings.BackdropIndex,Mode=TwoWay}">
+                    <ComboBoxItem x:Uid="SettingsBackdropMicaComboBoxItem"/>
+                    <ComboBoxItem x:Uid="SettingsBackdropAcrylicComboBoxItem"/>
                 </ComboBox>
             </controls:SettingsCard>
-            <TextBlock Text="数据" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
-            <controls:SettingsCard Header="文件" Description="所有的脚本文件都存放在 &quot;文档&quot; 中">
+            <TextBlock x:Uid="SettingsDataTextBlock" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
+            <controls:SettingsCard x:Uid="SettingsDataFileSettingsCard">
                 <controls:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE838;"/>
                 </controls:SettingsCard.HeaderIcon>
                 <Button Height="32" MinWidth="114" Click="OnClickDbPath">
                     <StackPanel Orientation="Horizontal" Spacing="6">
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE838;" FontSize="14"/>
-                        <TextBlock Text="前往查看"/>
+                        <TextBlock x:Uid="SettingsDataViewFilesTextBlock"/>
                     </StackPanel>
                 </Button>
             </controls:SettingsCard>
 
-            <TextBlock Text="功能" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
-            <controls:SettingsCard Header="一次性模式" Description="在脚本运行结束后，Conscripts 会自动退出">
+            <TextBlock x:Uid="SettingsFeaturesTextBlock" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
+            <controls:SettingsCard x:Uid="SettingsOneShotSettingsCard">
                 <controls:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE945;"/>
                 </controls:SettingsCard.HeaderIcon>
                 <ToggleSwitch MinWidth="0" Background="Transparent" IsOn="{x:Bind _viewModel.AppSettings.OneShotEnabled,Mode=TwoWay}"/>
             </controls:SettingsCard>
-            <TextBlock Text="关于" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
-            <controls:SettingsCard Header="反馈" Description="如果您遇到问题或有任何建议">
+            <TextBlock x:Uid="SettingsAboutTextBlock" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
+            <controls:SettingsCard x:Uid="SettingsContactSettingsCard">
                 <controls:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xED15;"/>
                 </controls:SettingsCard.HeaderIcon>
@@ -89,7 +89,7 @@
                                 <BitmapImage UriSource="ms-appx:///Assets/Icons/icon_mail.png" DecodePixelHeight="40" DecodePixelType="Logical"/>
                             </Image.Source>
                         </Image>
-                        <TextBlock Text="发送邮件" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0"/>
+                        <TextBlock x:Uid="SettingsEmailTextBlock" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0"/>
                     </StackPanel>
                     <Button.Flyout>
                         <Flyout>
@@ -100,18 +100,18 @@
                     </Button.Flyout>
                 </Button>
             </controls:SettingsCard>
-            <controls:SettingsCard Header="源代码" Description="前往 GitHub 查看源代码">
+            <controls:SettingsCard x:Uid="SettingsCodeSettingsCard">
                 <controls:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE943;"/>
                 </controls:SettingsCard.HeaderIcon>
-                <Button Height="34" Click="OnClickGoGitHub" ToolTipService.ToolTip="GitHub 存储库">
+                <Button Height="34" Click="OnClickGoGitHub">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <BitmapIcon UriSource="ms-appx:///Assets/Icons/icon_github.png" Width="20" ShowAsMonochrome="True"/>
-                        <TextBlock Text="GitHub 存储库" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0"/>
+                        <TextBlock x:Uid="SettingsGithubTextBlock" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0"/>
                     </StackPanel>
                 </Button>
             </controls:SettingsCard>
-            <TextBlock Text="©2024 NoMewing." Opacity="0.5" FontFamily="Consolas" FontSize="12" Margin="4,8,4,8"/>
+            <TextBlock Text="© NoMewing." Opacity="0.5" FontFamily="Consolas" FontSize="12" Margin="4,8,4,8"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

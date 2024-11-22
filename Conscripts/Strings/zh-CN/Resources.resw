@@ -118,7 +118,260 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayDesc" xml:space="preserve">
-    <value>统一管理bat和ps1脚本</value>
-    <comment>中文</comment>
+    <value>脚本文件启动中心</value>
+  </data>
+  <data name="AppFeatureButtonNameAdd" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="AppFeatureButtonNameWhatsNew" xml:space="preserve">
+    <value>最近更新</value>
+  </data>
+  <data name="AppFeatureButtonNameSettings" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="PropertyViewFileButtonText" xml:space="preserve">
+    <value>查看文件</value>
+  </data>
+  <data name="PropertyFileNotFoundButtonText" xml:space="preserve">
+    <value>文件不存在</value>
+  </data>
+  <data name="PropertyRenamePlaceholderText" xml:space="preserve">
+    <value>默认使用文件名</value>
+  </data>
+  <data name="AddingNamePlaceholderText" xml:space="preserve">
+    <value>默认使用文件名</value>
+  </data>
+  <data name="AddingCopyNoticeText1" xml:space="preserve">
+    <value>将作为</value>
+  </data>
+  <data name="DialogButtonGotIt" xml:space="preserve">
+    <value>我知道了</value>
+  </data>
+  <data name="AddingCopyNoticeText2" xml:space="preserve">
+    <value>复制到
+"文档\NoMewing\Conscript\"</value>
+  </data>
+  <data name="DialogContentDeleteConfirm1" xml:space="preserve">
+    <value>确定要删除脚本</value>
+  </data>
+  <data name="DialogContentDeleteConfirm2" xml:space="preserve">
+    <value>吗？删除后将无法恢复。</value>
+  </data>
+  <data name="DialogButtonDelete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="DialogButtonCancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="DialogTitleDeleteScript" xml:space="preserve">
+    <value>删除脚本</value>
+  </data>
+  <data name="DialogTitleCannotLaunch" xml:space="preserve">
+    <value>无法运行这个脚本</value>
+  </data>
+  <data name="DialogContentCannotLaunch" xml:space="preserve">
+    <value>文件不存在，可能文件已经被删除或重命名
+文件路径是</value>
+  </data>
+  <data name="AppTitleBarOneShotIcon.ToolTipService.ToolTip" xml:space="preserve">
+    <value>正处于一次性模式</value>
+  </data>
+  <data name="ShortcutFrontMenuItem.Text" xml:space="preserve">
+    <value>置于最前</value>
+  </data>
+  <data name="ShortcutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>属性</value>
+  </data>
+  <data name="ShortcutDeleteMenuItem.Text" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="ShortcutRunasIcon.ToolTipService.ToolTip" xml:space="preserve">
+    <value>将以管理员权限运行</value>
+  </data>
+  <data name="ShortcutNewWindowIcon.ToolTipService.ToolTip" xml:space="preserve">
+    <value>将在新窗口中运行</value>
+  </data>
+  <data name="SettingsTitleTextBlock.Text" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="WhatsNewTitleTextBlock.Text" xml:space="preserve">
+    <value>最近更新</value>
+  </data>
+  <data name="AddTitleTextBlock.Text" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="PropertiesTitleTextBlock.Text" xml:space="preserve">
+    <value>属性</value>
+  </data>
+  <data name="DialogContentDropedFileInvalid" xml:space="preserve">
+    <value>仅支持 .bat 或者 .ps1 文件</value>
+  </data>
+  <data name="DialogTitleDropedFileInvalid" xml:space="preserve">
+    <value>这个不行</value>
+  </data>
+  <data name="AddingChooseFileTextBlock.Text" xml:space="preserve">
+    <value>选择文件</value>
+  </data>
+  <data name="AddingDropFileTextBlock.Text" xml:space="preserve">
+    <value>或拖拽文件至此</value>
+  </data>
+  <data name="AddingChooseAgainTextBlock.Text" xml:space="preserve">
+    <value>重新选择</value>
+  </data>
+  <data name="AddingShortcutNameTextBlock.Text" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="AddingShortcutCategoryTextBlock.Text" xml:space="preserve">
+    <value>分类</value>
+  </data>
+  <data name="AddingShortcutCategoryTextBox.PlaceholderText" xml:space="preserve">
+    <value>未分类</value>
+  </data>
+  <data name="AddingShortcutColorTextBlock.Text" xml:space="preserve">
+    <value>颜色</value>
+  </data>
+  <data name="AddingShortcutColorGrayTextBlock.Text" xml:space="preserve">
+    <value>灰色</value>
+  </data>
+  <data name="AddingShortcutColorBrownTextBlock.Text" xml:space="preserve">
+    <value>棕色</value>
+  </data>
+  <data name="AddingShortcutColorPinkTextBlock.Text" xml:space="preserve">
+    <value>粉色</value>
+  </data>
+  <data name="AddingShortcutColorPurpleTextBlock.Text" xml:space="preserve">
+    <value>紫色</value>
+  </data>
+  <data name="AddingShortcutColorBlueTextBlock.Text" xml:space="preserve">
+    <value>蓝色</value>
+  </data>
+  <data name="AddingShortcutColorGreenTextBlock.Text" xml:space="preserve">
+    <value>绿色</value>
+  </data>
+  <data name="AddingShortcutColorYellowTextBlock.Text" xml:space="preserve">
+    <value>黄色</value>
+  </data>
+  <data name="AddingShortcutColorOrangeTextBlock.Text" xml:space="preserve">
+    <value>橙色</value>
+  </data>
+  <data name="AddingShortcutColorRedTextBlock.Text" xml:space="preserve">
+    <value>红色</value>
+  </data>
+  <data name="AddingShortcutRunasCheckBox.Content" xml:space="preserve">
+    <value>以管理员身份运行</value>
+  </data>
+  <data name="AddingShortcutNoWindowCheckBox.Content" xml:space="preserve">
+    <value>无窗口运行</value>
+  </data>
+  <data name="AddingShortcutIconTextBlock.Text" xml:space="preserve">
+    <value>图标</value>
+  </data>
+  <data name="AddingShortcutResetTextBlock.Text" xml:space="preserve">
+    <value>重置</value>
+  </data>
+  <data name="AddingShortcutAddTextBlock.Text" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="PropertyEditResetTextBlock.Text" xml:space="preserve">
+    <value>还原</value>
+  </data>
+  <data name="PropertyEditSaveTextBlock.Text" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="SettingsDescriptionTextBlock.Text" xml:space="preserve">
+    <value>脚本文件启动中心</value>
+  </data>
+  <data name="SettingsRateTextBlock.Text" xml:space="preserve">
+    <value>给个好评</value>
+  </data>
+  <data name="SettingsPersonalizationTextBlock.Text" xml:space="preserve">
+    <value>个性化</value>
+  </data>
+  <data name="SettingsThemeSettingsCard.Header" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="SettingsThemeSettingsCard.Description" xml:space="preserve">
+    <value>选择 Conscripts 的外观</value>
+  </data>
+  <data name="SettingsThemeDefaultComboBoxItem.Content" xml:space="preserve">
+    <value>跟随系统</value>
+  </data>
+  <data name="SettingsThemeLightComboBoxItem.Content" xml:space="preserve">
+    <value>明亮</value>
+  </data>
+  <data name="SettingsThemeDarkComboBoxItem.Content" xml:space="preserve">
+    <value>黑暗</value>
+  </data>
+  <data name="SettingsBackdropSettingsCard.Header" xml:space="preserve">
+    <value>背景</value>
+  </data>
+  <data name="SettingsBackdropSettingsCard.Description" xml:space="preserve">
+    <value>选择 Conscripts 的背景材质</value>
+  </data>
+  <data name="SettingsBackdropMicaComboBoxItem.Content" xml:space="preserve">
+    <value>云母</value>
+  </data>
+  <data name="SettingsBackdropAcrylicComboBoxItem.Content" xml:space="preserve">
+    <value>亚克力</value>
+  </data>
+  <data name="SettingsDataTextBlock.Text" xml:space="preserve">
+    <value>数据</value>
+  </data>
+  <data name="SettingsDataFileSettingsCard.Header" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="SettingsDataFileSettingsCard.Description" xml:space="preserve">
+    <value>所有的脚本文件都存放在 "文档" 中</value>
+  </data>
+  <data name="SettingsDataViewFilesTextBlock.Text" xml:space="preserve">
+    <value>前往查看</value>
+  </data>
+  <data name="SettingsFeaturesTextBlock.Text" xml:space="preserve">
+    <value>功能</value>
+  </data>
+  <data name="SettingsOneShotSettingsCard.Header" xml:space="preserve">
+    <value>一次性模式</value>
+  </data>
+  <data name="SettingsOneShotSettingsCard.Description" xml:space="preserve">
+    <value>在脚本运行结束后，Conscripts 会自动退出</value>
+  </data>
+  <data name="SettingsAboutTextBlock.Text" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="SettingsContactSettingsCard.Header" xml:space="preserve">
+    <value>反馈</value>
+  </data>
+  <data name="SettingsContactSettingsCard.Description" xml:space="preserve">
+    <value>如果您遇到问题或有任何建议</value>
+  </data>
+  <data name="SettingsEmailTextBlock.Text" xml:space="preserve">
+    <value>发送邮件</value>
+  </data>
+  <data name="SettingsGithubTextBlock.Text" xml:space="preserve">
+    <value>GitHub 存储库</value>
+  </data>
+  <data name="SettingsCodeSettingsCard.Header" xml:space="preserve">
+    <value>源代码</value>
+  </data>
+  <data name="SettingsCodeSettingsCard.Description" xml:space="preserve">
+    <value>前往 GitHub 查看源代码</value>
+  </data>
+  <data name="WhatsNewUpdateTitle2024NovTextBlock.Text" xml:space="preserve">
+    <value>2024年11月更新</value>
+  </data>
+  <data name="WhatsNewUpdateTitle2024NovRun1.Text" xml:space="preserve">
+    <value>对应用图标和用户界面进行了翻新，支持了英文语言；</value>
+  </data>
+  <data name="WhatsNewUpdateTitle2024NovRun2.Text" xml:space="preserve">
+    <value>现在点击脚本卡片将会立即运行，其他操作移至卡片的右键菜单中；</value>
+  </data>
+  <data name="WhatsNewUpdateTitle2024NovRun3.Text" xml:space="preserve">
+    <value>添加脚本时，新增 "分类" 选项，脚本列表将会据此分组显示；</value>
+  </data>
+  <data name="WhatsNewUpdateTitle2024NovRun4.Text" xml:space="preserve">
+    <value>添加脚本时，新增 "无窗口" 选项，运行时不会弹出新的窗口，如果您需要与命令行交互或者查看输出，则不要勾选此选项；</value>
+  </data>
+  <data name="WhatsNewUpdateTitle2024NovRun5.Text" xml:space="preserve">
+    <value>新增了 "一次性模式" 设置项，开启后，程序会在脚本运行结束后自动退出。</value>
   </data>
 </root>

@@ -16,13 +16,13 @@
                     <BitmapImage UriSource="/Assets/Conscripts_Placeholder.png" DecodePixelType="Logical" DecodePixelHeight="192"/>
                 </Image.Source>
             </Image>
-            <TextBlock Text="2024年11月更新" Margin="0,20,0,0" FontWeight="Bold" FontSize="16"/>
+            <TextBlock x:Uid="WhatsNewUpdateTitle2024NovTextBlock" Margin="0,20,0,0" FontWeight="Bold" FontSize="16"/>
             <TextBlock Margin="0,0,0,4" FontSize="14" LineHeight="20" TextWrapping="WrapWholeWords" CharacterSpacing="48">
-                <LineBreak/><Run Text="对应用图标和用户界面进行了翻新，支持了英文语言；"/><LineBreak/>
-                <LineBreak/><Run Text="现在点击脚本卡片将会立即运行，其他操作移至卡片的右键菜单中；"/><LineBreak/>
-                <LineBreak/><Run Text="添加脚本时，新增&quot;分类&quot;选项，脚本列表将会据此分组显示；"/><LineBreak/>
-                <LineBreak/><Run Text="添加脚本时，新增&quot;无窗口&quot;选项，运行时不会弹出新的窗口，如果您需要与命令行交互或者查看输出，则不要勾选此选项；"/><LineBreak/>
-                <LineBreak/><Run Text="新增了&quot;一次性模式&quot;设置项，开启后，程序会在脚本运行结束后自动退出。"/><LineBreak/>
+                <LineBreak/><Run x:Uid="WhatsNewUpdateTitle2024NovRun1"/><LineBreak/>
+                <LineBreak/><Run x:Uid="WhatsNewUpdateTitle2024NovRun2"/><LineBreak/>
+                <LineBreak/><Run x:Uid="WhatsNewUpdateTitle2024NovRun3"/><LineBreak/>
+                <LineBreak/><Run x:Uid="WhatsNewUpdateTitle2024NovRun4"/><LineBreak/>
+                <LineBreak/><Run x:Uid="WhatsNewUpdateTitle2024NovRun5"/><LineBreak/>
             </TextBlock>
         </StackPanel>
     </ScrollViewer>

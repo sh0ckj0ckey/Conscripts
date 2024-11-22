@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Conscripts.Helpers;
 using Conscripts.Models;
 using Conscripts.ViewModels;
 using Microsoft.UI.Xaml;
@@ -69,9 +70,9 @@ namespace Conscripts.Views
                     {
                         await new ContentDialog
                         {
-                            Title = "无法运行这个脚本",
-                            Content = $"文件不存在，可能文件已经被删除或者重命名。\r\n文件路径是 {shortcut.ScriptFilePath}。",
-                            CloseButtonText = "我知道了",
+                            Title = "DialogTitleCannotLaunch".GetLocalized(),
+                            Content = $"{"DialogContentCannotLaunch".GetLocalized()} {shortcut.ScriptFilePath}",
+                            CloseButtonText = "DialogButtonGotIt".GetLocalized(),
                             XamlRoot = this.XamlRoot,
                             RequestedTheme = this.ActualTheme,
                         }.ShowAsync();
@@ -152,10 +153,10 @@ namespace Conscripts.Views
             {
                 ContentDialogResult result = await new ContentDialog
                 {
-                    Title = "删除脚本",
-                    Content = $"确定要删除脚本 \"{shortcut?.ShortcutName}\" 吗？删除后将无法恢复。",
-                    PrimaryButtonText = "删除",
-                    CloseButtonText = "取消",
+                    Title = "DialogTitleDeleteScript".GetLocalized(),
+                    Content = $"{"DialogContentDeleteConfirm1".GetLocalized()} \"{shortcut?.ShortcutName}\" {"DialogContentDeleteConfirm2".GetLocalized()}",
+                    PrimaryButtonText = "DialogButtonDelete".GetLocalized(),
+                    CloseButtonText = "DialogButtonCancel".GetLocalized(),
                     XamlRoot = this.XamlRoot,
                     RequestedTheme = this.ActualTheme,
                     DefaultButton = ContentDialogButton.Close

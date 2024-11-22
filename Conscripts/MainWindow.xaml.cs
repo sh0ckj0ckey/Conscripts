@@ -107,13 +107,15 @@ namespace Conscripts
         {
             try
             {
-                // 设置标题栏颜色
+                // 设置标题栏颜色 主题 0-System 1-Dark 2-Light
                 bool isLight = true;
-                if (MainViewModel.Instance.AppSettings.AppearanceIndex == 0) // 主题 0-System 1-Dark 2-Light
+                if (MainViewModel.Instance.AppSettings.AppearanceIndex == 0)
                 {
                     var color = _uiSettings?.GetColorValue(UIColorType.Foreground) ?? Colors.Black;
+                    
+                    // g越小，颜色越深
                     var g = color.R * 0.299 + color.G * 0.587 + color.B * 0.114;
-                    isLight = g < 100; // g越小，颜色越深
+                    isLight = g < 100;
                 }
                 else
                 {

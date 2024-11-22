@@ -111,7 +111,7 @@ namespace Conscripts.Views
         /// </summary>
         private void UpdateLayoutByChosenFile()
         {
-            AddingShortcutNameTextBox.PlaceholderText = "默认使用脚本文件名";
+            AddingShortcutNameTextBox.PlaceholderText = "AddingNamePlaceholderText".GetLocalized();
 
             if (string.IsNullOrWhiteSpace(_chosenFile?.Name))
             {
@@ -127,7 +127,7 @@ namespace Conscripts.Views
                     FileSelectedStackPanel.Visibility = Visibility.Visible;
                     Ps1FileIconImage.Visibility = Visibility.Collapsed;
                     BatFileIconImage.Visibility = Visibility.Visible;
-                    CopyTipTextBlock.Text = $"将作为 {_desireFileName}.bat 复制到\r\n \"文档\\NoMewing\\Conscript\\\"";
+                    CopyTipTextBlock.Text = $"{"AddingCopyNoticeText1".GetLocalized()} {_desireFileName}.bat {"AddingCopyNoticeText2".GetLocalized()}";
                     AddingShortcutNameTextBox.PlaceholderText = _chosenFile.DisplayName;
                 }
                 else if (fileExt == ".ps1")
@@ -136,7 +136,7 @@ namespace Conscripts.Views
                     FileSelectedStackPanel.Visibility = Visibility.Visible;
                     Ps1FileIconImage.Visibility = Visibility.Visible;
                     BatFileIconImage.Visibility = Visibility.Collapsed;
-                    CopyTipTextBlock.Text = $"将作为 {_desireFileName}.ps1 复制到\r\n \"文档\\NoMewing\\Conscript\\\"";
+                    CopyTipTextBlock.Text = $"{"AddingCopyNoticeText1".GetLocalized()} {_desireFileName}.ps1 {"AddingCopyNoticeText2".GetLocalized()}";
                     AddingShortcutNameTextBox.PlaceholderText = _chosenFile.DisplayName;
                 }
                 else
@@ -158,7 +158,7 @@ namespace Conscripts.Views
                 _chosenFile = null;
 
                 AddingShortcutNameTextBox.Text = "";
-                AddingShortcutNameTextBox.PlaceholderText = "默认使用脚本文件名";
+                AddingShortcutNameTextBox.PlaceholderText = "AddingNamePlaceholderText".GetLocalized();
                 AddingShortcutCategoryTextBox.Text = "";
                 AddingShortcutColorComboBox.SelectedIndex = 4;
                 AddingShortcutIconGridView.SelectedIndex = -1;
@@ -241,6 +241,8 @@ namespace Conscripts.Views
         {
             try
             {
+                StorageFile dropedFile = null;
+
                 if (e.DataView.Contains(StandardDataFormats.StorageItems))
                 {
                     var items = await e.DataView.GetStorageItemsAsync();
@@ -249,11 +251,27 @@ namespace Conscripts.Views
                         if (file.FileType.Equals(".bat", StringComparison.CurrentCultureIgnoreCase) ||
                             file.FileType.Equals(".ps1", StringComparison.CurrentCultureIgnoreCase))
                         {
-                            _chosenFile = file;
+                            dropedFile = file;
                             UpdateLayoutByChosenFile();
                             break;
                         }
                     }
+                }
+
+                if (dropedFile != null)
+                {
+                    _chosenFile = dropedFile;
+                }
+                else
+                {
+                    await new ContentDialog
+                    {
+                        Title = "DialogTitleDropedFileInvalid".GetLocalized(),
+                        Content = "DialogContentDropedFileInvalid".GetLocalized(),
+                        CloseButtonText = "DialogButtonGotIt".GetLocalized(),
+                        XamlRoot = this.XamlRoot,
+                        RequestedTheme = this.ActualTheme,
+                    }.ShowAsync();
                 }
             }
             catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }

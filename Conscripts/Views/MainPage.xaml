@@ -51,8 +51,8 @@
                 </Image>
             </Grid>
             <TextBlock Grid.Column="1" Margin="8,0,0,0" Text="Conscripts" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <FontIcon Grid.Column="2" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE945;" FontSize="16" Margin="8,0,0,-4" Opacity="0.7" 
-                      ToolTipService.ToolTip="正处于一次性模式" Visibility="{x:Bind _viewModel.AppSettings.OneShotEnabled,Mode=OneWay,Converter={StaticResource Bool2Vis}}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <FontIcon x:Uid="AppTitleBarOneShotIcon" Grid.Column="2" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE945;" FontSize="16" Margin="8,0,0,-4" Opacity="0.5" 
+                      Visibility="{x:Bind _viewModel.AppSettings.OneShotEnabled,Mode=OneWay,Converter={StaticResource Bool2Vis}}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         </Grid>
 
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">
@@ -81,18 +81,18 @@
                                             ContextRequested="Button_ContextRequested" Click="Button_Click" IsEnabled="{x:Bind Running,Mode=OneWay,Converter={StaticResource BoolReverse}}">
                                         <Button.Resources>
                                             <MenuFlyout x:Key="ShortcutMenuFlyout" Placement="Bottom">
-                                                <MenuFlyoutItem x:Name="FrontMenuItem" DataContext="{x:Bind }" Text="置于最前" Click="FrontMenuItem_Click">
+                                                <MenuFlyoutItem x:Name="FrontMenuItem" x:Uid="ShortcutFrontMenuItem" DataContext="{x:Bind }" Click="FrontMenuItem_Click">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEA4F;"/>
                                                     </MenuFlyoutItem.Icon>
                                                 </MenuFlyoutItem>
-                                                <MenuFlyoutItem x:Name="InfoMenuItem" DataContext="{x:Bind }" Text="属性" Click="InfoMenuItem_Click">
+                                                <MenuFlyoutItem x:Name="InfoMenuItem" x:Uid="ShortcutPropertiesMenuItem" DataContext="{x:Bind }" Click="InfoMenuItem_Click">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE90F;"/>
                                                     </MenuFlyoutItem.Icon>
                                                 </MenuFlyoutItem>
                                                 <MenuFlyoutSeparator/>
-                                                <MenuFlyoutItem x:Name="DeleteMenuItem" DataContext="{x:Bind }" Text="删除" Click="DeleteMenuItem_Click">
+                                                <MenuFlyoutItem x:Name="DeleteMenuItem" x:Uid="ShortcutDeleteMenuItem" DataContext="{x:Bind }" Click="DeleteMenuItem_Click">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE74D;"/>
                                                     </MenuFlyoutItem.Icon>
@@ -111,8 +111,8 @@
                                                        HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
 
                                             <StackPanel Orientation="Horizontal" Margin="12,8" Spacing="8" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                                                <FontIcon Glyph="&#xEA18;" Visibility="{x:Bind ShortcutRunas,Mode=OneWay,Converter={StaticResource Bool2Vis}}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Opacity="0.5" ToolTipService.ToolTip="将以管理员权限运行"/>
-                                                <FontIcon Glyph="&#xF7ED;" Visibility="{x:Bind NoWindow,Mode=OneWay,Converter={StaticResource Bool2Vis},ConverterParameter=!}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Opacity="0.5" ToolTipService.ToolTip="将在新窗口中运行"/>
+                                                <FontIcon x:Uid="ShortcutRunasIcon" Glyph="&#xEA18;" Visibility="{x:Bind ShortcutRunas,Mode=OneWay,Converter={StaticResource Bool2Vis}}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Opacity="0.5"/>
+                                                <FontIcon x:Uid="ShortcutNewWindowIcon" Glyph="&#xF7ED;" Visibility="{x:Bind NoWindow,Mode=OneWay,Converter={StaticResource Bool2Vis},ConverterParameter=!}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Opacity="0.5"/>
                                             </StackPanel>
                                         </Grid>
                                     </Button>
@@ -146,7 +146,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="设置" Margin="24,16,0,16" FontWeight="Bold" FontSize="20"/>
+                <TextBlock x:Uid="SettingsTitleTextBlock" Margin="24,16,0,16" FontWeight="Bold" FontSize="20"/>
                 <Button Height="38" Width="38" Padding="0" Margin="0,0,20,0" Background="Transparent" BorderBrush="Transparent" 
                         HorizontalAlignment="Right" VerticalAlignment="Center" Click="CloseSettings_Click">
                     <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
@@ -173,7 +173,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="最近更新" Margin="24,16,0,16" FontWeight="Bold" FontSize="20"/>
+                <TextBlock x:Uid="WhatsNewTitleTextBlock" Margin="24,16,0,16" FontWeight="Bold" FontSize="20"/>
                 <Button Height="38" Width="38" Padding="0" Margin="0,0,20,0" Background="Transparent" BorderBrush="Transparent" 
                         HorizontalAlignment="Right" VerticalAlignment="Center" Click="CloseWhatsNew_Click">
                     <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
@@ -200,7 +200,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="添加" Margin="24,16,0,16" FontWeight="Bold" FontSize="20"/>
+                <TextBlock x:Uid="AddTitleTextBlock" Margin="24,16,0,16" FontWeight="Bold" FontSize="20"/>
                 <Button Height="38" Width="38" Padding="0" Margin="0,0,20,0" Background="Transparent" BorderBrush="Transparent" 
                         HorizontalAlignment="Right" VerticalAlignment="Center" Click="CloseAdding_Click">
                     <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
@@ -227,7 +227,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="属性" Margin="24,16,0,16" FontWeight="Bold" FontSize="20"/>
+                <TextBlock x:Uid="PropertiesTitleTextBlock" Margin="24,16,0,16" FontWeight="Bold" FontSize="20"/>
                 <Button Height="38" Width="38" Padding="0" Margin="0,0,20,0" Background="Transparent" BorderBrush="Transparent" 
                         HorizontalAlignment="Right" VerticalAlignment="Center" Click="CloseProperty_Click">
                     <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>

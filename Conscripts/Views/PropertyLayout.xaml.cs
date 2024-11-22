@@ -72,7 +72,7 @@ namespace Conscripts.Views
             {
                 ShortcutIcon.Glyph = _shortcut?.ShortcutIcon ?? "\uE756";
                 ShortcutNameTextBox.Text = _shortcut?.ShortcutName ?? "";
-                ShortcutNameTextBox.PlaceholderText = _shortcut?.ShortcutName ?? "默认使用脚本文件名";
+                ShortcutNameTextBox.PlaceholderText = _shortcut?.ShortcutName ?? "PropertyRenamePlaceholderText".GetLocalized();
                 ShortcutCategoryTextBox.Text = _shortcut?.Category ?? "";
                 ShortcutCategoryTextBox.PlaceholderText = _shortcut?.Category ?? "";
 
@@ -102,7 +102,7 @@ namespace Conscripts.Views
 
                 bool fileExists = !string.IsNullOrWhiteSpace(_shortcut?.ScriptFilePath) && File.Exists(_shortcut?.ScriptFilePath);
                 ViewFileButton.IsEnabled = fileExists;
-                ViewFileTextBlock.Text = fileExists ? "查看文件" : "文件不存在";
+                ViewFileTextBlock.Text = fileExists ? "PropertyViewFileButtonText".GetLocalized() : "PropertyFileNotFoundButtonText".GetLocalized();
 
                 //if (fileExists)
                 //{

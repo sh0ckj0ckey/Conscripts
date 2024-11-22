@@ -118,7 +118,260 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayDesc" xml:space="preserve">
-    <value>bat and ps1 scripts all in one</value>
-    <comment>英文</comment>
+    <value>Batch Scripts Organizer</value>
+  </data>
+  <data name="AppFeatureButtonNameAdd" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AppFeatureButtonNameWhatsNew" xml:space="preserve">
+    <value>What's New</value>
+  </data>
+  <data name="AppFeatureButtonNameSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="PropertyViewFileButtonText" xml:space="preserve">
+    <value>View File</value>
+  </data>
+  <data name="PropertyFileNotFoundButtonText" xml:space="preserve">
+    <value>File Not Found</value>
+  </data>
+  <data name="PropertyRenamePlaceholderText" xml:space="preserve">
+    <value>Default to file name</value>
+  </data>
+  <data name="AddingNamePlaceholderText" xml:space="preserve">
+    <value>Default to file name</value>
+  </data>
+  <data name="AddingCopyNoticeText1" xml:space="preserve">
+    <value>Will be copied as</value>
+  </data>
+  <data name="DialogButtonGotIt" xml:space="preserve">
+    <value>Got it</value>
+  </data>
+  <data name="AddingCopyNoticeText2" xml:space="preserve">
+    <value>to
+"Documents\NoMewing\Conscript\"</value>
+  </data>
+  <data name="DialogContentDeleteConfirm1" xml:space="preserve">
+    <value>Are you sure you want to delete</value>
+  </data>
+  <data name="DialogContentDeleteConfirm2" xml:space="preserve">
+    <value>? The deletion is permanent.</value>
+  </data>
+  <data name="DialogButtonDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DialogButtonCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DialogTitleDeleteScript" xml:space="preserve">
+    <value>Delete script</value>
+  </data>
+  <data name="DialogTitleCannotLaunch" xml:space="preserve">
+    <value>Cannot launch this script</value>
+  </data>
+  <data name="DialogContentCannotLaunch" xml:space="preserve">
+    <value>Script file not found, it may have been deleted or renamed
+File name is</value>
+  </data>
+  <data name="AppTitleBarOneShotIcon.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Currently in One Shot mode.</value>
+  </data>
+  <data name="ShortcutFrontMenuItem.Text" xml:space="preserve">
+    <value>Move to front</value>
+  </data>
+  <data name="ShortcutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="ShortcutDeleteMenuItem.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="ShortcutRunasIcon.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Will run as Administrator</value>
+  </data>
+  <data name="ShortcutNewWindowIcon.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Will run in a new window</value>
+  </data>
+  <data name="SettingsTitleTextBlock.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="WhatsNewTitleTextBlock.Text" xml:space="preserve">
+    <value>What's New</value>
+  </data>
+  <data name="AddTitleTextBlock.Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="PropertiesTitleTextBlock.Text" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="DialogContentDropedFileInvalid" xml:space="preserve">
+    <value>Only supports .bat or .ps1 files</value>
+  </data>
+  <data name="DialogTitleDropedFileInvalid" xml:space="preserve">
+    <value>This doesn't work</value>
+  </data>
+  <data name="AddingChooseFileTextBlock.Text" xml:space="preserve">
+    <value>Choose File</value>
+  </data>
+  <data name="AddingDropFileTextBlock.Text" xml:space="preserve">
+    <value>or Drag &amp; Drop a file here</value>
+  </data>
+  <data name="AddingChooseAgainTextBlock.Text" xml:space="preserve">
+    <value>Choose File</value>
+  </data>
+  <data name="AddingShortcutNameTextBlock.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="AddingShortcutCategoryTextBlock.Text" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="AddingShortcutCategoryTextBox.PlaceholderText" xml:space="preserve">
+    <value>Uncategorized</value>
+  </data>
+  <data name="AddingShortcutColorTextBlock.Text" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="AddingShortcutColorGrayTextBlock.Text" xml:space="preserve">
+    <value>Gray</value>
+  </data>
+  <data name="AddingShortcutColorBrownTextBlock.Text" xml:space="preserve">
+    <value>Brown</value>
+  </data>
+  <data name="AddingShortcutColorPinkTextBlock.Text" xml:space="preserve">
+    <value>Pink</value>
+  </data>
+  <data name="AddingShortcutColorPurpleTextBlock.Text" xml:space="preserve">
+    <value>Purple</value>
+  </data>
+  <data name="AddingShortcutColorBlueTextBlock.Text" xml:space="preserve">
+    <value>Blue</value>
+  </data>
+  <data name="AddingShortcutColorGreenTextBlock.Text" xml:space="preserve">
+    <value>Green</value>
+  </data>
+  <data name="AddingShortcutColorYellowTextBlock.Text" xml:space="preserve">
+    <value>Yellow</value>
+  </data>
+  <data name="AddingShortcutColorOrangeTextBlock.Text" xml:space="preserve">
+    <value>Orange</value>
+  </data>
+  <data name="AddingShortcutColorRedTextBlock.Text" xml:space="preserve">
+    <value>Red</value>
+  </data>
+  <data name="AddingShortcutRunasCheckBox.Content" xml:space="preserve">
+    <value>Run as Administrator</value>
+  </data>
+  <data name="AddingShortcutNoWindowCheckBox.Content" xml:space="preserve">
+    <value>Run without new window</value>
+  </data>
+  <data name="AddingShortcutIconTextBlock.Text" xml:space="preserve">
+    <value>Icon</value>
+  </data>
+  <data name="AddingShortcutResetTextBlock.Text" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="AddingShortcutAddTextBlock.Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="PropertyEditResetTextBlock.Text" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="PropertyEditSaveTextBlock.Text" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SettingsDescriptionTextBlock.Text" xml:space="preserve">
+    <value>Batch Scripts Organizer</value>
+  </data>
+  <data name="SettingsRateTextBlock.Text" xml:space="preserve">
+    <value>Rate &amp; Review</value>
+  </data>
+  <data name="SettingsPersonalizationTextBlock.Text" xml:space="preserve">
+    <value>Personalization</value>
+  </data>
+  <data name="SettingsThemeSettingsCard.Header" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="SettingsThemeSettingsCard.Description" xml:space="preserve">
+    <value>Select theme of Conscripts</value>
+  </data>
+  <data name="SettingsThemeDefaultComboBoxItem.Content" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="SettingsThemeLightComboBoxItem.Content" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="SettingsThemeDarkComboBoxItem.Content" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="SettingsBackdropSettingsCard.Header" xml:space="preserve">
+    <value>Backdrop</value>
+  </data>
+  <data name="SettingsBackdropSettingsCard.Description" xml:space="preserve">
+    <value>Select backdrop material of Conscripts</value>
+  </data>
+  <data name="SettingsBackdropMicaComboBoxItem.Content" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="SettingsBackdropAcrylicComboBoxItem.Content" xml:space="preserve">
+    <value>Acrylic</value>
+  </data>
+  <data name="SettingsDataTextBlock.Text" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="SettingsDataFileSettingsCard.Header" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="SettingsDataFileSettingsCard.Description" xml:space="preserve">
+    <value>Script files are stored in "Documents"</value>
+  </data>
+  <data name="SettingsDataViewFilesTextBlock.Text" xml:space="preserve">
+    <value>View Files</value>
+  </data>
+  <data name="SettingsFeaturesTextBlock.Text" xml:space="preserve">
+    <value>Features</value>
+  </data>
+  <data name="SettingsOneShotSettingsCard.Header" xml:space="preserve">
+    <value>One Shot mode</value>
+  </data>
+  <data name="SettingsOneShotSettingsCard.Description" xml:space="preserve">
+    <value>Conscripts will exit after the script execution finishes</value>
+  </data>
+  <data name="SettingsAboutTextBlock.Text" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="SettingsContactSettingsCard.Header" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="SettingsContactSettingsCard.Description" xml:space="preserve">
+    <value>If you encounter any issues or have any suggestions</value>
+  </data>
+  <data name="SettingsEmailTextBlock.Text" xml:space="preserve">
+    <value>Send Email</value>
+  </data>
+  <data name="SettingsGithubTextBlock.Text" xml:space="preserve">
+    <value>GitHub Repository</value>
+  </data>
+  <data name="SettingsCodeSettingsCard.Header" xml:space="preserve">
+    <value>Source code</value>
+  </data>
+  <data name="SettingsCodeSettingsCard.Description" xml:space="preserve">
+    <value>Go to GitHub to view the source code</value>
+  </data>
+  <data name="WhatsNewUpdateTitle2024NovTextBlock.Text" xml:space="preserve">
+    <value>Updates in November 2024</value>
+  </data>
+  <data name="WhatsNewUpdateTitle2024NovRun1.Text" xml:space="preserve">
+    <value>The app icon and UI have been remaked, and English language support has been added;</value>
+  </data>
+  <data name="WhatsNewUpdateTitle2024NovRun2.Text" xml:space="preserve">
+    <value>Clicking the script card now runs the script immediately, with other actions moved to the card's right-click menu;</value>
+  </data>
+  <data name="WhatsNewUpdateTitle2024NovRun3.Text" xml:space="preserve">
+    <value>When adding scripts, a new "Category" option has been added, and the script list will be grouped accordingly;</value>
+  </data>
+  <data name="WhatsNewUpdateTitle2024NovRun4.Text" xml:space="preserve">
+    <value>When adding scripts, a new "No Window" option has been added. If this option is selected, no new window will pop up during execution. If you need to interact with the command line or view the output, do not select this option;</value>
+  </data>
+  <data name="WhatsNewUpdateTitle2024NovRun5.Text" xml:space="preserve">
+    <value>A new "One Shot mode" setting has been added. When enabled, the program will automatically exit after the script finishes running.</value>
   </data>
 </root>

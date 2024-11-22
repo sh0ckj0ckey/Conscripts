@@ -48,16 +48,15 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="名称" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
+                    <TextBlock x:Uid="AddingShortcutNameTextBlock" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
                     <TextBox x:Name="ShortcutNameTextBox" Grid.Column="1" FontSize="14" Height="34" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                 </Grid>
-                <!--<TextBlock x:Name="ShortcutFileNameTextBlock" FontSize="14" Opacity="0.7" HorizontalAlignment="Right" VerticalAlignment="Center"/>-->
                 <Grid ColumnSpacing="16" Margin="0,8,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="分类" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
+                    <TextBlock x:Uid="AddingShortcutCategoryTextBlock" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
                     <AutoSuggestBox x:Name="ShortcutCategoryTextBox" Grid.Column="1" MaxSuggestionListHeight="128" ItemsSource="{x:Bind _viewModel.Categories,Mode=OneWay}" FontSize="14" Height="34" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                 </Grid>
                 <Grid ColumnSpacing="16" Margin="0,8,0,8" HorizontalAlignment="Stretch" VerticalAlignment="Top">
@@ -65,8 +64,8 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="颜色" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
-                    <ComboBox x:Name="ShortcutColorComboBox" Grid.Column="1" MinWidth="104" Height="34" SelectedIndex="4" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock x:Uid="AddingShortcutColorTextBlock" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="ShortcutColorComboBox" Grid.Column="1" MinWidth="114" Height="34" SelectedIndex="4" HorizontalAlignment="Right" VerticalAlignment="Center">
                         <ComboBoxItem>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -74,7 +73,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Ellipse Grid.Column="0" Height="14" Width="14" Fill="Firebrick" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="1" Text="红色" Margin="0,0,0,0" HorizontalAlignment="Right"/>
+                                <TextBlock x:Uid="AddingShortcutColorRedTextBlock" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Right"/>
                             </Grid>
                         </ComboBoxItem>
                         <ComboBoxItem>
@@ -84,7 +83,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Ellipse Grid.Column="0" Height="14" Width="14" Fill="Tomato" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="1" Text="橙色" Margin="0,0,0,0" HorizontalAlignment="Right"/>
+                                <TextBlock x:Uid="AddingShortcutColorOrangeTextBlock" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Right"/>
                             </Grid>
                         </ComboBoxItem>
                         <ComboBoxItem>
@@ -94,7 +93,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Ellipse Grid.Column="0" Height="14" Width="14" Fill="Goldenrod" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="1" Text="黄色" Margin="0,0,0,0" HorizontalAlignment="Right"/>
+                                <TextBlock x:Uid="AddingShortcutColorYellowTextBlock" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Right"/>
                             </Grid>
                         </ComboBoxItem>
                         <ComboBoxItem>
@@ -104,7 +103,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Ellipse Grid.Column="0" Height="14" Width="14" Fill="ForestGreen" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="1" Text="绿色" Margin="0,0,0,0" HorizontalAlignment="Right"/>
+                                <TextBlock x:Uid="AddingShortcutColorGreenTextBlock" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Right"/>
                             </Grid>
                         </ComboBoxItem>
                         <ComboBoxItem>
@@ -114,7 +113,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Ellipse Grid.Column="0" Height="14" Width="14" Fill="DodgerBlue" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="1" Text="蓝色" Margin="0,0,0,0" HorizontalAlignment="Right"/>
+                                <TextBlock x:Uid="AddingShortcutColorBlueTextBlock" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Right"/>
                             </Grid>
                         </ComboBoxItem>
                         <ComboBoxItem>
@@ -124,7 +123,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Ellipse Grid.Column="0" Height="14" Width="14" Fill="Orchid" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="1" Text="紫色" Margin="0,0,0,0" HorizontalAlignment="Right"/>
+                                <TextBlock x:Uid="AddingShortcutColorPurpleTextBlock" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Right"/>
                             </Grid>
                         </ComboBoxItem>
                         <ComboBoxItem>
@@ -134,7 +133,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Ellipse Grid.Column="0" Height="14" Width="14" Fill="DeepPink" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="1" Text="粉色" Margin="0,0,0,0" HorizontalAlignment="Right"/>
+                                <TextBlock x:Uid="AddingShortcutColorPinkTextBlock" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Right"/>
                             </Grid>
                         </ComboBoxItem>
                         <ComboBoxItem>
@@ -144,7 +143,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Ellipse Grid.Column="0" Height="14" Width="14" Fill="Sienna" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="1" Text="棕色" Margin="0,0,0,0" HorizontalAlignment="Right"/>
+                                <TextBlock x:Uid="AddingShortcutColorBrownTextBlock" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Right"/>
                             </Grid>
                         </ComboBoxItem>
                         <ComboBoxItem>
@@ -154,13 +153,13 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Ellipse Grid.Column="0" Height="14" Width="14" Fill="DimGray" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="1" Text="灰色" Margin="0,0,0,0" HorizontalAlignment="Right"/>
+                                <TextBlock x:Uid="AddingShortcutColorGrayTextBlock" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Right"/>
                             </Grid>
                         </ComboBoxItem>
                     </ComboBox>
                 </Grid>
-                <CheckBox x:Name="ShortcutRunasCheckBox" IsChecked="False" Content="以管理员身份运行" HorizontalAlignment="Left" Checked="ShortcutRunasCheckBox_Checked" Unchecked="ShortcutRunasCheckBox_Unchecked"/>
-                <CheckBox x:Name="ShortcutNoWindowCheckBox" IsChecked="False" Content="无窗口运行" HorizontalAlignment="Left"/>
+                <CheckBox x:Name="ShortcutRunasCheckBox" x:Uid="AddingShortcutRunasCheckBox" IsChecked="False" HorizontalAlignment="Left" Checked="ShortcutRunasCheckBox_Checked" Unchecked="ShortcutRunasCheckBox_Unchecked"/>
+                <CheckBox x:Name="ShortcutNoWindowCheckBox" x:Uid="AddingShortcutNoWindowCheckBox" IsChecked="False" HorizontalAlignment="Left"/>
             </StackPanel>
         </ScrollViewer>
 
@@ -168,20 +167,20 @@
             <Button x:Name="ViewFileButton" Padding="24,10" Click="ViewFileButton_Click">
                 <StackPanel Orientation="Horizontal">
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE8E5;" FontSize="15" Margin="0,0,6,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <TextBlock x:Name="ViewFileTextBlock" Text="查看文件" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="ViewFileTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
             <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Button Padding="24,10" Click="ResetButton_Click">
                     <StackPanel Orientation="Horizontal">
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE72C;" FontSize="15" Margin="0,0,6,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Text="还原" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="PropertyEditResetTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 <Button Padding="24,10" Click="ConfirmEditButton_Click" Style="{ThemeResource AccentButtonStyle}">
                     <StackPanel Orientation="Horizontal">
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE70F;" FontSize="15" Margin="0,0,6,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Text="修改" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="PropertyEditSaveTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
