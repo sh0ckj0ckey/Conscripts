@@ -17,6 +17,11 @@ namespace Conscripts.ViewModels
         private static Lazy<MainViewModel> _lazyVM = new Lazy<MainViewModel>(() => new MainViewModel());
         public static MainViewModel Instance => _lazyVM.Value;
 
+        /// <summary>
+        /// 如果一个分类名称为此值，则改为显示一条分割线
+        /// </summary>
+        public static readonly string SeperateLineSpecialCategoryName = "376C50B1-B7C1-4E7C-874A-F743DD80D95F";
+
         public Microsoft.UI.Dispatching.DispatcherQueue DispatcherQueue = null;
 
         public SettingsService AppSettings { get; set; } = new SettingsService();
@@ -105,8 +110,22 @@ namespace Conscripts.ViewModels
                         var process = Process.Start(processInfo);
 
                         process.WaitForExit();
+
+                        DispatcherQueue.TryEnqueue(() =>
+                        {
+                            shortcut.Running = false;
+
+                            // 如果启用了一次性模式，执行完毕后退出应用
+                            if (this.AppSettings.OneShotEnabled)
+                            {
+                                Microsoft.UI.Xaml.Application.Current.Exit();
+                            }
+                        });
                     }
-                    catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Trace.WriteLine(ex);
+                    }
                     finally
                     {
                         DispatcherQueue.TryEnqueue(() =>
@@ -182,9 +201,10 @@ namespace Conscripts.ViewModels
                 }
 
                 // 添加系统菜单
+                bool shouldAddSeperatorLine = this.GroupedShortcuts.Count > 0;
                 this.GroupedShortcuts.Add(new ShortcutsGroupModel
                 {
-                    Category = " ",
+                    Category = shouldAddSeperatorLine ? SeperateLineSpecialCategoryName : "",
                     Shortcuts = new ObservableCollection<ShortcutModel>
                     {
                         new ShortcutModel

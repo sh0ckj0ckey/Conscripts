@@ -70,16 +70,12 @@
                 </Button>
             </controls:SettingsCard>
 
-            <TextBlock Text="功能"
-                    Margin="4,10,0,10"
-                    FontWeight="Bold"
-                    FontSize="14"/>
-            <controls:SettingsCard Header="一次性模式"
-                    Description="脚本运行成功后自动退出 Conscripts">
+            <TextBlock Text="功能" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
+            <controls:SettingsCard Header="一次性模式" Description="在脚本运行结束后，Conscripts 会自动退出">
                 <controls:SettingsCard.HeaderIcon>
-                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                            Glyph="&#xE945;"/>
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE945;"/>
                 </controls:SettingsCard.HeaderIcon>
+                <ToggleSwitch MinWidth="0" Background="Transparent" IsOn="{x:Bind _viewModel.AppSettings.OneShotEnabled,Mode=TwoWay}"/>
             </controls:SettingsCard>
             <TextBlock Text="关于" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
             <controls:SettingsCard Header="反馈" Description="如果您遇到问题或有任何建议">

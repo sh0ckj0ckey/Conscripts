@@ -8,14 +8,22 @@ namespace Conscripts.Helpers
     {
         private const string SETTING_NAME_APPEARANCEINDEX = "AppearanceIndex";
         private const string SETTING_NAME_BACKDROPINDEX = "BackdropIndex";
+        private const string SETTING_NAME_ONESHOTMODE = "IsOneShotModeEnabled";
 
         private ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
 
         public Action<int> OnAppearanceSettingChanged { get; set; } = null;
         public Action<int> OnBackdropSettingChanged { get; set; } = null;
 
-        // 设置的应用程序的主题 0-System 1-Dark 2-Light
         private int _appearanceIndex = -1;
+
+        private int _backdropIndex = -1;
+
+        private bool? _oneShotEnabled = null;
+
+        /// <summary>
+        /// 设置的应用程序的主题 0-System 1-Dark 2-Light
+        /// </summary>
         public int AppearanceIndex
         {
             get
@@ -58,8 +66,9 @@ namespace Conscripts.Helpers
             }
         }
 
-        // 设置的应用程序的背景材质 0-Mica 1-Acrylic
-        private int _backdropIndex = -1;
+        /// <summary>
+        /// 设置的应用程序的背景材质 0-Mica 1-Acrylic
+        /// </summary>
         public int BackdropIndex
         {
             get
@@ -95,6 +104,42 @@ namespace Conscripts.Helpers
                 SetProperty(ref _backdropIndex, value);
                 ApplicationData.Current.LocalSettings.Values[SETTING_NAME_BACKDROPINDEX] = _backdropIndex;
                 OnBackdropSettingChanged?.Invoke(_backdropIndex);
+            }
+        }
+
+        /// <summary>
+        /// 是否启用一次性模式
+        /// </summary>
+        public bool OneShotEnabled
+        {
+            get
+            {
+                try
+                {
+                    if (_oneShotEnabled is null)
+                    {
+                        if (_localSettings.Values[SETTING_NAME_ONESHOTMODE] == null)
+                        {
+                            _oneShotEnabled = false;
+                        }
+                        else if (_localSettings.Values[SETTING_NAME_ONESHOTMODE]?.ToString() == "True")
+                        {
+                            _oneShotEnabled = true;
+                        }
+                        else
+                        {
+                            _oneShotEnabled = false;
+                        }
+                    }
+                }
+                catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
+                _oneShotEnabled ??= false;
+                return _oneShotEnabled ?? false;
+            }
+            set
+            {
+                SetProperty(ref _oneShotEnabled, value);
+                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_ONESHOTMODE] = _oneShotEnabled;
             }
         }
     }
