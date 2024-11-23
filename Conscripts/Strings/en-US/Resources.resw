@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayDesc" xml:space="preserve">
-    <value>Batch Scripts Organizer</value>
+    <value>A More Elegant Way to Launch Scripts</value>
   </data>
   <data name="AppFeatureButtonNameAdd" xml:space="preserve">
     <value>Add</value>
@@ -279,7 +279,7 @@ File name is</value>
     <value>Save</value>
   </data>
   <data name="SettingsDescriptionTextBlock.Text" xml:space="preserve">
-    <value>Batch Scripts Organizer</value>
+    <value>A More Elegant Way to Launch Scripts</value>
   </data>
   <data name="SettingsRateTextBlock.Text" xml:space="preserve">
     <value>Rate &amp; Review</value>

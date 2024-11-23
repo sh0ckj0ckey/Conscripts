@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayDesc" xml:space="preserve">
-    <value>脚本文件启动中心</value>
+    <value>优雅一点点的脚本启动器</value>
   </data>
   <data name="AppFeatureButtonNameAdd" xml:space="preserve">
     <value>添加</value>
@@ -279,7 +279,7 @@
     <value>修改</value>
   </data>
   <data name="SettingsDescriptionTextBlock.Text" xml:space="preserve">
-    <value>脚本文件启动中心</value>
+    <value>优雅一点点的脚本启动器</value>
   </data>
   <data name="SettingsRateTextBlock.Text" xml:space="preserve">
     <value>给个好评</value>

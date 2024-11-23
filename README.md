@@ -2,7 +2,7 @@
     <img src="Conscripts/Assets/Conscripts_Logo.png" alt="logo" height="128" width="128"/>
 </p>
 
-<h3 align="center">Conscripts，脚本文件启动中心</h3>
+<h3 align="center">Conscripts，优雅一点点的脚本启动器</h3>
 
 您是否是一位脚本文件的使用者？无论是批处理文件还是 PowerShell 脚本，不管多复杂的操作，只要轻轻双击，就可以等待脚本自动把所有工作都完成，这一切都是那么的美好。
 
