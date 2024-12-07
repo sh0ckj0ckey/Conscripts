@@ -8,8 +8,8 @@
 
 只是，当脚本文件越来越多时，每次想要运行脚本，就要从众多图标一样的文件中，找到想要运行的脚本文件，这让人心烦，这不够优雅。如果您也有这种烦恼，那欢迎来体验一下 Conscripts，它是脚本文件的启动中心，将所有的脚本文件藏在幕后，取而代之的，是丰富的图标，和多彩的卡片。
 
-<a href="https://apps.microsoft.com/store/detail/9PPNDNTLQ86Q?launch=true&mode=full">
-	<img src="https://get.microsoft.com/images/zh-CN%20dark.svg" height=64/>
+<a href="https://apps.microsoft.com/detail/9ppndntlq86q?mode=full">
+	<img src="https://get.microsoft.com/images/zh-cn%20dark.svg" width="200"/>
 </a>
 
 ![Screenshot](Conscripts/Assets/screenshot1.png)
