@@ -30,7 +30,7 @@
                 </controls:SettingsCard.Header>
                 <Button HorizontalAlignment="Right" VerticalAlignment="Center" Click="OnClickGoToStoreRate">
                     <StackPanel Orientation="Horizontal" Spacing="4">
-                        <FontIcon FontFamily="Segoe UI Emoji" Glyph="&#x2B50;" FontSize="14" VerticalAlignment="Center"/>
+                        <FontIcon FontFamily="Segoe UI Emoji" Glyph="&#x1F680;" FontSize="14" VerticalAlignment="Center"/>
                         <TextBlock x:Uid="SettingsRateTextBlock" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
@@ -111,7 +111,7 @@
                     </StackPanel>
                 </Button>
             </controls:SettingsCard>
-            <TextBlock Text="© NoMewing." Opacity="0.5" FontFamily="Consolas" FontSize="12" Margin="4,8,4,8"/>
+            <TextBlock Text="©2025 NoMewing." Opacity="0.5" FontFamily="Consolas" FontSize="12" Margin="4,8,4,8"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
