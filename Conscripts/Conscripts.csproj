@@ -28,8 +28,8 @@
 		<SelfContained>true</SelfContained>
 		<StartupObject>Conscripts.Program</StartupObject>
 		<PackageCertificateKeyFile>Conscripts_TemporaryKey.pfx</PackageCertificateKeyFile>
-		<AppxBundlePlatforms>arm64</AppxBundlePlatforms>
-		<AppxPackageDir>C:\Users\HUYA\Desktop\2</AppxPackageDir>
+		<AppxBundlePlatforms>x64</AppxBundlePlatforms>
+		<AppxPackageDir>C:\Users\Shock Jockey\Desktop\x64</AppxPackageDir>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Remove="Assets\Conscripts.ico" />
