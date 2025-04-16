@@ -23,6 +23,7 @@
         <converters:BoolReverseConverter x:Key="BoolReverse"/>
         <converters:StringToVisibilityConverter x:Key="Str2Vis"/>
         <converters:Name2SeperateLineConverter x:Key="SeperatorShower"/>
+        <converters:ShortcutColor2BorderThicknessConverter x:Key="Color2Border"/>
     </Page.Resources>
 
     <Grid>
@@ -66,10 +67,10 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        
+
                         <TextBlock Grid.Row="0" FontSize="16" Margin="12,24,0,16" FontWeight="Bold" Text="{x:Bind Category}" Visibility="{x:Bind Category,Converter={StaticResource SeperatorShower},ConverterParameter=!}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         <Border Grid.Row="0" Height="1" Margin="-20,24,-20,16" Visibility="{x:Bind Category,Converter={StaticResource SeperatorShower}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{ThemeResource ControlElevationBorderBrush}"/>
-                        
+
                         <controls:ItemsRepeater Grid.Row="1" ItemsSource="{x:Bind Shortcuts,Mode=OneWay}">
                             <controls:ItemsRepeater.Layout>
                                 <controls:UniformGridLayout Orientation="Horizontal" MinItemWidth="156" MinItemHeight="96" MinColumnSpacing="8" MinRowSpacing="8" ItemsStretch="Uniform"/>
@@ -77,6 +78,7 @@
                             <DataTemplate x:DataType="models:ShortcutModel">
                                 <Grid CornerRadius="4" Background="{x:Bind ShortcutColor,Mode=OneWay,Converter={StaticResource Enum2Color}}">
                                     <Button DataContext="{x:Bind }" Padding="0" Background="Transparent" ToolTipService.ToolTip="{x:Bind ShortcutName,Mode=OneWay}"
+                                            BorderThickness="{x:Bind ShortcutColor,Mode=OneWay,Converter={StaticResource Color2Border}}"
                                             HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                             ContextRequested="Button_ContextRequested" Click="Button_Click" IsEnabled="{x:Bind Running,Mode=OneWay,Converter={StaticResource BoolReverse}}">
                                         <Button.Resources>
@@ -104,7 +106,7 @@
                                                        TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top"
                                                        Visibility="{x:Bind ShortcutColor,Mode=OneWay,Converter={StaticResource Uneql2Vis},ConverterParameter=Transparent}"/>
                                             <TextBlock FontSize="14" Margin="12,12,12,12" FontWeight="Bold" Text="{x:Bind ShortcutName,Mode=OneWay}" 
-                                                       TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                                       TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top"
                                                        Visibility="{x:Bind ShortcutColor,Mode=OneWay,Converter={StaticResource Eql2Vis},ConverterParameter=Transparent}"/>
 
                                             <TextBlock FontSize="38" Opacity="0.5" Margin="0,0,8,8" Text="{x:Bind ShortcutIcon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}"
