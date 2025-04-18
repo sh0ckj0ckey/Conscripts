@@ -32,11 +32,43 @@
 		<AppxPackageDir>C:\Users\Shock Jockey\Desktop\x64</AppxPackageDir>
 	</PropertyGroup>
 	<ItemGroup>
+	  <Content Remove="Assets\Manifest\LargeTile.scale-100.png" />
+	  <Content Remove="Assets\Manifest\LargeTile.scale-125.png" />
+	  <Content Remove="Assets\Manifest\LargeTile.scale-150.png" />
+	  <Content Remove="Assets\Manifest\LargeTile.scale-200.png" />
+	  <Content Remove="Assets\Manifest\LargeTile.scale-400.png" />
+	  <Content Remove="Assets\Manifest\SmallTile.scale-100.png" />
+	  <Content Remove="Assets\Manifest\SmallTile.scale-125.png" />
+	  <Content Remove="Assets\Manifest\SmallTile.scale-150.png" />
+	  <Content Remove="Assets\Manifest\SmallTile.scale-200.png" />
+	  <Content Remove="Assets\Manifest\SmallTile.scale-400.png" />
+	  <Content Remove="Assets\Manifest\SplashScreen.scale-100.png" />
+	  <Content Remove="Assets\Manifest\SplashScreen.scale-125.png" />
+	  <Content Remove="Assets\Manifest\SplashScreen.scale-150.png" />
+	  <Content Remove="Assets\Manifest\SplashScreen.scale-200.png" />
+	  <Content Remove="Assets\Manifest\SplashScreen.scale-400.png" />
+	  <Content Remove="Assets\Manifest\Square150x150Logo.scale-100.png" />
+	  <Content Remove="Assets\Manifest\Square150x150Logo.scale-125.png" />
+	  <Content Remove="Assets\Manifest\Square150x150Logo.scale-150.png" />
+	  <Content Remove="Assets\Manifest\Square150x150Logo.scale-200.png" />
+	  <Content Remove="Assets\Manifest\Square150x150Logo.scale-400.png" />
+	  <Content Remove="Assets\Manifest\StoreLogo.scale-100.png" />
+	  <Content Remove="Assets\Manifest\StoreLogo.scale-125.png" />
+	  <Content Remove="Assets\Manifest\StoreLogo.scale-150.png" />
+	  <Content Remove="Assets\Manifest\StoreLogo.scale-200.png" />
+	  <Content Remove="Assets\Manifest\Wide310x150Logo.scale-100.png" />
+	  <Content Remove="Assets\Manifest\Wide310x150Logo.scale-125.png" />
+	  <Content Remove="Assets\Manifest\Wide310x150Logo.scale-150.png" />
+	  <Content Remove="Assets\Manifest\Wide310x150Logo.scale-200.png" />
+	  <Content Remove="Assets\Manifest\Wide310x150Logo.scale-400.png" />
+	</ItemGroup>
+	<ItemGroup>
 		<None Remove="Assets\Conscripts.ico" />
 		<None Remove="Assets\Icons\file_bat_icon.png" />
 		<None Remove="Assets\Icons\file_ps1_icon.png" />
 		<None Remove="Assets\Icons\icon_github.png" />
 		<None Remove="Assets\Icons\icon_mail.png" />
+		<None Remove="Assets\Manifest\StoreLogo.scale-400.png" />
 		<None Remove="ThemeResources\ThemeDictionary.xaml" />
 		<None Remove="Views\AddingLayout.xaml" />
 		<None Remove="Views\MainPage.xaml" />

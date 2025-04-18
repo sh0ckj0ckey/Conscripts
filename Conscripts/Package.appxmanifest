@@ -10,14 +10,14 @@
 	<Identity
 	  Name="22189NoMewing.PowerShortcut-"
 	  Publisher="CN=E6D8FAFA-3EF4-4E47-B885-52144C67BFF5"
-	  Version="1.3.3.0" />
+	  Version="1.3.4.0" />
 
 	<mp:PhoneIdentity PhoneProductId="c8a329e4-2265-4907-a426-afef510ef897" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
 	<Properties>
 		<DisplayName>Conscripts</DisplayName>
 		<PublisherDisplayName>No Mewing</PublisherDisplayName>
-		<Logo>Assets\Manifests\StoreLogo.png</Logo>
+		<Logo>Assets\Manifest\StoreLogo.png</Logo>
 	</Properties>
 
 	<Dependencies>
@@ -39,16 +39,16 @@
 			  DisplayName="Conscripts" 
 			  Description="ms-resource:DisplayDesc"
 			  BackgroundColor="transparent"
-			  Square150x150Logo="Assets\Manifests\Square150x150Logo.png"
-			  Square44x44Logo="Assets\Manifests\Square44x44Logo.png">
-				<uap:DefaultTile Wide310x150Logo="Assets\Manifests\Wide310x150Logo.png"  ShortName="Conscripts" Square71x71Logo="Assets\Manifests\SmallTile.png" Square310x310Logo="Assets\Manifests\LargeTile.png">
+			  Square150x150Logo="Assets\Manifest\Square150x150Logo.png"
+			  Square44x44Logo="Assets\Manifest\Square44x44Logo.png">
+				<uap:DefaultTile Wide310x150Logo="Assets\Manifest\Wide310x150Logo.png"  ShortName="Conscripts" Square310x310Logo="Assets\Manifest\LargeTile.png" Square71x71Logo="Assets\Manifest\SmallTile.png">
 					<uap:ShowNameOnTiles>
 						<uap:ShowOn Tile="square150x150Logo"/>
 						<uap:ShowOn Tile="wide310x150Logo"/>
 						<uap:ShowOn Tile="square310x310Logo"/>
 					</uap:ShowNameOnTiles>
 				</uap:DefaultTile >
-				<uap:SplashScreen Image="Assets\Manifests\SplashScreen.png"  BackgroundColor="transparent"/>
+				<uap:SplashScreen Image="Assets\Manifest\SplashScreen.png"  BackgroundColor="transparent"/>
 				<uap:InitialRotationPreference>
 					<uap:Rotation Preference="portrait"/>
 					<uap:Rotation Preference="landscapeFlipped"/>
