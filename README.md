@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="Conscripts/Assets/Conscripts_Logo.png" alt="logo" height="128" width="128"/>
+    <img src="Conscripts/Assets/Conscripts.png" alt="logo" height="128" width="128"/>
 </p>
 
 <h3 align="center">Conscripts, organize BAT and PS1 scripts neatly</h3>
@@ -16,4 +16,4 @@ But as your collection of script files grows, finding the right one among a sea 
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
 
-![Screenshot](Conscripts/Assets/screenshot1.png)
+![Screenshot](Assets/screenshot1.png)

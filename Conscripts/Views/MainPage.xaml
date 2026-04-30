@@ -5,96 +5,76 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Conscripts.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:models="using:Conscripts.Models" 
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
-    xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
-    xmlns:converters="using:Conscripts.Converters"
     xmlns:animations="using:CommunityToolkit.WinUI.Animations"
-    mc:Ignorable="d" NavigationCacheMode="Required">
+    xmlns:converters="using:Conscripts.Converters"
+    xmlns:viewmodels="using:Conscripts.ViewModels"
+    mc:Ignorable="d">
 
     <Page.Resources>
-        <converters:Int2VisibilityConverter x:Key="Int2Vis"/>
-        <converters:Enum2ColorConverter x:Key="Enum2Color"/>
-        <converters:Equal2VisibilityConverter x:Key="Eql2Vis"/>
-        <converters:Unequal2VisibilityConverter x:Key="Uneql2Vis"/>
-        <converters:Bool2VisibilityConverter x:Key="Bool2Vis"/>
-        <converters:BoolReverseConverter x:Key="BoolReverse"/>
-        <converters:StringToVisibilityConverter x:Key="Str2Vis"/>
-        <converters:Name2SeperateLineConverter x:Key="SeperatorShower"/>
-        <converters:ShortcutColor2BorderThicknessConverter x:Key="Color2Border"/>
+        <converters:Bool2VisibilityConverter x:Key="Bool2VisibilityConverter"/>
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter"/>
+        <converters:Enum2ColorConverter x:Key="Enum2ColorConverter"/>
+        <converters:Color2BorderThicknessConverter x:Key="Color2BorderThicknessConverter"/>
+        <converters:Category2SeperateLineConverter x:Key="Category2SeperateLineConverter"/>
+        <converters:Equal2VisibilityConverter x:Key="Equal2VisibilityConverter"/>
+        <converters:Unequal2VisibilityConverter x:Key="Unequal2VisibilityConverter"/>
     </Page.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="64"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <Grid Grid.Row="0" BorderBrush="{ThemeResource ControlElevationBorderBrush}" BorderThickness="0,0,0,1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0" Margin="20,0,0,0">
-                <Image Height="42" Width="42" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Image.Source>
-                        <BitmapImage UriSource="/Assets/Conscripts_Placeholder.png" DecodePixelType="Logical" DecodePixelHeight="84"/>
-                    </Image.Source>
-                </Image>
-                <Image Height="36" Width="36" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Image.Source>
-                        <BitmapImage UriSource="/Assets/Conscripts_Logo.png" DecodePixelType="Logical" DecodePixelHeight="72"/>
-                    </Image.Source>
-                </Image>
-            </Grid>
-            <TextBlock Grid.Column="1" Margin="8,0,0,0" Text="Conscripts" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <FontIcon x:Uid="AppTitleBarOneShotIcon" Grid.Column="2" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE945;" FontSize="16" Margin="8,0,0,-4" Opacity="0.5" 
-                      Visibility="{x:Bind _viewModel.AppSettings.OneShotEnabled,Mode=OneWay,Converter={StaticResource Bool2Vis}}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        </Grid>
-
-        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">
-            <controls:ItemsRepeater Margin="20,0,20,20" ItemsSource="{x:Bind _viewModel.GroupedShortcuts,Mode=OneWay}">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <controls:ItemsRepeater Margin="20,0,20,20" ItemsSource="{x:Bind ViewModel.ShortcutGroups,Mode=OneWay}">
                 <controls:ItemsRepeater.Layout>
-                    <StackLayout Orientation="Vertical"/>
+                    <controls:StackLayout Orientation="Vertical"/>
                 </controls:ItemsRepeater.Layout>
-                <DataTemplate x:DataType="models:ShortcutsGroupModel">
+                <DataTemplate x:DataType="viewmodels:ShortcutGroupViewModel">
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" FontSize="16" Margin="12,24,0,16" FontWeight="Bold" Text="{x:Bind Category}" Visibility="{x:Bind Category,Converter={StaticResource SeperatorShower},ConverterParameter=!}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <Border Grid.Row="0" Height="1" Margin="-20,24,-20,16" Visibility="{x:Bind Category,Converter={StaticResource SeperatorShower}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{ThemeResource ControlElevationBorderBrush}"/>
+                        <Border Grid.Row="0" Margin="-20,24,-20,16" Visibility="{x:Bind Category,Converter={StaticResource Category2SeperateLineConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <Border Height="1" Background="{ThemeResource ControlElevationBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <TextBlock Grid.Row="0" FontSize="16" Margin="12,16,0,12" FontWeight="Bold" Text="{x:Bind Category}" Visibility="{x:Bind Category,Converter={StaticResource Category2SeperateLineConverter},ConverterParameter=!}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
                         <controls:ItemsRepeater Grid.Row="1" ItemsSource="{x:Bind Shortcuts,Mode=OneWay}">
                             <controls:ItemsRepeater.Layout>
                                 <controls:UniformGridLayout Orientation="Horizontal" MinItemWidth="156" MinItemHeight="96" MinColumnSpacing="8" MinRowSpacing="8" ItemsStretch="Uniform"/>
                             </controls:ItemsRepeater.Layout>
-                            <DataTemplate x:DataType="models:ShortcutModel">
-                                <Grid CornerRadius="4" Background="{x:Bind ShortcutColor,Mode=OneWay,Converter={StaticResource Enum2Color}}">
-                                    <Button DataContext="{x:Bind }" Padding="0" Background="Transparent" ToolTipService.ToolTip="{x:Bind ShortcutName,Mode=OneWay}"
-                                            BorderThickness="{x:Bind ShortcutColor,Mode=OneWay,Converter={StaticResource Color2Border}}"
-                                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                            ContextRequested="Button_ContextRequested" Click="Button_Click" IsEnabled="{x:Bind Running,Mode=OneWay,Converter={StaticResource BoolReverse}}">
+                            <DataTemplate x:DataType="viewmodels:ShortcutItemViewModel">
+                                <Grid CornerRadius="4" Background="{x:Bind Color,Mode=OneWay,Converter={StaticResource Enum2ColorConverter}}">
+                                    <Button Padding="0" Background="Transparent" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                            DataContext="{x:Bind }" IsEnabled="{x:Bind IsRunning,Mode=OneWay,Converter={StaticResource BoolNegationConverter}}" 
+                                            BorderThickness="{x:Bind Color,Mode=OneWay,Converter={StaticResource Color2BorderThicknessConverter}}" ToolTipService.ToolTip="{x:Bind Name,Mode=OneWay}"
+                                            Click="Button_Click" ContextRequested="Button_ContextRequested">
                                         <Button.Resources>
                                             <MenuFlyout x:Key="ShortcutMenuFlyout" Placement="Bottom">
-                                                <MenuFlyoutItem x:Name="FrontMenuItem" x:Uid="ShortcutFrontMenuItem" DataContext="{x:Bind }" Click="FrontMenuItem_Click">
+                                                <MenuFlyoutItem x:Name="FrontMenuItem" x:Uid="ShortcutFrontMenuItem" Tag="front" Click="FrontMenuItem_Click">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEA4F;"/>
                                                     </MenuFlyoutItem.Icon>
                                                 </MenuFlyoutItem>
-                                                <MenuFlyoutItem x:Name="InfoMenuItem" x:Uid="ShortcutPropertiesMenuItem" DataContext="{x:Bind }" Click="InfoMenuItem_Click">
+                                                <MenuFlyoutItem x:Name="LeftMenuItem" x:Uid="ShortcutLeftMenuItem" Tag="left" Click="LeftMenuItem_Click">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE64E;"/>
+                                                    </MenuFlyoutItem.Icon>
+                                                </MenuFlyoutItem>
+                                                <MenuFlyoutItem x:Name="RightMenuItem" x:Uid="ShortcutRightMenuItem" Tag="right" Click="RightMenuItem_Click">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE64D;"/>
+                                                    </MenuFlyoutItem.Icon>
+                                                </MenuFlyoutItem>
+                                                <MenuFlyoutItem x:Name="InfoMenuItem" x:Uid="ShortcutPropertiesMenuItem" Tag="properties" Click="InfoMenuItem_Click">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE90F;"/>
                                                     </MenuFlyoutItem.Icon>
                                                 </MenuFlyoutItem>
                                                 <MenuFlyoutSeparator/>
-                                                <MenuFlyoutItem x:Name="DeleteMenuItem" x:Uid="ShortcutDeleteMenuItem" DataContext="{x:Bind }" Click="DeleteMenuItem_Click">
+                                                <MenuFlyoutItem x:Name="DeleteMenuItem" x:Uid="ShortcutDeleteMenuItem" Tag="delete" Click="DeleteMenuItem_Click">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE74D;"/>
                                                     </MenuFlyoutItem.Icon>
@@ -102,25 +82,25 @@
                                             </MenuFlyout>
                                         </Button.Resources>
                                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                            <TextBlock FontSize="14" Foreground="White" Margin="12,12,12,12" FontWeight="Bold" Text="{x:Bind ShortcutName,Mode=OneWay}" 
-                                                       TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top"
-                                                       Visibility="{x:Bind ShortcutColor,Mode=OneWay,Converter={StaticResource Uneql2Vis},ConverterParameter=Transparent}"/>
-                                            <TextBlock FontSize="14" Margin="12,12,12,12" FontWeight="Bold" Text="{x:Bind ShortcutName,Mode=OneWay}" 
-                                                       TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top"
-                                                       Visibility="{x:Bind ShortcutColor,Mode=OneWay,Converter={StaticResource Eql2Vis},ConverterParameter=Transparent}"/>
+                                            <TextBlock FontSize="38" Opacity="0.5" Margin="0,0,8,8" Text="{x:Bind Icon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
 
-                                            <TextBlock FontSize="38" Opacity="0.5" Margin="0,0,8,8" Text="{x:Bind ShortcutIcon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                                       HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                            <TextBlock FontSize="14" Foreground="White" Margin="12,12,12,12" FontWeight="Bold" Text="{x:Bind Name,Mode=OneWay}" 
+                                                       TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                       Visibility="{x:Bind Color,Mode=OneWay,Converter={StaticResource Unequal2VisibilityConverter},ConverterParameter=Transparent}"/>
+                                            <TextBlock FontSize="14" Margin="12,12,12,12" FontWeight="Bold" Text="{x:Bind Name,Mode=OneWay}" 
+                                                       TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                       Visibility="{x:Bind Color,Mode=OneWay,Converter={StaticResource Equal2VisibilityConverter},ConverterParameter=Transparent}"/>
 
                                             <StackPanel Orientation="Horizontal" Margin="12,8" Spacing="8" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                                                <FontIcon x:Uid="ShortcutRunasIcon" Glyph="&#xEA18;" Visibility="{x:Bind ShortcutRunas,Mode=OneWay,Converter={StaticResource Bool2Vis}}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Opacity="0.5"/>
-                                                <FontIcon x:Uid="ShortcutNewWindowIcon" Glyph="&#xF7ED;" Visibility="{x:Bind NoWindow,Mode=OneWay,Converter={StaticResource Bool2Vis},ConverterParameter=!}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Opacity="0.5"/>
+                                                <FontIcon x:Uid="ShortcutRunasIcon" Glyph="&#xEA18;" Visibility="{x:Bind RunAsAdministrator,Mode=OneWay,Converter={StaticResource Bool2VisibilityConverter}}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Opacity="0.5"/>
+                                                <FontIcon x:Uid="ShortcutNewWindowIcon" Glyph="&#xF7ED;" Visibility="{x:Bind RunWithoutWindow,Mode=OneWay,Converter={StaticResource Bool2VisibilityConverter},ConverterParameter=!}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Opacity="0.5"/>
                                             </StackPanel>
                                         </Grid>
                                     </Button>
 
-                                    <Border Visibility="{x:Bind Running,Mode=OneWay,Converter={StaticResource Bool2Vis}}" Background="{ThemeResource SmokeFillColorDefault}" CornerRadius="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                        <ProgressRing IsActive="{x:Bind Running,Mode=OneWay}" Foreground="White" Height="32" Width="32" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <!--Running Indicator-->
+                                    <Border Visibility="{x:Bind IsRunning,Mode=OneWay,Converter={StaticResource Bool2VisibilityConverter}}" Background="{ThemeResource SmokeFillColorDefault}" CornerRadius="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <ProgressRing IsActive="{x:Bind IsRunning,Mode=OneWay}" Foreground="White" Height="32" Width="32" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                 </Grid>
                             </DataTemplate>
@@ -130,7 +110,7 @@
             </controls:ItemsRepeater>
         </ScrollViewer>
 
-        <Grid x:Name="SettingsGrid" Grid.RowSpan="2" Opacity="0" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SmokeFillColorDefault}">
+        <Grid x:Name="SettingsGrid" Opacity="0" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SmokeFillColorDefault}">
             <animations:Implicit.ShowAnimations>
                 <animations:OpacityAnimation To="1" Duration="0:0:0.4"/>
             </animations:Implicit.ShowAnimations>
@@ -157,7 +137,7 @@
             </Grid>
         </Grid>
 
-        <Grid x:Name="WhatsNewGrid" Grid.RowSpan="2" Opacity="0" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SmokeFillColorDefault}">
+        <Grid x:Name="WhatsNewGrid" Opacity="0" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SmokeFillColorDefault}">
             <animations:Implicit.ShowAnimations>
                 <animations:OpacityAnimation To="1" Duration="0:0:0.4"/>
             </animations:Implicit.ShowAnimations>
@@ -184,7 +164,7 @@
             </Grid>
         </Grid>
 
-        <Grid x:Name="AddingGrid" Grid.RowSpan="2" Opacity="0" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SmokeFillColorDefault}">
+        <Grid x:Name="AddingGrid" Opacity="0" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SmokeFillColorDefault}">
             <animations:Implicit.ShowAnimations>
                 <animations:OpacityAnimation To="1" Duration="0:0:0.4"/>
             </animations:Implicit.ShowAnimations>
@@ -211,7 +191,7 @@
             </Grid>
         </Grid>
 
-        <Grid x:Name="PropertyGrid" Grid.RowSpan="2" Opacity="0" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SmokeFillColorDefault}">
+        <Grid x:Name="PropertyGrid" Opacity="0" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SmokeFillColorDefault}">
             <animations:Implicit.ShowAnimations>
                 <animations:OpacityAnimation To="1" Duration="0:0:0.4"/>
             </animations:Implicit.ShowAnimations>

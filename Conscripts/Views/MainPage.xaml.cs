@@ -1,11 +1,9 @@
 using System;
-using System.IO;
+using System.Linq;
 using Conscripts.Helpers;
 using Conscripts.Models;
-using Conscripts.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -17,158 +15,167 @@ namespace Conscripts.Views
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private MainViewModel _viewModel = null;
-
-        private AddingLayout _addingLayout = null;
-
-        private WhatsNewLayout _whatsNewLayout = null;
-
-        private SettingsLayout _settingsLayout = null;
-
-        private PropertyLayout _propertyLayout = null;
+        public ViewModels.MainViewModel ViewModel { get; }
 
         public MainPage()
         {
-            _viewModel = MainViewModel.Instance;
+            this.ViewModel = new ViewModels.MainViewModel(Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread());
 
-            this.InitializeComponent();
+            InitializeComponent();
 
-            _viewModel.DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+            _ = this.ViewModel.LoadShortcutsAsync();
         }
 
-        /// <summary>
-        /// 点击打开启动对应的脚本或者功能项
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.DataContext is ShortcutModel shortcut)
+            //if (sender is Button btn && btn.DataContext is ShortcutModel shortcut)
+            //{
+            //    if (shortcut.ShortcutType == ShortcutTypeEnum.None)
+            //    {
+            //        if (shortcut.Category == "add")
+            //        {
+            //            AddingGrid.Visibility = Visibility.Visible;
+            //            AddingBorder.Child ??= _addingLayout = new AddingLayout(_viewModel, CloseAddingLayout);
+            //        }
+            //        else if (shortcut.Category == "whatsnew")
+            //        {
+            //            WhatsNewGrid.Visibility = Visibility.Visible;
+            //            WhatsNewBorder.Child ??= _whatsNewLayout = new WhatsNewLayout(_viewModel);
+            //        }
+            //        else if (shortcut.Category == "settings")
+            //        {
+            //            SettingsGrid.Visibility = Visibility.Visible;
+            //            SettingsBorder.Child ??= _settingsLayout = new SettingsLayout(_viewModel);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (string.IsNullOrWhiteSpace(shortcut.ScriptFilePath) ||
+            //            !File.Exists(shortcut.ScriptFilePath))
+            //        {
+            //            await new ContentDialog
+            //            {
+            //                Title = "DialogTitleCannotLaunch".GetLocalized(),
+            //                Content = $"{"DialogContentCannotLaunch".GetLocalized()} {shortcut.ScriptFilePath}",
+            //                CloseButtonText = "DialogButtonGotIt".GetLocalized(),
+            //                XamlRoot = this.XamlRoot,
+            //                RequestedTheme = this.ActualTheme,
+            //            }.ShowAsync();
+            //        }
+            //        else
+            //        {
+            //            _viewModel.LaunchShortcut(shortcut);
+            //        }
+            //    }
+            //}
+        }
+
+        private void Button_ContextRequested(Microsoft.UI.Xaml.UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
+        {
+            if (sender is not Button btn || btn.DataContext is not ViewModels.ShortcutItemViewModel shortcut)
             {
-                if (shortcut.ShortcutType == ShortcutTypeEnum.None)
+                return;
+            }
+
+            args.Handled = true;
+
+            if (shortcut.Type == Models.ShortcutType.None || shortcut.IsRunning)
+            {
+                return;
+            }
+
+            var group = this.ViewModel.ShortcutGroups.FirstOrDefault(group => group.Shortcuts.Contains(shortcut));
+            if (group is null)
+            {
+                return;
+            }
+
+            if (btn.Resources["ShortcutMenuFlyout"] is not MenuFlyout flyout)
+            {
+                return;
+            }
+
+            int index = group.Shortcuts.IndexOf(shortcut);
+            bool isFirst = index <= 0;
+            bool isLast = index >= group.Shortcuts.Count - 1;
+
+            foreach (var item in flyout.Items)
+            {
+                item?.Visibility = (item?.Tag?.ToString()) switch
                 {
-                    if (shortcut.Category == "add")
-                    {
-                        AddingGrid.Visibility = Visibility.Visible;
-                        AddingBorder.Child ??= _addingLayout = new AddingLayout(_viewModel, CloseAddingLayout);
-                    }
-                    else if (shortcut.Category == "whatsnew")
-                    {
-                        WhatsNewGrid.Visibility = Visibility.Visible;
-                        WhatsNewBorder.Child ??= _whatsNewLayout = new WhatsNewLayout(_viewModel);
-                    }
-                    else if (shortcut.Category == "settings")
-                    {
-                        SettingsGrid.Visibility = Visibility.Visible;
-                        SettingsBorder.Child ??= _settingsLayout = new SettingsLayout(_viewModel);
-                    }
-                }
-                else
-                {
-                    if (string.IsNullOrWhiteSpace(shortcut.ScriptFilePath) ||
-                        !File.Exists(shortcut.ScriptFilePath))
-                    {
-                        await new ContentDialog
-                        {
-                            Title = "DialogTitleCannotLaunch".GetLocalized(),
-                            Content = $"{"DialogContentCannotLaunch".GetLocalized()} {shortcut.ScriptFilePath}",
-                            CloseButtonText = "DialogButtonGotIt".GetLocalized(),
-                            XamlRoot = this.XamlRoot,
-                            RequestedTheme = this.ActualTheme,
-                        }.ShowAsync();
-                    }
-                    else
-                    {
-                        _viewModel.LaunchShortcut(shortcut);
-                    }
-                }
+                    "front" or "left" => isFirst ? Visibility.Collapsed : Visibility.Visible,
+                    "right" => isLast ? Visibility.Collapsed : Visibility.Visible,
+                    _ => Visibility.Visible,
+                };
+            }
+
+            flyout.ShowAt(btn);
+        }
+
+        private void FrontMenuItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            if (sender is not MenuFlyoutItem menuItem || menuItem.DataContext is not ViewModels.ShortcutItemViewModel shortcut)
+            {
+                return;
+            }
+
+            this.ViewModel.MoveShortcutToFront(shortcut);
+        }
+
+        private void LeftMenuItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            if (sender is not MenuFlyoutItem menuItem || menuItem.DataContext is not ViewModels.ShortcutItemViewModel shortcut)
+            {
+                return;
+            }
+
+            this.ViewModel.MoveShortcutLeft(shortcut);
+        }
+
+        private void RightMenuItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            if (sender is not MenuFlyoutItem menuItem || menuItem.DataContext is not ViewModels.ShortcutItemViewModel shortcut)
+            {
+                return;
+            }
+
+            this.ViewModel.MoveShortcutRight(shortcut);
+        }
+
+        private void InfoMenuItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            //if (sender is MenuFlyoutItem menuItem && menuItem.DataContext is ShortcutModel shortcut)
+            //{
+            //    PropertyGrid.Visibility = Visibility.Visible;
+            //    PropertyBorder.Child ??= _propertyLayout = new PropertyLayout(_viewModel, ClosePropertyLayout);
+            //    _propertyLayout.SetLayout(shortcut);
+            //}
+        }
+
+        private async void DeleteMenuItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            if (sender is not MenuFlyoutItem menuItem || menuItem.DataContext is not ViewModels.ShortcutItemViewModel shortcut)
+            {
+                return;
+            }
+
+            ContentDialogResult result = await new ContentDialog
+            {
+                Title = "DialogTitleDeleteScript".GetLocalized(),
+                Content = $"{"DialogContentDeleteConfirm1".GetLocalized()} \"{shortcut.Name}\" {"DialogContentDeleteConfirm2".GetLocalized()}",
+                PrimaryButtonText = "DialogButtonDelete".GetLocalized(),
+                CloseButtonText = "DialogButtonCancel".GetLocalized(),
+                XamlRoot = this.XamlRoot,
+                Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+                RequestedTheme = this.ActualTheme,
+                DefaultButton = ContentDialogButton.Close
+            }.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                this.ViewModel.DeleteShortcut(shortcut);
             }
         }
-
-        /// <summary>
-        /// 如果直接给Button添加了ContextFlyout右键菜单，则不会触发这个事件
-        /// 因此要使用资源字典的方式来添加右键菜单，在这个事件里面处理弹出
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        private void Button_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
-        {
-            if (sender is Button btn && btn.DataContext is ShortcutModel shortcut)
-            {
-                if (shortcut.ShortcutType == ShortcutTypeEnum.None)
-                {
-                    args.Handled = true;
-                }
-                else
-                {
-                    if (shortcut.Running)
-                    {
-                        args.Handled = true;
-                    }
-                    else
-                    {
-                        MenuFlyout flyout = (MenuFlyout)btn.Resources["ShortcutMenuFlyout"];
-                        flyout.ShowAt(btn);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 将脚本置于最前
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FrontMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is MenuFlyoutItem menuItem && menuItem.DataContext is ShortcutModel shortcut)
-            {
-                _viewModel.PlaceShortcutFront(shortcut);
-            }
-        }
-
-        /// <summary>
-        /// 查看脚本信息
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void InfoMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is MenuFlyoutItem menuItem && menuItem.DataContext is ShortcutModel shortcut)
-            {
-                PropertyGrid.Visibility = Visibility.Visible;
-                PropertyBorder.Child ??= _propertyLayout = new PropertyLayout(_viewModel, ClosePropertyLayout);
-                _propertyLayout.SetLayout(shortcut);
-            }
-        }
-
-        /// <summary>
-        /// 删除脚本项
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is MenuFlyoutItem menuItem && menuItem.DataContext is ShortcutModel shortcut)
-            {
-                ContentDialogResult result = await new ContentDialog
-                {
-                    Title = "DialogTitleDeleteScript".GetLocalized(),
-                    Content = $"{"DialogContentDeleteConfirm1".GetLocalized()} \"{shortcut?.ShortcutName}\" {"DialogContentDeleteConfirm2".GetLocalized()}",
-                    PrimaryButtonText = "DialogButtonDelete".GetLocalized(),
-                    CloseButtonText = "DialogButtonCancel".GetLocalized(),
-                    XamlRoot = this.XamlRoot,
-                    RequestedTheme = this.ActualTheme,
-                    DefaultButton = ContentDialogButton.Close
-                }.ShowAsync();
-
-                if (result == ContentDialogResult.Primary)
-                {
-                    _viewModel.DeleteShortcut(shortcut);
-                }
-            }
-        }
-
 
         private void CloseSettings_Click(object sender, RoutedEventArgs e)
         {
@@ -193,26 +200,25 @@ namespace Conscripts.Views
         private void CloseSettingsLayout()
         {
             SettingsGrid.Visibility = Visibility.Collapsed;
-            _settingsLayout?.ResetLayout();
+            //_settingsLayout?.ResetLayout();
         }
 
         private void CloseWhatsNewLayout()
         {
             WhatsNewGrid.Visibility = Visibility.Collapsed;
-            _whatsNewLayout?.ResetLayout();
+            //_whatsNewLayout?.ResetLayout();
         }
 
         private void CloseAddingLayout()
         {
             AddingGrid.Visibility = Visibility.Collapsed;
-            _addingLayout?.ResetLayout();
+            //_addingLayout?.ResetLayout();
         }
 
         private void ClosePropertyLayout()
         {
             PropertyGrid.Visibility = Visibility.Collapsed;
-            _propertyLayout?.ResetLayout();
+            //_propertyLayout?.ResetLayout();
         }
-
     }
 }

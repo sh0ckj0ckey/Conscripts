@@ -4,29 +4,22 @@ using Microsoft.UI.Xaml.Data;
 
 namespace Conscripts.Converters
 {
-    internal class Enum2FileExtConverter : IValueConverter
+    internal partial class Enum2FileExtConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            try
+            _ = Enum.TryParse(value?.ToString(), out ShortcutType type);
+            return type switch
             {
-                ShortcutTypeEnum type = (ShortcutTypeEnum)value;
-                switch (type)
-                {
-                    case ShortcutTypeEnum.Ps1:
-                        return ".ps1";
-                    case ShortcutTypeEnum.Bat:
-                        return ".bat";
-                }
-            }
-            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
-            return "";
+                ShortcutType.Ps1 => ".ps1",
+                ShortcutType.Bat => ".bat",
+                _ => string.Empty,
+            };
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            return null;
+            throw new NotImplementedException();
         }
     }
-
 }

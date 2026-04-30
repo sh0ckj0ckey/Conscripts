@@ -1,102 +1,23 @@
-﻿using System.Text.Json.Serialization;
-using CommunityToolkit.Mvvm.ComponentModel;
-
-namespace Conscripts.Models
+﻿namespace Conscripts.Models
 {
-    public class ShortcutModel : ObservableObject
+    public class ShortcutModel
     {
-        private string _shortcutName = string.Empty;
-
-        private string _shortcutIcon = "\uE756";
-
-        private ShortcutTypeEnum _shortcutType = ShortcutTypeEnum.None;
-
-        private ShortcutColorEnum _shortcutColor = ShortcutColorEnum.Transparent;
-
-        private bool _shortcutRunas = false;
-
-        private bool _noWindow = false;
-
-        private string _category = "";
-
-        private bool _running = false;
-
-        /// <summary>
-        /// 脚本文件路径
-        /// </summary>
         public string ScriptFilePath { get; set; } = string.Empty;
 
-        /// <summary>
-        /// 脚本名称
-        /// </summary>
-        public string ShortcutName
-        {
-            get => _shortcutName;
-            set => SetProperty(ref _shortcutName, value);
-        }
+        public string ShortcutName { get; set; } = string.Empty;
 
-        /// <summary>
-        /// 脚本图标
-        /// </summary>
-        public string ShortcutIcon
-        {
-            get => _shortcutIcon;
-            set => SetProperty(ref _shortcutIcon, value);
-        }
+        public string ShortcutIcon { get; set; } = "\uE756";
 
-        /// <summary>
-        /// 脚本类型
-        /// </summary>
-        public ShortcutTypeEnum ShortcutType
-        {
-            get => _shortcutType;
-            set => SetProperty(ref _shortcutType, value);
-        }
+        public ShortcutType ShortcutType { get; set; } = ShortcutType.None;
 
-        /// <summary>
-        /// 脚本颜色
-        /// </summary>
-        public ShortcutColorEnum ShortcutColor
-        {
-            get => _shortcutColor;
-            set => SetProperty(ref _shortcutColor, value);
-        }
+        public ShortcutColor ShortcutColor { get; set; } = ShortcutColor.Transparent;
 
-        /// <summary>
-        /// 是否需要管理员权限
-        /// </summary>
-        public bool ShortcutRunas
-        {
-            get => _shortcutRunas;
-            set => SetProperty(ref _shortcutRunas, value);
-        }
+        public string Category { get; set; } = string.Empty;
 
-        /// <summary>
-        /// 运行时是否隐藏命令行窗口
-        /// </summary>
-        public bool NoWindow
-        {
-            get => _noWindow;
-            set => SetProperty(ref _noWindow, value);
-        }
+        public bool ShortcutRunas { get; set; } = false;
 
-        /// <summary>
-        /// 所属分类
-        /// </summary>
-        public string Category
-        {
-            get => _category;
-            set => SetProperty(ref _category, value);
-        }
+        public bool NoWindow { get; set; } = false;
 
-        /// <summary>
-        /// 是否正在运行
-        /// </summary>
-        [JsonIgnore]
-        public bool Running
-        {
-            get => _running;
-            set => SetProperty(ref _running, value);
-        }
+        public bool ShowInJumpList { get; set; } = false;
     }
 }

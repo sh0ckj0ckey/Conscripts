@@ -7,87 +7,103 @@ using Microsoft.UI.Xaml.Media;
 
 namespace Conscripts.Converters
 {
-    internal class Enum2ColorConverter : IValueConverter
+    internal partial class Enum2ColorConverter : IValueConverter
     {
-        private static Dictionary<ShortcutColorEnum, SolidColorBrush> _shortcutColors = new();
+        private static readonly Dictionary<ShortcutColor, SolidColorBrush> _shortcutColors = [];
+
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            try
+            _ = Enum.TryParse(value?.ToString(), out ShortcutColor color);
+
+            SolidColorBrush? colorBrush;
+
+            switch (color)
             {
-                ShortcutColorEnum color = (ShortcutColorEnum)value;
-                switch (color)
-                {
-                    case ShortcutColorEnum.Transparent:
-                        if (!_shortcutColors.ContainsKey(ShortcutColorEnum.Transparent))
-                        {
-                            _shortcutColors.Add(ShortcutColorEnum.Transparent, new SolidColorBrush(Colors.Transparent));
-                        }
-                        return _shortcutColors[ShortcutColorEnum.Transparent];
-                    case ShortcutColorEnum.Red:
-                        if (!_shortcutColors.ContainsKey(ShortcutColorEnum.Red))
-                        {
-                            _shortcutColors.Add(ShortcutColorEnum.Red, new SolidColorBrush(Colors.Firebrick));
-                        }
-                        return _shortcutColors[ShortcutColorEnum.Red];
-                    case ShortcutColorEnum.Orange:
-                        if (!_shortcutColors.ContainsKey(ShortcutColorEnum.Orange))
-                        {
-                            _shortcutColors.Add(ShortcutColorEnum.Orange, new SolidColorBrush(Colors.Tomato));
-                        }
-                        return _shortcutColors[ShortcutColorEnum.Orange];
-                    case ShortcutColorEnum.Yellow:
-                        if (!_shortcutColors.ContainsKey(ShortcutColorEnum.Yellow))
-                        {
-                            _shortcutColors.Add(ShortcutColorEnum.Yellow, new SolidColorBrush(Colors.Goldenrod));
-                        }
-                        return _shortcutColors[ShortcutColorEnum.Yellow];
-                    case ShortcutColorEnum.Green:
-                        if (!_shortcutColors.ContainsKey(ShortcutColorEnum.Green))
-                        {
-                            _shortcutColors.Add(ShortcutColorEnum.Green, new SolidColorBrush(Colors.ForestGreen));
-                        }
-                        return _shortcutColors[ShortcutColorEnum.Green];
-                    case ShortcutColorEnum.Blue:
-                        if (!_shortcutColors.ContainsKey(ShortcutColorEnum.Blue))
-                        {
-                            _shortcutColors.Add(ShortcutColorEnum.Blue, new SolidColorBrush(Colors.DodgerBlue));
-                        }
-                        return _shortcutColors[ShortcutColorEnum.Blue];
-                    case ShortcutColorEnum.Purple:
-                        if (!_shortcutColors.ContainsKey(ShortcutColorEnum.Purple))
-                        {
-                            _shortcutColors.Add(ShortcutColorEnum.Purple, new SolidColorBrush(Colors.Orchid));
-                        }
-                        return _shortcutColors[ShortcutColorEnum.Purple];
-                    case ShortcutColorEnum.Pink:
-                        if (!_shortcutColors.ContainsKey(ShortcutColorEnum.Pink))
-                        {
-                            _shortcutColors.Add(ShortcutColorEnum.Pink, new SolidColorBrush(Colors.DeepPink));
-                        }
-                        return _shortcutColors[ShortcutColorEnum.Pink];
-                    case ShortcutColorEnum.Brown:
-                        if (!_shortcutColors.ContainsKey(ShortcutColorEnum.Brown))
-                        {
-                            _shortcutColors.Add(ShortcutColorEnum.Brown, new SolidColorBrush(Colors.Sienna));
-                        }
-                        return _shortcutColors[ShortcutColorEnum.Brown];
-                    case ShortcutColorEnum.Gray:
-                        if (!_shortcutColors.ContainsKey(ShortcutColorEnum.Gray))
-                        {
-                            _shortcutColors.Add(ShortcutColorEnum.Gray, new SolidColorBrush(Colors.DimGray));
-                        }
-                        return _shortcutColors[ShortcutColorEnum.Gray];
-                    default:
-                        break;
-                }
+                case ShortcutColor.Transparent:
+                    if (!_shortcutColors.TryGetValue(ShortcutColor.Transparent, out colorBrush))
+                    {
+                        colorBrush = new SolidColorBrush(Colors.Transparent);
+                        _shortcutColors.Add(ShortcutColor.Transparent, colorBrush);
+                    }
+                    break;
+                case ShortcutColor.Red:
+                    if (!_shortcutColors.TryGetValue(ShortcutColor.Red, out colorBrush))
+                    {
+                        colorBrush = new SolidColorBrush(Colors.Firebrick);
+                        _shortcutColors.Add(ShortcutColor.Red, colorBrush);
+                    }
+                    break;
+                case ShortcutColor.Orange:
+                    if (!_shortcutColors.TryGetValue(ShortcutColor.Orange, out colorBrush))
+                    {
+                        colorBrush = new SolidColorBrush(Colors.Tomato);
+                        _shortcutColors.Add(ShortcutColor.Orange, colorBrush);
+                    }
+                    break;
+                case ShortcutColor.Yellow:
+                    if (!_shortcutColors.TryGetValue(ShortcutColor.Yellow, out colorBrush))
+                    {
+                        colorBrush = new SolidColorBrush(Colors.Goldenrod);
+                        _shortcutColors.Add(ShortcutColor.Yellow, colorBrush);
+                    }
+                    break;
+                case ShortcutColor.Green:
+                    if (!_shortcutColors.TryGetValue(ShortcutColor.Green, out colorBrush))
+                    {
+                        colorBrush = new SolidColorBrush(Colors.ForestGreen);
+                        _shortcutColors.Add(ShortcutColor.Green, colorBrush);
+                    }
+                    break;
+                case ShortcutColor.Blue:
+                    if (!_shortcutColors.TryGetValue(ShortcutColor.Blue, out colorBrush))
+                    {
+                        colorBrush = new SolidColorBrush(Colors.DodgerBlue);
+                        _shortcutColors.Add(ShortcutColor.Blue, colorBrush);
+                    }
+                    break;
+                case ShortcutColor.Purple:
+                    if (!_shortcutColors.TryGetValue(ShortcutColor.Purple, out colorBrush))
+                    {
+                        colorBrush = new SolidColorBrush(Colors.Orchid);
+                        _shortcutColors.Add(ShortcutColor.Purple, colorBrush);
+                    }
+                    break;
+                case ShortcutColor.Pink:
+                    if (!_shortcutColors.TryGetValue(ShortcutColor.Pink, out colorBrush))
+                    {
+                        colorBrush = new SolidColorBrush(Colors.DeepPink);
+                        _shortcutColors.Add(ShortcutColor.Pink, colorBrush);
+                    }
+                    break;
+                case ShortcutColor.Brown:
+                    if (!_shortcutColors.TryGetValue(ShortcutColor.Brown, out colorBrush))
+                    {
+                        colorBrush = new SolidColorBrush(Colors.Sienna);
+                        _shortcutColors.Add(ShortcutColor.Brown, colorBrush);
+                    }
+                    break;
+                case ShortcutColor.Gray:
+                    if (!_shortcutColors.TryGetValue(ShortcutColor.Gray, out colorBrush))
+                    {
+                        colorBrush = new SolidColorBrush(Colors.DimGray);
+                        _shortcutColors.Add(ShortcutColor.Gray, colorBrush);
+                    }
+                    break;
+                default:
+                    if (!_shortcutColors.TryGetValue(ShortcutColor.Transparent, out colorBrush))
+                    {
+                        colorBrush = new SolidColorBrush(Colors.Transparent);
+                        _shortcutColors.Add(ShortcutColor.Transparent, colorBrush);
+                    }
+                    break;
             }
-            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
-            return new SolidColorBrush(Colors.Transparent);
+
+            return colorBrush;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            return null;
+            throw new NotImplementedException();
         }
     }
 }

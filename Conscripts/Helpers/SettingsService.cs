@@ -4,16 +4,17 @@ using Windows.Storage;
 
 namespace Conscripts.Helpers
 {
-    public class SettingsService : ObservableObject
+    public partial class SettingsService : ObservableObject
     {
         private const string SETTING_NAME_APPEARANCEINDEX = "AppearanceIndex";
         private const string SETTING_NAME_BACKDROPINDEX = "BackdropIndex";
         private const string SETTING_NAME_ONESHOTMODE = "IsOneShotModeEnabled";
 
-        private ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
+        private readonly ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
 
-        public Action<int> OnAppearanceSettingChanged { get; set; } = null;
-        public Action<int> OnBackdropSettingChanged { get; set; } = null;
+        public event EventHandler<int>? AppearanceSettingChanged;
+
+        public event EventHandler<int>? BackdropSettingChanged;
 
         private int _appearanceIndex = -1;
 
@@ -22,7 +23,7 @@ namespace Conscripts.Helpers
         private bool? _oneShotEnabled = null;
 
         /// <summary>
-        /// 设置的应用程序的主题 0-System 1-Dark 2-Light
+        /// App's Theme, 0-System 1-Dark 2-Light.
         /// </summary>
         public int AppearanceIndex
         {
@@ -62,12 +63,12 @@ namespace Conscripts.Helpers
             {
                 SetProperty(ref _appearanceIndex, value);
                 ApplicationData.Current.LocalSettings.Values[SETTING_NAME_APPEARANCEINDEX] = _appearanceIndex;
-                OnAppearanceSettingChanged?.Invoke(_appearanceIndex);
+                AppearanceSettingChanged?.Invoke(this, _appearanceIndex);
             }
         }
 
         /// <summary>
-        /// 设置的应用程序的背景材质 0-Mica 1-Acrylic
+        /// App's Backdrop Material, 0-Mica 1-MicaAlt 2-Acrylic.
         /// </summary>
         public int BackdropIndex
         {
@@ -89,6 +90,10 @@ namespace Conscripts.Helpers
                         {
                             _backdropIndex = 1;
                         }
+                        else if (_localSettings.Values[SETTING_NAME_BACKDROPINDEX]?.ToString() == "2")
+                        {
+                            _backdropIndex = 2;
+                        }
                         else
                         {
                             _backdropIndex = 0;
@@ -103,12 +108,12 @@ namespace Conscripts.Helpers
             {
                 SetProperty(ref _backdropIndex, value);
                 ApplicationData.Current.LocalSettings.Values[SETTING_NAME_BACKDROPINDEX] = _backdropIndex;
-                OnBackdropSettingChanged?.Invoke(_backdropIndex);
+                BackdropSettingChanged?.Invoke(this, _backdropIndex);
             }
         }
 
         /// <summary>
-        /// 是否启用一次性模式
+        /// Indicates whether the one-shot mode is enabled.
         /// </summary>
         public bool OneShotEnabled
         {

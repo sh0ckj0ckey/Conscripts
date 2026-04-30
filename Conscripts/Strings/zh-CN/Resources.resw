@@ -209,14 +209,11 @@
   <data name="DialogTitleDropedFileInvalid" xml:space="preserve">
     <value>这个不行</value>
   </data>
-  <data name="AddingChooseFileTextBlock.Text" xml:space="preserve">
+  <data name="AddingPickFileTextBlock.Text" xml:space="preserve">
     <value>选择文件</value>
   </data>
   <data name="AddingDropFileTextBlock.Text" xml:space="preserve">
     <value>或拖拽文件至此</value>
-  </data>
-  <data name="AddingChooseAgainTextBlock.Text" xml:space="preserve">
-    <value>重新选择</value>
   </data>
   <data name="AddingShortcutNameTextBlock.Text" xml:space="preserve">
     <value>名称</value>
@@ -279,7 +276,7 @@
     <value>修改</value>
   </data>
   <data name="SettingsDescriptionTextBlock.Text" xml:space="preserve">
-    <value>优雅一点点的脚本启动器</value>
+    <value>轻松整理 BAT 和 PS1 脚本文件</value>
   </data>
   <data name="SettingsRateTextBlock.Text" xml:space="preserve">
     <value>打分评价</value>
@@ -356,22 +353,46 @@
   <data name="SettingsCodeSettingsCard.Description" xml:space="preserve">
     <value>前往 GitHub 查看源代码</value>
   </data>
-  <data name="WhatsNewUpdateTitle2024NovTextBlock.Text" xml:space="preserve">
+  <data name="ReleaseNotesTitle2024NovTextBlock.Text" xml:space="preserve">
     <value>2024年11月更新</value>
   </data>
-  <data name="WhatsNewUpdateTitle2024NovRun1.Text" xml:space="preserve">
+  <data name="ReleaseNotesTitle2024NovRun1.Text" xml:space="preserve">
     <value>对应用图标和用户界面进行了翻新，支持了英文语言；</value>
   </data>
-  <data name="WhatsNewUpdateTitle2024NovRun2.Text" xml:space="preserve">
+  <data name="ReleaseNotesTitle2024NovRun2.Text" xml:space="preserve">
     <value>现在点击脚本卡片将会立即运行，其他操作移至卡片的右键菜单中；</value>
   </data>
-  <data name="WhatsNewUpdateTitle2024NovRun3.Text" xml:space="preserve">
+  <data name="ReleaseNotesTitle2024NovRun3.Text" xml:space="preserve">
     <value>添加脚本时，新增 "分类" 选项，脚本列表将会据此分组显示；</value>
   </data>
-  <data name="WhatsNewUpdateTitle2024NovRun4.Text" xml:space="preserve">
-    <value>添加脚本时，新增 "无窗口" 选项，运行时不会弹出新的窗口，如果您需要与命令行交互或者查看输出，则不要勾选此选项；</value>
+  <data name="ReleaseNotesTitle2024NovRun4.Text" xml:space="preserve">
+    <value>添加脚本时，新增 "无窗口" 选项，运行时不会弹出新的窗口。如果您需要与命令行交互或者查看输出，则不要勾选此选项；</value>
   </data>
-  <data name="WhatsNewUpdateTitle2024NovRun5.Text" xml:space="preserve">
-    <value>新增了 "一次性模式" 设置项，开启后，程序会在脚本运行结束后自动退出。</value>
+  <data name="ReleaseNotesTitle2024NovRun5.Text" xml:space="preserve">
+    <value>新增了 "一次性模式" 设置项。开启后，程序会在脚本运行结束后自动退出。</value>
+  </data>
+  <data name="SettingsBackdropMicaAltComboBoxItem.Content" xml:space="preserve">
+    <value>云母 Alt</value>
+  </data>
+  <data name="AddingShortcutJumpListCheckBox.Content" xml:space="preserve">
+    <value>添加到跳转列表</value>
+  </data>
+  <data name="ReleaseNotesTitle2026AprTextBlock.Text" xml:space="preserve">
+    <value>2026年4月更新</value>
+  </data>
+  <data name="ReleaseNotesTitle2026AprRun1.Text" xml:space="preserve">
+    <value>更新了应用图标，并优化了部分界面细节；</value>
+  </data>
+  <data name="ReleaseNotesTitle2026AprRun2.Text" xml:space="preserve">
+    <value>新增了将脚本添加到跳转列表的选项。启用后，可在开始菜单和任务栏中右键应用，快速启动脚本；</value>
+  </data>
+  <data name="ReleaseNotesTitle2026AprRun3.Text" xml:space="preserve">
+    <value>升级了底层技术框架，带来更好的启动体验、性能表现与兼容性。</value>
+  </data>
+  <data name="ShortcutLeftMenuItem.Text" xml:space="preserve">
+    <value>向左移动</value>
+  </data>
+  <data name="ShortcutRightMenuItem.Text" xml:space="preserve">
+    <value>向右移动</value>
   </data>
 </root>

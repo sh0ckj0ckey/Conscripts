@@ -1,32 +1,25 @@
 ﻿using System;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 
 namespace Conscripts.Converters
 {
-    internal class Bool2VisibilityConverter : IValueConverter
+    internal partial class Bool2VisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            try
-            {
-                if (parameter == null && value != null)
-                {
-                    return bool.Parse(value?.ToString() ?? "False") ? Visibility.Visible : Visibility.Collapsed;
-                }
+            bool boolValue = value is bool b && b;
 
-                if (parameter != null && value != null && parameter.ToString() == "!")
-                {
-                    return !bool.Parse(value?.ToString() ?? "True") ? Visibility.Visible : Visibility.Collapsed;
-                }
+            if (parameter?.ToString() == "!")
+            {
+                boolValue = !boolValue;
             }
-            catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
-            return Visibility.Collapsed;
+
+            return boolValue ? Microsoft.UI.Xaml.Visibility.Visible : Microsoft.UI.Xaml.Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            return null;
+            throw new NotImplementedException();
         }
     }
 }
