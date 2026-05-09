@@ -15,8 +15,8 @@
     </Window.SystemBackdrop>
 
     <Window.Content>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Frame x:Name="MainFrame" Margin="0" Padding="0,64,0,0" Loaded="MainFrame_Loaded" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Grid Loaded="Grid_Loaded" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Frame x:Name="MainFrame" Margin="0" Padding="0,64,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
             <Grid x:Name="TitleBar" Height="64" Background="Transparent" BorderBrush="{ThemeResource ControlElevationBorderBrush}" BorderThickness="0,0,0,1" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>

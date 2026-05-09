@@ -58,6 +58,9 @@ namespace Conscripts
             this.TitleBarViewModel.Start();
         }
 
+        /// <summary>
+        /// Updates the app's theme based on the user's settings and system theme.
+        /// </summary>
         private void UpdateAppTheme()
         {
             try
@@ -118,6 +121,9 @@ namespace Conscripts
             }
         }
 
+        /// <summary>
+        /// Updates the app's backdrop material based on the user's settings.
+        /// </summary>
         private void UpdateAppBackdrop()
         {
             this.SystemBackdrop = App.Settings.BackdropIndex == 2 ?
@@ -130,10 +136,57 @@ namespace Conscripts
                 };
         }
 
-        private void MainFrame_Loaded(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Sets the minimum allowable size for the window.
+        /// </summary>
+        /// <param name="width">Minimum width in effective pixels. Must be non-negative.</param>
+        /// <param name="height">Minimum height in effective pixels. Must be non-negative.</param>
+        /// <seealso href="https://github.com/microsoft/WinUI-Gallery/blob/main/WinUIGallery/Helpers/WindowHelper.cs">
+        /// WindowHelper.cs in WinUI Gallery
+        /// </seealso>
+        private void SetWindowMinSize(double width, double height)
+        {
+            if (this.Content is not FrameworkElement windowContent)
+            {
+                System.Diagnostics.Debug.WriteLine("Window content is not a FrameworkElement.");
+                return;
+            }
+
+            if (windowContent.XamlRoot is null)
+            {
+                System.Diagnostics.Debug.WriteLine("Window content's XamlRoot is null.");
+                return;
+            }
+
+            if (this.AppWindow.Presenter is not Microsoft.UI.Windowing.OverlappedPresenter presenter)
+            {
+                System.Diagnostics.Debug.WriteLine("Window's AppWindow.Presenter is not an OverlappedPresenter.");
+                return;
+            }
+
+            var scale = windowContent.XamlRoot.RasterizationScale;
+            var minWidth = width * scale;
+            var minHeight = height * scale;
+            presenter.PreferredMinimumWidth = (int)minWidth;
+            presenter.PreferredMinimumHeight = (int)minHeight;
+        }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             this.UpdateAppTheme();
             MainFrame.Navigate(typeof(Views.MainPage));
+
+            this.SetWindowMinSize(680, 460);
+
+            if (sender is FrameworkElement rootGrid && rootGrid.XamlRoot is not null)
+            {
+                rootGrid.XamlRoot.Changed += RootGridXamlRoot_Changed;
+            }
+        }
+
+        private void RootGridXamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args)
+        {
+            this.SetWindowMinSize(680, 460);
         }
 
         private void Window_Closed(object sender, WindowEventArgs args)
