@@ -23,9 +23,9 @@
                 <LineBreak/><Run x:Uid="ReleaseNotesTitle2026AprRun3"/><LineBreak/>
                 <LineBreak/>
             </TextBlock>
-            
-            <TextBlock x:Uid="ReleaseNotesTitle2024NovTextBlock" FontWeight="Bold" FontSize="16" TextWrapping="WrapWholeWords"/>
-            <TextBlock FontSize="14" TextWrapping="WrapWholeWords">
+
+            <TextBlock Opacity="0.5" x:Uid="ReleaseNotesTitle2024NovTextBlock" FontWeight="Bold" FontSize="16" TextWrapping="WrapWholeWords"/>
+            <TextBlock Opacity="0.5" FontSize="14" TextWrapping="WrapWholeWords">
                 <LineBreak/><Run x:Uid="ReleaseNotesTitle2024NovRun1"/><LineBreak/>
                 <LineBreak/><Run x:Uid="ReleaseNotesTitle2024NovRun2"/><LineBreak/>
                 <LineBreak/><Run x:Uid="ReleaseNotesTitle2024NovRun3"/><LineBreak/>
