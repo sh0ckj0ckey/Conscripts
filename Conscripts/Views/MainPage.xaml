@@ -23,7 +23,7 @@
     </Page.Resources>
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Margin="0,64,0,0" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <controls:ItemsRepeater Margin="20,0,20,20" ItemsSource="{x:Bind ViewModel.ShortcutGroups,Mode=OneWay}">
                 <controls:ItemsRepeater.Layout>
                     <controls:StackLayout Orientation="Vertical"/>

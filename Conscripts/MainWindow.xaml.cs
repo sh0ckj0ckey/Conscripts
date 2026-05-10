@@ -180,6 +180,7 @@ namespace Conscripts
 
             if (sender is FrameworkElement rootGrid && rootGrid.XamlRoot is not null)
             {
+                rootGrid.XamlRoot.Changed -= RootGridXamlRoot_Changed;
                 rootGrid.XamlRoot.Changed += RootGridXamlRoot_Changed;
             }
         }
