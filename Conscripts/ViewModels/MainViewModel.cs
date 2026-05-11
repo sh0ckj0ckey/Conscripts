@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Conscripts.Helpers;
 using Conscripts.Models;
-using Microsoft.UI.Xaml;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Conscripts.ViewModels
 {

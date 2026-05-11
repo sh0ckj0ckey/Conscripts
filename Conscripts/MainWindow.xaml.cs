@@ -1,5 +1,6 @@
 using System;
 using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -14,6 +15,10 @@ namespace Conscripts
     {
         private readonly Windows.UI.ViewManagement.UISettings _uiSettings = new();
 
+        private readonly Helpers.WindowPlacementService _windowPlacementService = new();
+
+        private Helpers.WindowPlacement _lastNormalWindowPlacement;
+
         public ViewModels.TitleBarViewModel TitleBarViewModel { get; } = new();
 
         public MainWindow()
@@ -23,7 +28,9 @@ namespace Conscripts
             this.ExtendsContentIntoTitleBar = true;
             this.SetTitleBar(TitleBar);
             this.AppWindow.SetIcon("Assets/Conscripts.ico");
-            this.AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Tall;
+            this.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
+
+            this.RestoreWindowPlacement();
 
             this.UpdateAppBackdrop();
             this.UpdateAppTheme();
@@ -158,31 +165,103 @@ namespace Conscripts
                 return;
             }
 
-            if (this.AppWindow.Presenter is not Microsoft.UI.Windowing.OverlappedPresenter presenter)
+            if (this.AppWindow.Presenter is not OverlappedPresenter presenter)
             {
                 System.Diagnostics.Debug.WriteLine("Window's AppWindow.Presenter is not an OverlappedPresenter.");
                 return;
             }
 
             var scale = windowContent.XamlRoot.RasterizationScale;
+            if (scale <= 0)
+            {
+                scale = 1.0;
+            }
+
             var minWidth = width * scale;
             var minHeight = height * scale;
             presenter.PreferredMinimumWidth = (int)minWidth;
             presenter.PreferredMinimumHeight = (int)minHeight;
         }
 
+        /// <summary>
+        /// Restores the window's placement (position, size, and maximized state) from the last saved settings.
+        /// </summary>
+        private void RestoreWindowPlacement()
+        {
+            if (this.AppWindow.Presenter is not OverlappedPresenter presenter)
+            {
+                System.Diagnostics.Debug.WriteLine("Window's AppWindow.Presenter is not an OverlappedPresenter.");
+                return;
+            }
+
+            if (!_windowPlacementService.TryLoad(out var placement))
+            {
+                return;
+            }
+
+            _lastNormalWindowPlacement = placement with { IsMaximized = false };
+
+            int x = (int)Math.Round(placement.X);
+            int y = (int)Math.Round(placement.Y);
+            int width = (int)Math.Round(placement.Width);
+            int height = (int)Math.Round(placement.Height);
+
+            this.AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(x, y, width, height));
+
+            if (placement.IsMaximized)
+            {
+                presenter.Maximize();
+            }
+        }
+
+        /// <summary>
+        /// Records the current window's placement (position, size, and maximized state) to be saved for future sessions.
+        /// </summary>
+        private void RecordLastNormalWindowPlacement()
+        {
+            if (this.AppWindow.Presenter is not OverlappedPresenter presenter)
+            {
+                return;
+            }
+
+            if (presenter.State != OverlappedPresenterState.Restored)
+            {
+                return;
+            }
+
+            var position = this.AppWindow.Position;
+            var size = this.AppWindow.Size;
+            _lastNormalWindowPlacement = new Helpers.WindowPlacement(position.X, position.Y, size.Width, size.Height, false);
+        }
+
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             this.UpdateAppTheme();
+
             MainFrame.Navigate(typeof(Views.MainPage));
 
             this.SetWindowMinSize(680, 460);
+
+            this.RecordLastNormalWindowPlacement();
+
+            this.AppWindow.Changed -= AppWindow_Changed;
+            this.AppWindow.Changed += AppWindow_Changed;
 
             if (sender is FrameworkElement rootGrid && rootGrid.XamlRoot is not null)
             {
                 rootGrid.XamlRoot.Changed -= RootGridXamlRoot_Changed;
                 rootGrid.XamlRoot.Changed += RootGridXamlRoot_Changed;
             }
+        }
+
+        private void AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs args)
+        {
+            if (!args.DidPositionChange && !args.DidSizeChange)
+            {
+                return;
+            }
+
+            this.RecordLastNormalWindowPlacement();
         }
 
         private void RootGridXamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args)
@@ -192,6 +271,11 @@ namespace Conscripts
 
         private void Window_Closed(object sender, WindowEventArgs args)
         {
+            this.AppWindow.Changed -= AppWindow_Changed;
+
+            bool isMaximized = this.AppWindow.Presenter is OverlappedPresenter presenter && presenter.State == OverlappedPresenterState.Maximized;
+            _windowPlacementService.Save(_lastNormalWindowPlacement with { IsMaximized = isMaximized });
+
             TitleBarViewModel.Stop();
             Application.Current.Exit();
         }
