@@ -27,7 +27,7 @@
         <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <ScrollViewer x:Name="AddingShortcutScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20">
-                    <Grid x:Name="ShortcutGrid" Height="192" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                    <Grid x:Name="ShortcutGrid" Height="164" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                           AllowDrop="True" DragOver="ShortcutGrid_DragOver" Drop="ShortcutGrid_Drop">
                         <Rectangle Margin="4" RadiusX="4" RadiusY="4" StrokeDashArray="3" StrokeThickness="2" Stroke="{ThemeResource ControlElevationBorderBrush}" Fill="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
@@ -54,7 +54,7 @@
 
                     <Border Height="8"/>
 
-                    <Grid ColumnSpacing="16" Padding="16" BorderThickness="1,1,1,0" CornerRadius="8,8,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                    <Grid ColumnSpacing="16" Padding="16,8,8,8" BorderThickness="1,1,1,0" CornerRadius="8,8,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -80,7 +80,7 @@
                             </Button.Flyout>
                         </Button>
                     </Grid>
-                    <Grid ColumnSpacing="16" Padding="16" BorderThickness="1,1,1,0" CornerRadius="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                    <Grid ColumnSpacing="16" Padding="16,8,8,8" BorderThickness="1,1,1,0" CornerRadius="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -89,7 +89,7 @@
                         <TextBlock x:Uid="AddingShortcutNameTextBlock" FontSize="14" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
                         <TextBox x:Name="AddingShortcutNameTextBox" Grid.Column="1" PlaceholderText="" FontSize="14" Height="34" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                     </Grid>
-                    <Grid ColumnSpacing="16" Padding="16" BorderThickness="1,1,1,0" CornerRadius="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                    <Grid ColumnSpacing="16" Padding="16,8,8,8" BorderThickness="1,1,1,0" CornerRadius="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -98,7 +98,7 @@
                         <TextBlock x:Uid="AddingShortcutCategoryTextBlock" FontSize="14" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
                         <AutoSuggestBox x:Name="AddingShortcutCategoryTextBox" x:Uid="AddingShortcutCategoryTextBox" Grid.Column="1" GotFocus="AddingShortcutCategoryTextBox_GotFocus" MaxSuggestionListHeight="128" ItemsSource="{x:Bind ViewModel.ShortcutCategories,Mode=OneWay}" FontSize="14" Height="34" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                     </Grid>
-                    <Grid ColumnSpacing="16" Padding="16" BorderThickness="1,1,1,1" CornerRadius="0,0,8,8" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                    <Grid ColumnSpacing="16" Padding="16,8,8,8" BorderThickness="1,1,1,1" CornerRadius="0,0,8,8" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -165,15 +165,15 @@
 
                     <Border Height="8"/>
 
-                    <Grid ColumnSpacing="16" Padding="16,12" BorderThickness="1,1,1,0" CornerRadius="8,8,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                    <Grid ColumnSpacing="16" Padding="16,8" BorderThickness="1,1,1,0" CornerRadius="8,8,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
                         <CheckBox x:Name="AddingShortcutRunasCheckBox" x:Uid="AddingShortcutRunasCheckBox" IsChecked="False" HorizontalAlignment="Left" Checked="AddingShortcutRunasCheckBox_Checked" Unchecked="AddingShortcutRunasCheckBox_Unchecked"/>
                     </Grid>
-                    <Grid ColumnSpacing="16" Padding="16,12" BorderThickness="1,1,1,0" CornerRadius="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                    <Grid ColumnSpacing="16" Padding="16,8" BorderThickness="1,1,1,0" CornerRadius="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
                         <CheckBox x:Name="AddingShortcutNoWindowCheckBox" x:Uid="AddingShortcutNoWindowCheckBox" IsChecked="False" HorizontalAlignment="Left"/>
                     </Grid>
-                    <Grid ColumnSpacing="16" Padding="16,12" BorderThickness="1,1,1,1" CornerRadius="0,0,8,8" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                    <Grid ColumnSpacing="16" Padding="16,8" BorderThickness="1,1,1,1" CornerRadius="0,0,8,8" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
                         <CheckBox x:Name="AddingShortcutJumpListCheckBox" x:Uid="AddingShortcutJumpListCheckBox" IsChecked="False" HorizontalAlignment="Left"/>
                     </Grid>
