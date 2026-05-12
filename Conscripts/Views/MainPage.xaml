@@ -117,7 +117,7 @@
             <animations:Implicit.HideAnimations>
                 <animations:OpacityAnimation To="0" Duration="0:0:0.2"/>
             </animations:Implicit.HideAnimations>
-            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72" MaxWidth="680">
+            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicInAppFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72" MaxWidth="680">
                 <animations:Implicit.ShowAnimations>
                     <animations:TranslationAnimation From="0,32,0" To="0,0,0" EasingMode="EaseInOut" EasingType="Default" Duration="0:0:0.4"/>
                 </animations:Implicit.ShowAnimations>
@@ -133,7 +133,7 @@
                         HorizontalAlignment="Right" VerticalAlignment="Center" Click="CloseSettings_Click">
                     <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
                 </Button>
-                <Border x:Name="SettingsBorder" Grid.Row="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" BorderThickness="0,1,0,0"/>
+                <Border x:Name="SettingsContentBorder" Grid.Row="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" BorderThickness="0,1,0,0"/>
             </Grid>
         </Grid>
 
@@ -144,7 +144,7 @@
             <animations:Implicit.HideAnimations>
                 <animations:OpacityAnimation To="0" Duration="0:0:0.2"/>
             </animations:Implicit.HideAnimations>
-            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="72" MaxWidth="540">
+            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicInAppFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="72" MaxWidth="540">
                 <animations:Implicit.ShowAnimations>
                     <animations:TranslationAnimation From="0,32,0" To="0,0,0" EasingMode="EaseInOut" EasingType="Default" Duration="0:0:0.4"/>
                 </animations:Implicit.ShowAnimations>
@@ -160,7 +160,7 @@
                         HorizontalAlignment="Right" VerticalAlignment="Center" Click="CloseWhatsNew_Click">
                     <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
                 </Button>
-                <Border x:Name="WhatsNewBorder" Grid.Row="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" BorderThickness="0,1,0,0"/>
+                <Border x:Name="WhatsNewContentBorder" Grid.Row="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" BorderThickness="0,1,0,0"/>
             </Grid>
         </Grid>
 
@@ -171,7 +171,7 @@
             <animations:Implicit.HideAnimations>
                 <animations:OpacityAnimation To="0" Duration="0:0:0.2"/>
             </animations:Implicit.HideAnimations>
-            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72">
+            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicInAppFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72" MaxWidth="640">
                 <animations:Implicit.ShowAnimations>
                     <animations:TranslationAnimation From="0,32,0" To="0,0,0" EasingMode="EaseInOut" EasingType="Default" Duration="0:0:0.4"/>
                 </animations:Implicit.ShowAnimations>
@@ -187,7 +187,7 @@
                         HorizontalAlignment="Right" VerticalAlignment="Center" Click="CloseAdding_Click">
                     <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
                 </Button>
-                <Border x:Name="AddingBorder" Grid.Row="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" BorderThickness="0,1,0,0"/>
+                <Border x:Name="AddingContentBorder" Grid.Row="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" BorderThickness="0,1,0,0"/>
             </Grid>
         </Grid>
 
@@ -198,7 +198,7 @@
             <animations:Implicit.HideAnimations>
                 <animations:OpacityAnimation To="0" Duration="0:0:0.2"/>
             </animations:Implicit.HideAnimations>
-            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72" MaxWidth="420">
+            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicInAppFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72" MaxWidth="420">
                 <animations:Implicit.ShowAnimations>
                     <animations:TranslationAnimation From="0,32,0" To="0,0,0" EasingMode="EaseInOut" EasingType="Default" Duration="0:0:0.4"/>
                 </animations:Implicit.ShowAnimations>
@@ -214,7 +214,7 @@
                         HorizontalAlignment="Right" VerticalAlignment="Center" Click="CloseProperty_Click">
                     <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
                 </Button>
-                <Border x:Name="PropertyBorder" Grid.Row="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" BorderThickness="0,1,0,0"/>
+                <Border x:Name="PropertyContentBorder" Grid.Row="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" BorderThickness="0,1,0,0"/>
             </Grid>
         </Grid>
     </Grid>
