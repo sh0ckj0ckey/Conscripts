@@ -14,13 +14,52 @@ namespace Conscripts.Helpers
         /// <returns>The <see cref="StorageFolder"/> representing the data folder.</returns>
         public static async Task<StorageFolder> GetDataFolderAsync()
         {
-            if (_dataFolder is null)
+            if (_dataFolder is not null)
             {
-                StorageFolder documentsFolder = await StorageFolder.GetFolderFromPathAsync(UserDataPaths.GetDefault().Documents);
-                var noMewingFolder = await documentsFolder.CreateFolderAsync("NoMewing", CreationCollisionOption.OpenIfExists);
-                _dataFolder = await noMewingFolder.CreateFolderAsync("Conscript", CreationCollisionOption.OpenIfExists);
+                return _dataFolder;
             }
 
+            var documentsFolder = await StorageFolder.GetFolderFromPathAsync(UserDataPaths.GetDefault().Documents);
+            var noMewingFolder = await documentsFolder?.CreateFolderAsync("NoMewing", CreationCollisionOption.OpenIfExists);
+
+            StorageFolder? legacyFolder = null;
+            StorageFolder? currentFolder = null;
+
+            try
+            {
+                legacyFolder = await noMewingFolder.GetFolderAsync("Conscript");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+            }
+
+            try
+            {
+                currentFolder = await noMewingFolder.GetFolderAsync("Conscripts");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+            }
+
+            try
+            {
+                if (legacyFolder is not null && currentFolder is null)
+                {
+                    await legacyFolder.RenameAsync("Conscripts");
+                }
+                else if (legacyFolder is not null && currentFolder is not null)
+                {
+                    System.Diagnostics.Trace.WriteLine("Both legacy folder 'Conscript' and current folder 'Conscripts' exist. Using current folder and leaving legacy folder untouched.");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+            }
+
+            _dataFolder = await noMewingFolder.CreateFolderAsync("Conscripts", CreationCollisionOption.OpenIfExists);
             return _dataFolder;
         }
 
