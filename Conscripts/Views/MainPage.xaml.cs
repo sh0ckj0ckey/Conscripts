@@ -51,12 +51,19 @@ namespace Conscripts.Views
             }
             else
             {
-                if (string.IsNullOrWhiteSpace(shortcut.Path) || !System.IO.File.Exists(shortcut.Path))
+                Windows.Storage.StorageFile? file = null;
+
+                if (!string.IsNullOrWhiteSpace(shortcut.FileName))
+                {
+                    file = await StorageFilesService.GetFileFromDataFolderAsync(shortcut.FileName);
+                }
+
+                if (file is null)
                 {
                     _ = await new ContentDialog
                     {
                         Title = "DialogTitleCannotLaunch".GetLocalized(),
-                        Content = $"{"DialogContentCannotLaunch".GetLocalized()} {shortcut.Path}",
+                        Content = $"{"DialogContentCannotLaunch".GetLocalized()} {shortcut.FileName}",
                         CloseButtonText = "DialogButtonGotIt".GetLocalized(),
                         XamlRoot = this.XamlRoot,
                         Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,

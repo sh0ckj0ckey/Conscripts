@@ -189,8 +189,8 @@ namespace Conscripts.Views
                     return;
                 }
 
-                var targetPath = await StorageFilesService.CopyToDataFolderAsync(_pickedFilePath, $"{_desiredFileName}{extension}");
-                if (string.IsNullOrWhiteSpace(targetPath))
+                var fileName = await StorageFilesService.CopyFileToDataFolderAsync(_pickedFilePath, $"{_desiredFileName}{extension}");
+                if (string.IsNullOrWhiteSpace(fileName))
                 {
                     return;
                 }
@@ -203,7 +203,7 @@ namespace Conscripts.Views
                 bool runWithoutWindow = AddingShortcutNoWindowCheckBox.IsChecked == true;
                 bool showInJumpList = AddingShortcutJumpListCheckBox.IsChecked == true;
 
-                ViewModel.AddShortcut(icon, name, category, color, runAsAdministrator, runWithoutWindow, showInJumpList, targetPath, extension);
+                ViewModel.AddShortcut(icon, name, category, color, runAsAdministrator, runWithoutWindow, showInJumpList, fileName, extension);
 
                 _closeView?.Invoke();
             }

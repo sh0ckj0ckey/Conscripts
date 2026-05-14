@@ -64,6 +64,98 @@ namespace Conscripts.Helpers
         }
 
         /// <summary>
+        /// Gets a file from the application's current data folder using either a file name
+        /// or a legacy absolute path saved by older versions of the app.
+        /// If a path is provided, only its file name is used for lookup.
+        /// </summary>
+        /// <param name="fileNameOrPath">The name or path of the file to retrieve.</param>
+        /// <returns>The <see cref="StorageFile"/> if found; otherwise, <see langword="null"/>.</returns>
+        public static async Task<StorageFile?> GetFileFromDataFolderAsync(string fileNameOrPath)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(fileNameOrPath))
+                {
+                    return null;
+                }
+
+                string fileName = System.IO.Path.GetFileName(fileNameOrPath.Trim());
+                if (string.IsNullOrWhiteSpace(fileName))
+                {
+                    return null;
+                }
+
+                StorageFolder dataFolder = await GetDataFolderAsync();
+                return await dataFolder.GetFileAsync(fileName);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Copies the specified file into the application's data folder.
+        /// </summary>
+        /// <remarks>
+        /// If a file with the same name already exists in the data folder, a unique file name will be generated automatically.
+        /// If the source file does not exist or an error occurs during copying, the method returns <see langword="null"/> rather than throwing an exception.
+        /// </remarks>
+        /// <param name="sourceFilePath">The full path of the source file to copy.</param>
+        /// <param name="desiredFileName">The desired file name in the data folder, including its extension.</param>
+        /// <returns>The final file name stored in the data folder if the operation succeeds; otherwise, <see langword="null"/>.</returns>
+        public static async Task<string?> CopyFileToDataFolderAsync(string sourceFilePath, string desiredFileName)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(sourceFilePath))
+                {
+                    throw new ArgumentException("Source file path cannot be null or empty.", nameof(sourceFilePath));
+                }
+
+                if (string.IsNullOrWhiteSpace(desiredFileName))
+                {
+                    throw new ArgumentException("Desired file name cannot be null or empty.", nameof(desiredFileName));
+                }
+
+                if (!System.IO.File.Exists(sourceFilePath))
+                {
+                    return null;
+                }
+
+                StorageFolder dataFolder = await GetDataFolderAsync();
+
+                string fileNameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(desiredFileName);
+                string extension = System.IO.Path.GetExtension(desiredFileName);
+
+                string finalFileName = desiredFileName;
+                string targetPath = System.IO.Path.Combine(dataFolder.Path, finalFileName);
+
+                if (System.IO.File.Exists(targetPath))
+                {
+                    int index = 1;
+                    do
+                    {
+                        finalFileName = $"{fileNameWithoutExtension}_{index}{extension}";
+                        targetPath = System.IO.Path.Combine(dataFolder.Path, finalFileName);
+                        index++;
+                    }
+                    while (System.IO.File.Exists(targetPath));
+                }
+
+                System.IO.File.Copy(sourceFilePath, targetPath, false);
+
+                return finalFileName;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Asynchronously reads the contents of the specified file and returns it as a string.
         /// </summary>
         /// <remarks>
@@ -174,67 +266,5 @@ namespace Conscripts.Helpers
 
             return false;
         }
-
-        /// <summary>
-        /// Asynchronously copies the specified file into the application's data folder.
-        /// </summary>
-        /// <remarks>
-        /// If a file with the same name already exists in the data folder, 
-        /// a unique file name will be generated automatically.
-        /// If the source file does not exist or an error occurs during copying,
-        /// the method returns <see langword="null"/> rather than throwing an exception.
-        /// </remarks>
-        /// <param name="sourceFilePath">The full path of the source file to copy.</param>
-        /// <param name="desiredFileName">The desired file name in the data folder, including its extension.</param>
-        /// <returns>The full path of the copied file in the data folder if the operation succeeds; otherwise, <see langword="null"/>.</returns>
-        public static async Task<string?> CopyToDataFolderAsync(string sourceFilePath, string desiredFileName)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(sourceFilePath))
-                {
-                    throw new ArgumentException("Source file path cannot be null or empty.", nameof(sourceFilePath));
-                }
-
-                if (string.IsNullOrWhiteSpace(desiredFileName))
-                {
-                    throw new ArgumentException("Desired file name cannot be null or empty.", nameof(desiredFileName));
-                }
-
-                if (!System.IO.File.Exists(sourceFilePath))
-                {
-                    return null;
-                }
-
-                StorageFolder dataFolder = await GetDataFolderAsync();
-
-                string fileNameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(desiredFileName);
-                string extension = System.IO.Path.GetExtension(desiredFileName);
-
-                string targetPath = System.IO.Path.Combine(dataFolder.Path, desiredFileName);
-
-                if (System.IO.File.Exists(targetPath))
-                {
-                    int index = 1;
-                    do
-                    {
-                        string uniqueFileName = $"{fileNameWithoutExtension}_{index}{extension}";
-                        targetPath = System.IO.Path.Combine(dataFolder.Path, uniqueFileName);
-                        index++;
-                    }
-                    while (System.IO.File.Exists(targetPath));
-                }
-
-                System.IO.File.Copy(sourceFilePath, targetPath, false);
-
-                return targetPath;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Trace.WriteLine(ex);
-                return null;
-            }
-        }
     }
-
 }

@@ -15,7 +15,7 @@ namespace Conscripts.ViewModels
             set => SetProperty(ref _isRunning, value);
         }
 
-        public string Path
+        public string FileName
         {
             get => _shortcutModel.ScriptFilePath;
             set

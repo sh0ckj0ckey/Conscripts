@@ -126,7 +126,7 @@ namespace Conscripts.ViewModels
             }
         }
 
-        public void AddShortcut(string icon, string name, string category, int color, bool runAsAdministrator, bool runWithoutWindow, bool showInJumpList, string targetPath, string extension)
+        public void AddShortcut(string icon, string name, string category, int color, bool runAsAdministrator, bool runWithoutWindow, bool showInJumpList, string fileName, string extension)
         {
             // UpdateCategory
 
