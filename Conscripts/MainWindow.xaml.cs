@@ -277,7 +277,7 @@ namespace Conscripts
             _windowPlacementService.Save(_lastNormalWindowPlacement with { IsMaximized = isMaximized });
 
             TitleBarViewModel.Stop();
-            Application.Current.Exit();
+            // Application.Current.Exit();
         }
     }
 }

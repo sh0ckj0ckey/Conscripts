@@ -23,8 +23,6 @@ namespace Conscripts.Views
             this.ViewModel = new MainViewModel(Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread());
 
             InitializeComponent();
-
-            _ = this.ViewModel.LoadShortcutsAsync();
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -120,34 +118,34 @@ namespace Conscripts.Views
             flyout.ShowAt(btn);
         }
 
-        private void FrontMenuItem_Click(object sender, RoutedEventArgs e)
+        private async void FrontMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not MenuFlyoutItem menuItem || menuItem.DataContext is not ShortcutItemViewModel shortcut)
             {
                 return;
             }
 
-            this.ViewModel.MoveShortcutToFront(shortcut);
+            await this.ViewModel.MoveShortcutToFrontAsync(shortcut);
         }
 
-        private void LeftMenuItem_Click(object sender, RoutedEventArgs e)
+        private async void LeftMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not MenuFlyoutItem menuItem || menuItem.DataContext is not ShortcutItemViewModel shortcut)
             {
                 return;
             }
 
-            this.ViewModel.MoveShortcutLeft(shortcut);
+            await this.ViewModel.MoveShortcutLeftAsync(shortcut);
         }
 
-        private void RightMenuItem_Click(object sender, RoutedEventArgs e)
+        private async void RightMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not MenuFlyoutItem menuItem || menuItem.DataContext is not ShortcutItemViewModel shortcut)
             {
                 return;
             }
 
-            this.ViewModel.MoveShortcutRight(shortcut);
+            await this.ViewModel.MoveShortcutRightAsync(shortcut);
         }
 
         private void InfoMenuItem_Click(object sender, RoutedEventArgs e)
@@ -182,7 +180,7 @@ namespace Conscripts.Views
 
             if (result == ContentDialogResult.Primary)
             {
-                this.ViewModel.DeleteShortcut(shortcut);
+                await this.ViewModel.DeleteShortcutAsync(shortcut);
             }
         }
 

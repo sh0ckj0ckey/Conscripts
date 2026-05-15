@@ -21,7 +21,7 @@ namespace Conscripts.ViewModels
 
         private readonly List<ShortcutModel> _shortcutModels = [];
 
-        private readonly Dictionary<ShortcutItemViewModel, ShortcutModel> _shortcutsModelsMap = [];
+        private readonly Dictionary<ShortcutItemViewModel, ShortcutModel> _shortcutMap = [];
 
         public ObservableCollection<ShortcutGroupViewModel> ShortcutGroups { get; } = [];
 
@@ -30,13 +30,16 @@ namespace Conscripts.ViewModels
         public MainViewModel(Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue)
         {
             _dispatcherQueue = dispatcherQueue;
+
+            _ = LoadShortcutsAsync();
         }
 
-        public async Task LoadShortcutsAsync()
+        private async Task LoadShortcutsAsync()
         {
             try
             {
                 _shortcutModels.Clear();
+                _shortcutMap.Clear();
                 this.ShortcutGroups.Clear();
                 this.ShortcutCategories.Clear();
 
@@ -46,28 +49,28 @@ namespace Conscripts.ViewModels
                     var shortcuts = JsonSerializer.Deserialize(shortcutsJson, SourceGenerationContext.Default.ListShortcutModel);
                     if (shortcuts is not null)
                     {
-                        Dictionary<string, ShortcutGroupViewModel> shortcutGroups = [];
-                        HashSet<string> shortcutCategories = [];
+                        Dictionary<string, ShortcutGroupViewModel> shortcutGroups = new(StringComparer.Ordinal);
+                        HashSet<string> shortcutCategories = new(StringComparer.Ordinal);
 
                         foreach (var shortcut in shortcuts)
                         {
-                            _shortcutModels.Add(shortcut);
-
-                            string category = shortcut.Category?.Trim() ?? string.Empty;
-
-                            if (!shortcutGroups.TryGetValue(category, out var group))
-                            {
-                                group = new ShortcutGroupViewModel(category);
-                                shortcutGroups[category] = group;
-                            }
+                            shortcut.Category = shortcut.Category?.Trim() ?? string.Empty;
 
                             var shortcutItem = new ShortcutItemViewModel(shortcut);
-                            _shortcutsModelsMap[shortcutItem] = shortcut;
+
+                            _shortcutModels.Add(shortcut);
+                            _shortcutMap[shortcutItem] = shortcut;
+
+                            if (!shortcutGroups.TryGetValue(shortcut.Category, out var group))
+                            {
+                                group = new ShortcutGroupViewModel(shortcut.Category);
+                                shortcutGroups[shortcut.Category] = group;
+                            }
                             group.Shortcuts.Add(shortcutItem);
 
-                            if (!string.IsNullOrWhiteSpace(category))
+                            if (!string.IsNullOrWhiteSpace(shortcut.Category))
                             {
-                                shortcutCategories.Add(category);
+                                shortcutCategories.Add(shortcut.Category);
                             }
                         }
 
@@ -126,9 +129,136 @@ namespace Conscripts.ViewModels
             }
         }
 
-        public void AddShortcut(string icon, string name, string category, int color, bool runAsAdministrator, bool runWithoutWindow, bool showInJumpList, string fileName, string extension)
+        private async Task SaveShortcutsAsync()
         {
-            // UpdateCategory
+            try
+            {
+                string shortcutsJson = JsonSerializer.Serialize(_shortcutModels, SourceGenerationContext.Default.ListShortcutModel);
+                await StorageFilesService.WriteFileAsync("shortcuts.json", shortcutsJson);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+            }
+        }
+
+        public async Task MoveShortcutToFrontAsync(ShortcutItemViewModel movingShortcut)
+        {
+            try
+            {
+                if (!_shortcutMap.TryGetValue(movingShortcut, out var shortcutModel))
+                {
+                    return;
+                }
+
+                int modelIndex = _shortcutModels.IndexOf(shortcutModel);
+                if (modelIndex > 0)
+                {
+                    _shortcutModels.RemoveAt(modelIndex);
+                    _shortcutModels.Insert(0, shortcutModel);
+                }
+
+                var group = this.ShortcutGroups.FirstOrDefault(x => x.Shortcuts.Contains(movingShortcut));
+                if (group is not null)
+                {
+                    int groupIndex = group.Shortcuts.IndexOf(movingShortcut);
+                    if (groupIndex > 0)
+                    {
+                        group.Shortcuts.Move(groupIndex, 0);
+                    }
+                }
+
+                await SaveShortcutsAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+            }
+        }
+
+        public async Task MoveShortcutLeftAsync(ShortcutItemViewModel movingShortcut)
+        {
+            try
+            {
+                if (!_shortcutMap.TryGetValue(movingShortcut, out var shortcutModel))
+                {
+                    return;
+                }
+
+                int modelIndex = _shortcutModels.IndexOf(shortcutModel);
+                if (modelIndex > 0)
+                {
+                    for (int i = modelIndex - 1; i >= 0; i--)
+                    {
+                        if (string.Equals(_shortcutModels[i].Category, shortcutModel.Category, StringComparison.Ordinal))
+                        {
+                            (_shortcutModels[i], _shortcutModels[modelIndex]) = (_shortcutModels[modelIndex], _shortcutModels[i]);
+                            break;
+                        }
+                    }
+                }
+
+                var group = this.ShortcutGroups.FirstOrDefault(x => x.Shortcuts.Contains(movingShortcut));
+                if (group is not null)
+                {
+                    int groupIndex = group.Shortcuts.IndexOf(movingShortcut);
+                    if (groupIndex > 0)
+                    {
+                        group.Shortcuts.Move(groupIndex, groupIndex - 1);
+                    }
+                }
+
+                await SaveShortcutsAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+            }
+        }
+
+        public async Task MoveShortcutRightAsync(ShortcutItemViewModel movingShortcut)
+        {
+            try
+            {
+                if (!_shortcutMap.TryGetValue(movingShortcut, out var shortcutModel))
+                {
+                    return;
+                }
+
+                int modelIndex = _shortcutModels.IndexOf(shortcutModel);
+                if (modelIndex >= 0 && modelIndex < _shortcutModels.Count - 1)
+                {
+                    for (int i = modelIndex + 1; i < _shortcutModels.Count; i++)
+                    {
+                        if (string.Equals(_shortcutModels[i].Category, shortcutModel.Category, StringComparison.Ordinal))
+                        {
+                            (_shortcutModels[modelIndex], _shortcutModels[i]) = (_shortcutModels[i], _shortcutModels[modelIndex]);
+                            break;
+                        }
+                    }
+                }
+
+                var group = this.ShortcutGroups.FirstOrDefault(x => x.Shortcuts.Contains(movingShortcut));
+                if (group is not null)
+                {
+                    int groupIndex = group.Shortcuts.IndexOf(movingShortcut);
+                    if (groupIndex >= 0 && groupIndex < group.Shortcuts.Count - 1)
+                    {
+                        group.Shortcuts.Move(groupIndex, groupIndex + 1);
+                    }
+                }
+
+                await SaveShortcutsAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+            }
+        }
+
+        public async Task AddShortcutAsync(string icon, string name, string category, int color, bool runAsAdministrator, bool runWithoutWindow, bool showInJumpList, string fileName, string extension)
+        {
+            // Remember to UpdateCategory
 
             //try
             //{
@@ -153,9 +283,9 @@ namespace Conscripts.ViewModels
             //}
         }
 
-        public void DeleteShortcut(ShortcutItemViewModel deletingShortcut)
+        public async Task DeleteShortcutAsync(ShortcutItemViewModel deletingShortcut)
         {
-            // UpdateCategory
+            // Remember to UpdateCategory
 
             //try
             //{
@@ -177,21 +307,6 @@ namespace Conscripts.ViewModels
             //}
         }
 
-        public void MoveShortcutToFront(ShortcutItemViewModel movingShortcut)
-        {
-
-        }
-
-        public void MoveShortcutLeft(ShortcutItemViewModel movingShortcut)
-        {
-
-        }
-
-        public void MoveShortcutRight(ShortcutItemViewModel movingShortcut)
-        {
-
-        }
-
         //public void EditShortcut(ShortcutModel editingShortcut, string name, string category, int color, bool runas, bool noWindow, string icon)
         //{
         //    try
@@ -202,6 +317,8 @@ namespace Conscripts.ViewModels
         //        editingShortcut.ShortcutRunas = runas;
         //        editingShortcut.NoWindow = noWindow;
         //        editingShortcut.Category = category;
+
+        //        ! 先移除再重新追加到头部，否则可能在修改分类后出现在新分类下的随机位置
 
         //        SaveShortcuts();
         //        UpdateGroupedShortcuts();
@@ -289,17 +406,6 @@ namespace Conscripts.ViewModels
         //    }
         //}
 
-        //private async void SaveShortcuts()
-        //{
-        //    try
-        //    {
-        //        string shortcutsSaveJson = JsonSerializer.Serialize(_allShortcuts);
-        //        await StorageFilesService.WriteFileAsync("shortcuts.json", shortcutsSaveJson);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Trace.WriteLine(e.Message);
-        //    }
-        //}
+
     }
 }
