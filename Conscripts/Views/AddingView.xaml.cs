@@ -170,6 +170,13 @@ namespace Conscripts.Views
 
         private async void AddButton_Click(object sender, RoutedEventArgs e)
         {
+            if (sender is not Button button || !button.IsEnabled)
+            {
+                return;
+            }
+
+            button.IsEnabled = false;
+
             try
             {
                 if (string.IsNullOrWhiteSpace(_pickedFilePath))
@@ -182,19 +189,6 @@ namespace Conscripts.Views
                     return;
                 }
 
-                var extension = System.IO.Path.GetExtension(_pickedFilePath);
-                if (!string.Equals(extension, ".ps1", StringComparison.OrdinalIgnoreCase) &&
-                    !string.Equals(extension, ".bat", StringComparison.OrdinalIgnoreCase))
-                {
-                    return;
-                }
-
-                var fileName = await StorageFilesService.CopyFileToDataFolderAsync(_pickedFilePath, $"{_desiredFileName}{extension}");
-                if (string.IsNullOrWhiteSpace(fileName))
-                {
-                    return;
-                }
-
                 string icon = _pickedIconGlyph.ToString();
                 string name = string.IsNullOrWhiteSpace(AddingShortcutNameTextBox.Text) ? System.IO.Path.GetFileNameWithoutExtension(_pickedFilePath) : AddingShortcutNameTextBox.Text;
                 string category = string.IsNullOrWhiteSpace(AddingShortcutCategoryTextBox.Text) ? string.Empty : AddingShortcutCategoryTextBox.Text;
@@ -203,13 +197,20 @@ namespace Conscripts.Views
                 bool runWithoutWindow = AddingShortcutNoWindowCheckBox.IsChecked == true;
                 bool showInJumpList = AddingShortcutJumpListCheckBox.IsChecked == true;
 
-                ViewModel.AddShortcut(icon, name, category, color, runAsAdministrator, runWithoutWindow, showInJumpList, fileName, extension);
+                bool added = await ViewModel.AddShortcutAsync(_pickedFilePath, _desiredFileName, icon, name, category, color, runAsAdministrator, runWithoutWindow, showInJumpList);
 
-                _closeView?.Invoke();
+                if (added)
+                {
+                    _closeView?.Invoke();
+                }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Trace.WriteLine(ex);
+            }
+            finally
+            {
+                button.IsEnabled = true;
             }
         }
 
