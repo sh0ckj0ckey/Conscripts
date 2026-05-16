@@ -256,55 +256,145 @@ namespace Conscripts.ViewModels
             }
         }
 
-        public async Task AddShortcutAsync(string icon, string name, string category, int color, bool runAsAdministrator, bool runWithoutWindow, bool showInJumpList, string fileName, string extension)
+        public async Task<bool> AddShortcutAsync(string sourceFilePath, string desiredFileName, string icon, string name, string category, int color, bool runAsAdministrator, bool runWithoutWindow, bool showInJumpList)
         {
-            // Remember to UpdateCategory
+            try
+            {
+                if (string.IsNullOrWhiteSpace(sourceFilePath) || !System.IO.File.Exists(sourceFilePath))
+                {
+                    return false;
+                }
 
-            //try
-            //{
-            //    _allShortcuts.Insert(0, new ShortcutModel()
-            //    {
-            //        ScriptFilePath = path,
-            //        ShortcutName = name,
-            //        ShortcutIcon = icon,
-            //        ShortcutType = ext == ".ps1" ? ShortcutTypeEnum.Ps1 : ext == ".bat" ? ShortcutTypeEnum.Bat : ShortcutTypeEnum.None,
-            //        ShortcutColor = (ShortcutColorEnum)(Math.Max(1, Math.Min(color, 9))),
-            //        ShortcutRunas = runas,
-            //        NoWindow = noWindow,
-            //        Category = category,
-            //    });
+                string extension = System.IO.Path.GetExtension(sourceFilePath);
+                if (!string.Equals(extension, ".ps1", StringComparison.OrdinalIgnoreCase) &&
+                    !string.Equals(extension, ".bat", StringComparison.OrdinalIgnoreCase))
+                {
+                    return false;
+                }
 
-            //    SaveShortcuts();
-            //    UpdateGroupedShortcuts();
-            //}
-            //catch (Exception e)
-            //{
-            //    Trace.WriteLine(e.Message);
-            //}
+                desiredFileName = string.IsNullOrWhiteSpace(desiredFileName) ? System.IO.Path.GetFileNameWithoutExtension(sourceFilePath) : desiredFileName.Trim();
+                name = string.IsNullOrWhiteSpace(name) ? System.IO.Path.GetFileNameWithoutExtension(sourceFilePath) : name;
+                category = category?.Trim() ?? string.Empty;
+
+                var fileName = await StorageFilesService.CopyFileToDataFolderAsync(sourceFilePath, $"{desiredFileName}{extension}");
+                if (string.IsNullOrWhiteSpace(fileName))
+                {
+                    return false;
+                }
+
+                var shortcutModel = new ShortcutModel()
+                {
+                    ScriptFilePath = fileName,
+                    ShortcutName = name,
+                    ShortcutIcon = icon,
+                    ShortcutType = string.Equals(extension, ".ps1", StringComparison.OrdinalIgnoreCase) ? ShortcutType.Ps1 : ShortcutType.Bat,
+                    ShortcutColor = Enum.IsDefined(typeof(ShortcutColor), color) ? (ShortcutColor)color : ShortcutColor.Transparent,
+                    ShortcutRunas = runAsAdministrator,
+                    NoWindow = runWithoutWindow,
+                    ShowInJumpList = showInJumpList,
+                    Category = category,
+                };
+
+                var shortcutItem = new ShortcutItemViewModel(shortcutModel);
+
+                _shortcutModels.Insert(0, shortcutModel);
+                _shortcutMap[shortcutItem] = shortcutModel;
+
+                var group = this.ShortcutGroups.FirstOrDefault(x => string.Equals(x.Category, category, StringComparison.Ordinal));
+                if (group is null)
+                {
+                    group = new ShortcutGroupViewModel(category);
+
+                    int insertIndex = 0;
+                    while (insertIndex < this.ShortcutGroups.Count &&
+                           this.ShortcutGroups[insertIndex].Category != SeperateLineSpecialCategoryName &&
+                           string.Compare(this.ShortcutGroups[insertIndex].Category, category, StringComparison.CurrentCulture) < 0)
+                    {
+                        insertIndex++;
+                    }
+
+                    this.ShortcutGroups.Insert(insertIndex, group);
+                }
+
+                group.Shortcuts.Insert(0, shortcutItem);
+
+                this.ShortcutCategories.Clear();
+                foreach (var existingCategory in _shortcutModels
+                    .Select(x => x.Category)
+                    .Where(x => !string.IsNullOrWhiteSpace(x))
+                    .Distinct(StringComparer.Ordinal)
+                    .OrderBy(x => x, StringComparer.CurrentCulture))
+                {
+                    this.ShortcutCategories.Add(existingCategory);
+                }
+
+                await SaveShortcutsAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+                return false;
+            }
         }
 
         public async Task DeleteShortcutAsync(ShortcutItemViewModel deletingShortcut)
         {
-            // Remember to UpdateCategory
+            try
+            {
+                if (!_shortcutMap.TryGetValue(deletingShortcut, out var shortcutModel))
+                {
+                    return;
+                }
 
-            //try
-            //{
-            //    string deleteFilePath = deletingShortcut.ScriptFilePath;
+                string fileName = shortcutModel.ScriptFilePath;
 
-            //    _allShortcuts.Remove(deletingShortcut);
+                _shortcutMap.Remove(deletingShortcut);
+                _shortcutModels.Remove(shortcutModel);
 
-            //    if (File.Exists(deleteFilePath))
-            //    {
-            //        File.Delete(deleteFilePath);
-            //    }
+                var group = this.ShortcutGroups.FirstOrDefault(x => x.Shortcuts.Contains(deletingShortcut));
+                if (group is not null)
+                {
+                    group.Shortcuts.Remove(deletingShortcut);
 
-            //    SaveShortcuts();
-            //    UpdateGroupedShortcuts();
-            //}
-            //catch (Exception e)
-            //{
-            //    Trace.WriteLine(e.Message);
-            //}
+                    if (group.Shortcuts.Count == 0)
+                    {
+                        this.ShortcutGroups.Remove(group);
+                    }
+                }
+
+                this.ShortcutCategories.Clear();
+                foreach (var category in _shortcutModels
+                    .Select(x => x.Category)
+                    .Where(x => !string.IsNullOrWhiteSpace(x))
+                    .Distinct(StringComparer.Ordinal)
+                    .OrderBy(x => x, StringComparer.CurrentCulture))
+                {
+                    this.ShortcutCategories.Add(category);
+                }
+
+                if (!string.IsNullOrWhiteSpace(fileName))
+                {
+                    var file = await StorageFilesService.GetFileFromDataFolderAsync(fileName);
+                    if (file is not null)
+                    {
+                        try
+                        {
+                            await file.DeleteAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Trace.WriteLine(ex);
+                        }
+                    }
+                }
+
+                await SaveShortcutsAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+            }
         }
 
         //public void EditShortcut(ShortcutModel editingShortcut, string name, string category, int color, bool runas, bool noWindow, string icon)
