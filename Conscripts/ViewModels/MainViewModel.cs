@@ -398,9 +398,6 @@ namespace Conscripts.ViewModels
 
                 launchingShortcut.IsRunning = true;
 
-                Process? process = null;
-                bool launched = false;
-
                 try
                 {
                     var file = await StorageFilesService.GetFileFromDataFolderAsync(shortcutModel.ScriptFilePath);
@@ -409,46 +406,11 @@ namespace Conscripts.ViewModels
                         return;
                     }
 
-                    var processInfo = new ProcessStartInfo
-                    {
-                        CreateNoWindow = !shortcutModel.ShortcutRunas && shortcutModel.NoWindow,
-                        UseShellExecute = shortcutModel.ShortcutRunas || !shortcutModel.NoWindow,
-                        WorkingDirectory = System.IO.Path.GetDirectoryName(file.Path) ?? string.Empty,
-                        RedirectStandardError = false,
-                        RedirectStandardOutput = false,
-                    };
+                    var result = await ScriptLauncher.RunAsync(file.Path, shortcutModel.ShortcutRunas, shortcutModel.NoWindow);
 
-                    if (shortcutModel.ShortcutType == ShortcutType.Ps1)
+                    if (result.Started && App.Settings.OneShotEnabled)
                     {
-                        processInfo.FileName = "powershell.exe";
-                        processInfo.ArgumentList.Add("-NoProfile");
-                        processInfo.ArgumentList.Add("-ExecutionPolicy");
-                        processInfo.ArgumentList.Add("Bypass");
-                        processInfo.ArgumentList.Add("-File");
-                        processInfo.ArgumentList.Add(file.Path);
-                    }
-                    else if (shortcutModel.ShortcutType == ShortcutType.Bat)
-                    {
-                        //processInfo.FileName = file.Path;
-                        processInfo.FileName = "cmd.exe";
-                        processInfo.ArgumentList.Add("/c");
-                        processInfo.ArgumentList.Add(file.Path);
-                    }
-                    else
-                    {
-                        return;
-                    }
-
-                    if (shortcutModel.ShortcutRunas)
-                    {
-                        processInfo.Verb = "runas";
-                    }
-
-                    process = Process.Start(processInfo);
-                    if (process is not null)
-                    {
-                        launched = true;
-                        await process.WaitForExitAsync();
+                        Microsoft.UI.Xaml.Application.Current.Exit();
                     }
                 }
                 catch (Exception ex)
@@ -458,13 +420,6 @@ namespace Conscripts.ViewModels
                 finally
                 {
                     launchingShortcut.IsRunning = false;
-
-                    process?.Dispose();
-
-                    if (launched && App.Settings.OneShotEnabled)
-                    {
-                        Microsoft.UI.Xaml.Application.Current.Exit();
-                    }
                 }
             }
             catch (Exception ex)
