@@ -22,12 +22,12 @@ namespace Conscripts.Helpers
             var documentsFolder = await StorageFolder.GetFolderFromPathAsync(UserDataPaths.GetDefault().Documents);
             var noMewingFolder = await documentsFolder?.CreateFolderAsync("NoMewing", CreationCollisionOption.OpenIfExists);
 
-            StorageFolder? legacyFolder = null;
-            StorageFolder? currentFolder = null;
+            IStorageItem? legacyFolder = null;
+            IStorageItem? currentFolder = null;
 
             try
             {
-                legacyFolder = await noMewingFolder.GetFolderAsync("Conscript");
+                legacyFolder = await noMewingFolder.TryGetItemAsync("Conscript");
             }
             catch (Exception ex)
             {
@@ -36,7 +36,7 @@ namespace Conscripts.Helpers
 
             try
             {
-                currentFolder = await noMewingFolder.GetFolderAsync("Conscripts");
+                currentFolder = await noMewingFolder.TryGetItemAsync("Conscripts");
             }
             catch (Exception ex)
             {
