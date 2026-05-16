@@ -34,56 +34,46 @@ namespace Conscripts.ViewModels
             _ = LoadShortcutsAsync();
         }
 
-        private async Task LoadShortcutsAsync()
+        private void RebuildShortcutCollections()
         {
             try
             {
-                _shortcutModels.Clear();
                 _shortcutMap.Clear();
                 this.ShortcutGroups.Clear();
                 this.ShortcutCategories.Clear();
 
-                string shortcutsJson = await StorageFilesService.ReadFileAsync("shortcuts.json");
-                if (!string.IsNullOrWhiteSpace(shortcutsJson))
+                Dictionary<string, ShortcutGroupViewModel> shortcutGroups = new(StringComparer.Ordinal);
+                HashSet<string> shortcutCategories = new(StringComparer.Ordinal);
+
+                foreach (var shortcut in _shortcutModels)
                 {
-                    var shortcuts = JsonSerializer.Deserialize(shortcutsJson, SourceGenerationContext.Default.ListShortcutModel);
-                    if (shortcuts is not null)
+                    shortcut.Category = shortcut.Category?.Trim() ?? string.Empty;
+
+                    var shortcutItem = new ShortcutItemViewModel(shortcut);
+
+                    _shortcutMap[shortcutItem] = shortcut;
+
+                    if (!shortcutGroups.TryGetValue(shortcut.Category, out var group))
                     {
-                        Dictionary<string, ShortcutGroupViewModel> shortcutGroups = new(StringComparer.Ordinal);
-                        HashSet<string> shortcutCategories = new(StringComparer.Ordinal);
-
-                        foreach (var shortcut in shortcuts)
-                        {
-                            shortcut.Category = shortcut.Category?.Trim() ?? string.Empty;
-
-                            var shortcutItem = new ShortcutItemViewModel(shortcut);
-
-                            _shortcutModels.Add(shortcut);
-                            _shortcutMap[shortcutItem] = shortcut;
-
-                            if (!shortcutGroups.TryGetValue(shortcut.Category, out var group))
-                            {
-                                group = new ShortcutGroupViewModel(shortcut.Category);
-                                shortcutGroups[shortcut.Category] = group;
-                            }
-                            group.Shortcuts.Add(shortcutItem);
-
-                            if (!string.IsNullOrWhiteSpace(shortcut.Category))
-                            {
-                                shortcutCategories.Add(shortcut.Category);
-                            }
-                        }
-
-                        foreach (var group in shortcutGroups.OrderBy(x => x.Key, StringComparer.CurrentCulture))
-                        {
-                            this.ShortcutGroups.Add(group.Value);
-                        }
-
-                        foreach (var category in shortcutCategories.OrderBy(x => x, StringComparer.CurrentCulture))
-                        {
-                            this.ShortcutCategories.Add(category);
-                        }
+                        group = new ShortcutGroupViewModel(shortcut.Category);
+                        shortcutGroups[shortcut.Category] = group;
                     }
+                    group.Shortcuts.Add(shortcutItem);
+
+                    if (!string.IsNullOrWhiteSpace(shortcut.Category))
+                    {
+                        shortcutCategories.Add(shortcut.Category);
+                    }
+                }
+
+                foreach (var group in shortcutGroups.OrderBy(x => x.Key, StringComparer.CurrentCulture))
+                {
+                    this.ShortcutGroups.Add(group.Value);
+                }
+
+                foreach (var category in shortcutCategories.OrderBy(x => x, StringComparer.CurrentCulture))
+                {
+                    this.ShortcutCategories.Add(category);
                 }
 
                 var settingsGroup = new ShortcutGroupViewModel(SeperateLineSpecialCategoryName);
@@ -129,17 +119,41 @@ namespace Conscripts.ViewModels
             }
         }
 
-        private async Task SaveShortcutsAsync()
+        private async Task LoadShortcutsAsync()
         {
             try
             {
-                string shortcutsJson = JsonSerializer.Serialize(_shortcutModels, SourceGenerationContext.Default.ListShortcutModel);
-                await StorageFilesService.WriteFileAsync("shortcuts.json", shortcutsJson);
+                _shortcutModels.Clear();
+                _shortcutMap.Clear();
+                this.ShortcutGroups.Clear();
+                this.ShortcutCategories.Clear();
+
+                string shortcutsJson = await StorageFilesService.ReadFileAsync("shortcuts.json");
+                if (!string.IsNullOrWhiteSpace(shortcutsJson))
+                {
+                    var shortcuts = JsonSerializer.Deserialize(shortcutsJson, SourceGenerationContext.Default.ListShortcutModel);
+                    if (shortcuts is not null)
+                    {
+                        foreach (var shortcut in shortcuts)
+                        {
+                            shortcut.Category = shortcut.Category?.Trim() ?? string.Empty;
+                            _shortcutModels.Add(shortcut);
+                        }
+                    }
+                }
+
+                RebuildShortcutCollections();
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Trace.WriteLine(ex);
             }
+        }
+
+        private async Task SaveShortcutsAsync()
+        {
+            string shortcutsJson = JsonSerializer.Serialize(_shortcutModels, SourceGenerationContext.Default.ListShortcutModel);
+            await StorageFilesService.WriteFileAsync("shortcuts.json", shortcutsJson);
         }
 
         public async Task MoveShortcutToFrontAsync(ShortcutItemViewModel movingShortcut)
@@ -158,17 +172,9 @@ namespace Conscripts.ViewModels
                     _shortcutModels.Insert(0, shortcutModel);
                 }
 
-                var group = this.ShortcutGroups.FirstOrDefault(x => x.Shortcuts.Contains(movingShortcut));
-                if (group is not null)
-                {
-                    int groupIndex = group.Shortcuts.IndexOf(movingShortcut);
-                    if (groupIndex > 0)
-                    {
-                        group.Shortcuts.Move(groupIndex, 0);
-                    }
-                }
-
                 await SaveShortcutsAsync();
+
+                RebuildShortcutCollections();
             }
             catch (Exception ex)
             {
@@ -198,17 +204,9 @@ namespace Conscripts.ViewModels
                     }
                 }
 
-                var group = this.ShortcutGroups.FirstOrDefault(x => x.Shortcuts.Contains(movingShortcut));
-                if (group is not null)
-                {
-                    int groupIndex = group.Shortcuts.IndexOf(movingShortcut);
-                    if (groupIndex > 0)
-                    {
-                        group.Shortcuts.Move(groupIndex, groupIndex - 1);
-                    }
-                }
-
                 await SaveShortcutsAsync();
+
+                RebuildShortcutCollections();
             }
             catch (Exception ex)
             {
@@ -238,17 +236,9 @@ namespace Conscripts.ViewModels
                     }
                 }
 
-                var group = this.ShortcutGroups.FirstOrDefault(x => x.Shortcuts.Contains(movingShortcut));
-                if (group is not null)
-                {
-                    int groupIndex = group.Shortcuts.IndexOf(movingShortcut);
-                    if (groupIndex >= 0 && groupIndex < group.Shortcuts.Count - 1)
-                    {
-                        group.Shortcuts.Move(groupIndex, groupIndex + 1);
-                    }
-                }
-
                 await SaveShortcutsAsync();
+
+                RebuildShortcutCollections();
             }
             catch (Exception ex)
             {
@@ -282,53 +272,23 @@ namespace Conscripts.ViewModels
                     return false;
                 }
 
-                var shortcutModel = new ShortcutModel()
+                _shortcutModels.Insert(0, new ShortcutModel()
                 {
                     ScriptFilePath = fileName,
-                    ShortcutName = name,
-                    ShortcutIcon = icon,
                     ShortcutType = string.Equals(extension, ".ps1", StringComparison.OrdinalIgnoreCase) ? ShortcutType.Ps1 : ShortcutType.Bat,
+                    ShortcutIcon = icon,
+                    ShortcutName = name,
+                    Category = category,
                     ShortcutColor = Enum.IsDefined(typeof(ShortcutColor), color) ? (ShortcutColor)color : ShortcutColor.Transparent,
                     ShortcutRunas = runAsAdministrator,
                     NoWindow = runWithoutWindow,
                     ShowInJumpList = showInJumpList,
-                    Category = category,
-                };
-
-                var shortcutItem = new ShortcutItemViewModel(shortcutModel);
-
-                _shortcutModels.Insert(0, shortcutModel);
-                _shortcutMap[shortcutItem] = shortcutModel;
-
-                var group = this.ShortcutGroups.FirstOrDefault(x => string.Equals(x.Category, category, StringComparison.Ordinal));
-                if (group is null)
-                {
-                    group = new ShortcutGroupViewModel(category);
-
-                    int insertIndex = 0;
-                    while (insertIndex < this.ShortcutGroups.Count &&
-                           this.ShortcutGroups[insertIndex].Category != SeperateLineSpecialCategoryName &&
-                           string.Compare(this.ShortcutGroups[insertIndex].Category, category, StringComparison.CurrentCulture) < 0)
-                    {
-                        insertIndex++;
-                    }
-
-                    this.ShortcutGroups.Insert(insertIndex, group);
-                }
-
-                group.Shortcuts.Insert(0, shortcutItem);
-
-                this.ShortcutCategories.Clear();
-                foreach (var existingCategory in _shortcutModels
-                    .Select(x => x.Category)
-                    .Where(x => !string.IsNullOrWhiteSpace(x))
-                    .Distinct(StringComparer.Ordinal)
-                    .OrderBy(x => x, StringComparer.CurrentCulture))
-                {
-                    this.ShortcutCategories.Add(existingCategory);
-                }
+                });
 
                 await SaveShortcutsAsync();
+
+                RebuildShortcutCollections();
+
                 return true;
             }
             catch (Exception ex)
@@ -349,29 +309,7 @@ namespace Conscripts.ViewModels
 
                 string fileName = shortcutModel.ScriptFilePath;
 
-                _shortcutMap.Remove(deletingShortcut);
                 _shortcutModels.Remove(shortcutModel);
-
-                var group = this.ShortcutGroups.FirstOrDefault(x => x.Shortcuts.Contains(deletingShortcut));
-                if (group is not null)
-                {
-                    group.Shortcuts.Remove(deletingShortcut);
-
-                    if (group.Shortcuts.Count == 0)
-                    {
-                        this.ShortcutGroups.Remove(group);
-                    }
-                }
-
-                this.ShortcutCategories.Clear();
-                foreach (var category in _shortcutModels
-                    .Select(x => x.Category)
-                    .Where(x => !string.IsNullOrWhiteSpace(x))
-                    .Distinct(StringComparer.Ordinal)
-                    .OrderBy(x => x, StringComparer.CurrentCulture))
-                {
-                    this.ShortcutCategories.Add(category);
-                }
 
                 if (!string.IsNullOrWhiteSpace(fileName))
                 {
@@ -390,6 +328,8 @@ namespace Conscripts.ViewModels
                 }
 
                 await SaveShortcutsAsync();
+
+                RebuildShortcutCollections();
             }
             catch (Exception ex)
             {
@@ -397,27 +337,44 @@ namespace Conscripts.ViewModels
             }
         }
 
-        //public void EditShortcut(ShortcutModel editingShortcut, string name, string category, int color, bool runas, bool noWindow, string icon)
-        //{
-        //    try
-        //    {
-        //        editingShortcut.ShortcutName = name;
-        //        editingShortcut.ShortcutIcon = icon;
-        //        editingShortcut.ShortcutColor = (ShortcutColorEnum)(Math.Max(1, Math.Min(color, 9)));
-        //        editingShortcut.ShortcutRunas = runas;
-        //        editingShortcut.NoWindow = noWindow;
-        //        editingShortcut.Category = category;
+        public async Task EditShortcutAsync(ShortcutItemViewModel editingShortcut, string icon, string name, string category, int color, bool runAsAdministrator, bool runWithoutWindow, bool showInJumpList)
+        {
+            try
+            {
+                if (!_shortcutMap.TryGetValue(editingShortcut, out var shortcutModel))
+                {
+                    return;
+                }
 
-        //        ! 先移除再重新追加到头部，否则可能在修改分类后出现在新分类下的随机位置
+                name = string.IsNullOrWhiteSpace(name) ? shortcutModel.ShortcutName : name;
+                category = category?.Trim() ?? string.Empty;
 
-        //        SaveShortcuts();
-        //        UpdateGroupedShortcuts();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Trace.WriteLine(e.Message);
-        //    }
-        //}
+                int modelIndex = _shortcutModels.IndexOf(shortcutModel);
+                if (modelIndex >= 0)
+                {
+                    _shortcutModels.RemoveAt(modelIndex);
+                }
+
+                shortcutModel.ShortcutIcon = icon;
+                shortcutModel.ShortcutName = name;
+                shortcutModel.Category = category;
+                shortcutModel.ShortcutColor = Enum.IsDefined(typeof(ShortcutColor), color) ? (ShortcutColor)color : ShortcutColor.Transparent;
+                shortcutModel.ShortcutRunas = runAsAdministrator;
+                shortcutModel.NoWindow = runWithoutWindow;
+                shortcutModel.ShowInJumpList = showInJumpList;
+
+                _shortcutModels.Insert(0, shortcutModel);
+
+                await SaveShortcutsAsync();
+
+                RebuildShortcutCollections();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+            }
+        }
+
 
         //public async void LaunchShortcut(ShortcutModel shortcut)
         //{
