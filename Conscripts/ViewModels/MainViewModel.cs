@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -17,8 +18,6 @@ namespace Conscripts.ViewModels
         /// </summary>
         private const string SeperateLineSpecialCategoryName = "376C50B1-B7C1-4E7C-874A-F743DD80D95F";
 
-        private readonly Microsoft.UI.Dispatching.DispatcherQueue _dispatcherQueue;
-
         private readonly List<ShortcutModel> _shortcutModels = [];
 
         private readonly Dictionary<ShortcutItemViewModel, ShortcutModel> _shortcutMap = [];
@@ -27,10 +26,8 @@ namespace Conscripts.ViewModels
 
         public ObservableCollection<string> ShortcutCategories { get; } = [];
 
-        public MainViewModel(Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue)
+        public MainViewModel()
         {
-            _dispatcherQueue = dispatcherQueue;
-
             _ = LoadShortcutsAsync();
         }
 
@@ -311,6 +308,10 @@ namespace Conscripts.ViewModels
 
                 _shortcutModels.Remove(shortcutModel);
 
+                await SaveShortcutsAsync();
+
+                RebuildShortcutCollections();
+
                 if (!string.IsNullOrWhiteSpace(fileName))
                 {
                     var file = await StorageFilesService.GetFileFromDataFolderAsync(fileName);
@@ -326,10 +327,6 @@ namespace Conscripts.ViewModels
                         }
                     }
                 }
-
-                await SaveShortcutsAsync();
-
-                RebuildShortcutCollections();
             }
             catch (Exception ex)
             {
@@ -375,84 +372,106 @@ namespace Conscripts.ViewModels
             }
         }
 
+        public async Task LaunchShortcutAsync(ShortcutItemViewModel launchingShortcut)
+        {
+            try
+            {
+                if (launchingShortcut is null || launchingShortcut.IsRunning)
+                {
+                    return;
+                }
 
-        //public async void LaunchShortcut(ShortcutModel shortcut)
-        //{
-        //    if (shortcut != null)
-        //    {
-        //        if (string.IsNullOrWhiteSpace(shortcut.ScriptFilePath) || !File.Exists(shortcut.ScriptFilePath))
-        //        {
-        //            return;
-        //        }
+                if (!_shortcutMap.TryGetValue(launchingShortcut, out var shortcutModel))
+                {
+                    return;
+                }
 
-        //        if (shortcut.ShortcutType == ShortcutTypeEnum.None)
-        //        {
-        //            return;
-        //        }
+                if (shortcutModel.ShortcutType == ShortcutType.None)
+                {
+                    return;
+                }
 
-        //        await Task.Run(() =>
-        //        {
-        //            try
-        //            {
-        //                DispatcherQueue.TryEnqueue(() =>
-        //                {
-        //                    shortcut.Running = true;
-        //                });
+                if (string.IsNullOrWhiteSpace(shortcutModel.ScriptFilePath))
+                {
+                    return;
+                }
 
-        //                var processInfo = new ProcessStartInfo
-        //                {
-        //                    CreateNoWindow = !shortcut.ShortcutRunas && shortcut.NoWindow,
-        //                    UseShellExecute = shortcut.ShortcutRunas || !shortcut.NoWindow,
-        //                    WorkingDirectory = System.IO.Path.GetDirectoryName(shortcut.ScriptFilePath),
-        //                    RedirectStandardError = false,// !shortcut.ShortcutRunas;
-        //                    RedirectStandardOutput = false// !shortcut.ShortcutRunas;
-        //                };
+                launchingShortcut.IsRunning = true;
 
-        //                if (shortcut.ShortcutType == ShortcutTypeEnum.Ps1)
-        //                {
-        //                    processInfo.FileName = "powershell.exe";
-        //                    processInfo.Arguments = $"-NoProfile -ExecutionPolicy ByPass -File \"{shortcut.ScriptFilePath}\"";
-        //                }
-        //                else if (shortcut.ShortcutType == ShortcutTypeEnum.Bat)
-        //                {
-        //                    processInfo.FileName = shortcut.ScriptFilePath;
-        //                }
+                Process? process = null;
+                bool launched = false;
 
-        //                if (shortcut.ShortcutRunas)
-        //                {
-        //                    processInfo.Verb = "runas";
-        //                }
+                try
+                {
+                    var file = await StorageFilesService.GetFileFromDataFolderAsync(shortcutModel.ScriptFilePath);
+                    if (file is null)
+                    {
+                        return;
+                    }
 
-        //                var process = Process.Start(processInfo);
+                    var processInfo = new ProcessStartInfo
+                    {
+                        CreateNoWindow = !shortcutModel.ShortcutRunas && shortcutModel.NoWindow,
+                        UseShellExecute = shortcutModel.ShortcutRunas || !shortcutModel.NoWindow,
+                        WorkingDirectory = System.IO.Path.GetDirectoryName(file.Path) ?? string.Empty,
+                        RedirectStandardError = false,
+                        RedirectStandardOutput = false,
+                    };
 
-        //                process.WaitForExit();
+                    if (shortcutModel.ShortcutType == ShortcutType.Ps1)
+                    {
+                        processInfo.FileName = "powershell.exe";
+                        processInfo.ArgumentList.Add("-NoProfile");
+                        processInfo.ArgumentList.Add("-ExecutionPolicy");
+                        processInfo.ArgumentList.Add("Bypass");
+                        processInfo.ArgumentList.Add("-File");
+                        processInfo.ArgumentList.Add(file.Path);
+                    }
+                    else if (shortcutModel.ShortcutType == ShortcutType.Bat)
+                    {
+                        //processInfo.FileName = file.Path;
+                        processInfo.FileName = "cmd.exe";
+                        processInfo.ArgumentList.Add("/c");
+                        processInfo.ArgumentList.Add(file.Path);
+                    }
+                    else
+                    {
+                        return;
+                    }
 
-        //                DispatcherQueue.TryEnqueue(() =>
-        //                {
-        //                    shortcut.Running = false;
+                    if (shortcutModel.ShortcutRunas)
+                    {
+                        processInfo.Verb = "runas";
+                    }
 
-        //                    // 如果启用了一次性模式，执行完毕后退出应用
-        //                    if (this.AppSettings.OneShotEnabled)
-        //                    {
-        //                        Microsoft.UI.Xaml.Application.Current.Exit();
-        //                    }
-        //                });
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                System.Diagnostics.Trace.WriteLine(ex);
-        //            }
-        //            finally
-        //            {
-        //                DispatcherQueue.TryEnqueue(() =>
-        //                {
-        //                    shortcut.Running = false;
-        //                });
-        //            }
-        //        });
-        //    }
-        //}
+                    process = Process.Start(processInfo);
+                    if (process is not null)
+                    {
+                        launched = true;
+                        await process.WaitForExitAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.WriteLine(ex);
+                }
+                finally
+                {
+                    launchingShortcut.IsRunning = false;
 
+                    process?.Dispose();
 
+                    if (launched && App.Settings.OneShotEnabled)
+                    {
+                        Microsoft.UI.Xaml.Application.Current.Exit();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+                launchingShortcut?.IsRunning = false;
+            }
+        }
     }
 }

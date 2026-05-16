@@ -16,12 +16,10 @@ namespace Conscripts.Views
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public MainViewModel ViewModel { get; }
+        public MainViewModel ViewModel => new();
 
         public MainPage()
         {
-            this.ViewModel = new MainViewModel(Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread());
-
             InitializeComponent();
         }
 
@@ -71,7 +69,7 @@ namespace Conscripts.Views
                 }
                 else
                 {
-                    // _viewModel.LaunchShortcut(shortcut);
+                    await this.ViewModel.LaunchShortcutAsync(shortcut);
                 }
             }
         }
