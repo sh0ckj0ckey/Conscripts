@@ -196,6 +196,9 @@ namespace Conscripts
 
             if (!_windowPlacementService.TryLoad(out var placement))
             {
+                int defaultWidth = 960;
+                int defaultHeight = 680;
+                this.AppWindow.Resize(new Windows.Graphics.SizeInt32(defaultWidth, defaultHeight));
                 return;
             }
 

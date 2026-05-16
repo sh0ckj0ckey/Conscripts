@@ -171,7 +171,7 @@
             <animations:Implicit.HideAnimations>
                 <animations:OpacityAnimation To="0" Duration="0:0:0.2"/>
             </animations:Implicit.HideAnimations>
-            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicInAppFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72" MaxWidth="640">
+            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicInAppFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72" MaxWidth="540">
                 <animations:Implicit.ShowAnimations>
                     <animations:TranslationAnimation From="0,32,0" To="0,0,0" EasingMode="EaseInOut" EasingType="Default" Duration="0:0:0.4"/>
                 </animations:Implicit.ShowAnimations>
