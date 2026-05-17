@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -334,13 +333,13 @@ namespace Conscripts.ViewModels
             }
         }
 
-        public async Task EditShortcutAsync(ShortcutItemViewModel editingShortcut, string icon, string name, string category, int color, bool runAsAdministrator, bool runWithoutWindow, bool showInJumpList)
+        public async Task<bool> EditShortcutAsync(ShortcutItemViewModel editingShortcut, string icon, string name, string category, int color, bool runAsAdministrator, bool runWithoutWindow, bool showInJumpList)
         {
             try
             {
                 if (!_shortcutMap.TryGetValue(editingShortcut, out var shortcutModel))
                 {
-                    return;
+                    return false;
                 }
 
                 name = string.IsNullOrWhiteSpace(name) ? shortcutModel.ShortcutName : name;
@@ -365,10 +364,13 @@ namespace Conscripts.ViewModels
                 await SaveShortcutsAsync();
 
                 RebuildShortcutCollections();
+
+                return true;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Trace.WriteLine(ex);
+                return false;
             }
         }
 
