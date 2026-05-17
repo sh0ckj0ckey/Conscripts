@@ -7,7 +7,7 @@
 
 ## Overview
 
-Are you a frequent user of script files? Whether it's batch files or PowerShell scripts, no matter how complex the operation, a simple double-click is all it takes to let the script handle everything automatically—pure convenience.
+Are you a frequent user of script files? Whether it's batch files or PowerShell scripts, no matter how complex the operation, a simple double-click is all it takes to let the script handle everything automatically — pure convenience.
 
 But as your collection of script files grows, finding the right one among a sea of identical icons can become frustrating and far from elegant. If this sounds familiar, then welcome to Conscripts—your centralized script launcher. It keeps all your script files hidden behind the scenes, replacing them with rich icons and vibrant cards for a more refined experience.
 
