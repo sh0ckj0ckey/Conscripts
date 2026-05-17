@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <ScrollViewer x:Name="AddingShortcutScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20">
+                <StackPanel Orientation="Vertical" Margin="20">
                     <Grid x:Name="ShortcutGrid" Height="164" BorderThickness="1,1,1,1" CornerRadius="8,8,8,8" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                           AllowDrop="True" DragOver="ShortcutGrid_DragOver" Drop="ShortcutGrid_Drop">

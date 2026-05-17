@@ -21,7 +21,7 @@ namespace Conscripts.Views
 
         private string _pickedFilePath = string.Empty;
 
-        private char _pickedIconGlyph = '\uE756';
+        private string _pickedIconGlyph = "\uE756";
 
         private List<IconInfo>? _iconList = null;
 
@@ -158,7 +158,7 @@ namespace Conscripts.Views
             if (e.ClickedItem is IconInfo icon)
             {
                 AddingShortcutIconButton.Content = icon.Glyph;
-                _pickedIconGlyph = icon.Glyph;
+                _pickedIconGlyph = icon.Glyph.ToString();
                 AddingShortcutIconsFlyout?.Hide();
             }
         }
@@ -189,7 +189,7 @@ namespace Conscripts.Views
                     return;
                 }
 
-                string icon = _pickedIconGlyph.ToString();
+                string icon = _pickedIconGlyph;
                 string name = string.IsNullOrWhiteSpace(AddingShortcutNameTextBox.Text) ? System.IO.Path.GetFileNameWithoutExtension(_pickedFilePath) : AddingShortcutNameTextBox.Text;
                 string category = string.IsNullOrWhiteSpace(AddingShortcutCategoryTextBox.Text) ? string.Empty : AddingShortcutCategoryTextBox.Text;
                 int color = AddingShortcutColorComboBox.SelectedIndex + 1;
@@ -219,7 +219,7 @@ namespace Conscripts.Views
             try
             {
                 _pickedFilePath = string.Empty;
-                _pickedIconGlyph = '\uE756';
+                _pickedIconGlyph = "\uE756";
                 AddingShortcutIconButton.Content = '\uE756';
                 AddingShortcutNameTextBox.Text = "";
                 AddingShortcutNameTextBox.PlaceholderText = "AddingNamePlaceholderText".GetLocalized();

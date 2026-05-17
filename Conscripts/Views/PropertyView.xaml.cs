@@ -1,19 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Conscripts.Models;
+using Conscripts.Helpers;
 using Conscripts.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using NoMewing.SegoeFluentIcons;
 using Windows.Storage;
 using Windows.System;
 
@@ -24,167 +15,161 @@ namespace Conscripts.Views
 {
     public sealed partial class PropertyView : UserControl
     {
-        //private MainViewModel _viewModel = null;
+        public MainViewModel ViewModel => (MainViewModel)DataContext;
 
-        //private Action _closePropertyAction = null;
+        private readonly ShortcutItemViewModel _editingShortcut;
 
-        //private ShortcutItemViewModel _shortcut = null;
+        private readonly Action _closeView;
 
-        //public PropertyView(MainViewModel viewModel, Action closePropertyAction)
-        //{
-        //    _viewModel = viewModel;
-        //    _closePropertyAction += closePropertyAction;
+        private string _pickedIconGlyph = "\uE756";
 
-        //    InitializeComponent();
-        //}
+        private List<IconInfo>? _iconList = null;
 
-        public PropertyView()
+        public PropertyView(ShortcutItemViewModel editingShortcut, Action closeView)
         {
+            _editingShortcut = editingShortcut;
+            _closeView = closeView;
+            _pickedIconGlyph = editingShortcut.Icon;
+
             InitializeComponent();
         }
 
-        //private void ChangeIconButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    _viewModel.LoadSegoeFluentIcons();
-        //}
+        private void UserControl_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            ResetView();
+        }
 
-        //private void ShortcutIconGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    ShortcutIcon.Glyph = ShortcutIconGridView.SelectedItem is Character character ? character.Char : "\uE756";
-        //}
+        private void AddingShortcutCategoryTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel.ShortcutCategories.Count > 0)
+            {
+                AddingShortcutCategoryTextBox.IsSuggestionListOpen = true;
+            }
+        }
 
-        //public void SetLayout(ShortcutModel shortcut)
-        //{
-        //    _shortcut = shortcut;
-        //    ResetLayout();
-        //}
+        private void AddingShortcutRunasCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            AddingShortcutNoWindowCheckBox.IsChecked = false;
+            AddingShortcutNoWindowCheckBox.IsEnabled = false;
+        }
 
-        //public void ResetLayout()
-        //{
-        //    try
-        //    {
-        //        ShortcutIcon.Glyph = _shortcut?.ShortcutIcon ?? "\uE756";
-        //        ShortcutNameTextBox.Text = _shortcut?.ShortcutName ?? "";
-        //        ShortcutNameTextBox.PlaceholderText = _shortcut?.ShortcutName ?? "PropertyRenamePlaceholderText".GetLocalized();
-        //        ShortcutCategoryTextBox.Text = _shortcut?.Category ?? "";
-        //        ShortcutCategoryTextBox.PlaceholderText = _shortcut?.Category ?? "";
+        private void AddingShortcutRunasCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            AddingShortcutNoWindowCheckBox.IsEnabled = true;
+        }
 
-        //        if (_shortcut is not null)
-        //        {
-        //            int colorIndex = (int)_shortcut.ShortcutColor - 1;
-        //            if (colorIndex < 0 || colorIndex > 8)
-        //            {
-        //                colorIndex = 4;
-        //            }
+        private void AddingShortcutIconsGridView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is GridView gridView)
+            {
+                _iconList ??= [.. Icons.GetAllIcons()];
+                gridView.ItemsSource ??= _iconList;
+            }
+        }
 
-        //            ShortcutColorComboBox.SelectedIndex = colorIndex;
-        //        }
-        //        else
-        //        {
-        //            ShortcutColorComboBox.SelectedIndex = 4;
-        //        }
+        private void AddingShortcutIconsGridView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (e.ClickedItem is IconInfo icon)
+            {
+                AddingShortcutIconButton.Content = icon.Glyph;
+                _pickedIconGlyph = icon.Glyph.ToString();
+                AddingShortcutIconsFlyout?.Hide();
+            }
+        }
 
-        //        ShortcutNoWindowCheckBox.IsEnabled = true;
-        //        ShortcutNoWindowCheckBox.IsChecked = _shortcut?.NoWindow == true;
-        //        ShortcutRunasCheckBox.IsChecked = _shortcut?.ShortcutRunas == true;
-        //        if (_shortcut?.ShortcutRunas == true)
-        //        {
-        //            ShortcutNoWindowCheckBox.IsChecked = false;
-        //            ShortcutNoWindowCheckBox.IsEnabled = false;
-        //        }
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetView();
+        }
 
-        //        bool fileExists = !string.IsNullOrWhiteSpace(_shortcut?.ScriptFilePath) && File.Exists(_shortcut?.ScriptFilePath);
-        //        ViewFileButton.IsEnabled = fileExists;
-        //        ViewFileTextBlock.Text = fileExists ? "PropertyViewFileButtonText".GetLocalized() : "PropertyFileNotFoundButtonText".GetLocalized();
+        private async void EditButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            if (sender is not Button button || !button.IsEnabled)
+            {
+                return;
+            }
 
-        //        //if (fileExists)
-        //        //{
-        //        //    ShortcutFileNameTextBlock.Text = Path.GetFileName(_shortcut.ScriptFilePath);
-        //        //    ShortcutFileNameTextBlock.Visibility = Visibility.Visible;
-        //        //}
-        //        //else
-        //        //{
-        //        //    ShortcutFileNameTextBlock.Text = "";
-        //        //    ShortcutFileNameTextBlock.Visibility = Visibility.Collapsed;
-        //        //}
+            button.IsEnabled = false;
 
-        //        ChangeIconButton.IsChecked = false;
+            try
+            {
+                string icon = string.IsNullOrWhiteSpace(_pickedIconGlyph) ? _editingShortcut.Icon : _pickedIconGlyph;
+                string name = string.IsNullOrWhiteSpace(AddingShortcutNameTextBox.Text) ? _editingShortcut.Name : AddingShortcutNameTextBox.Text;
+                string category = string.IsNullOrWhiteSpace(AddingShortcutCategoryTextBox.Text) ? string.Empty : AddingShortcutCategoryTextBox.Text;
+                int color = AddingShortcutColorComboBox.SelectedIndex + 1;
+                bool runAsAdministrator = AddingShortcutRunasCheckBox.IsChecked == true;
+                bool runWithoutWindow = AddingShortcutNoWindowCheckBox.IsChecked == true;
+                bool showInJumpList = AddingShortcutJumpListCheckBox.IsChecked == true;
 
-        //        ShortcutIconGridView.SelectedIndex = -1;
-        //        if (ShortcutIconGridView.Items.Count > 0)
-        //        {
-        //            ShortcutIconGridView.ScrollIntoView(ShortcutIconGridView.Items.First());
-        //        }
+                bool edited = await ViewModel.EditShortcutAsync(_editingShortcut, icon, name, category, color, runAsAdministrator, runWithoutWindow, showInJumpList);
 
-        //        PropertyScrollViewer.ChangeView(0, 0, null, true);
-        //    }
-        //    catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
-        //}
+                if (edited)
+                {
+                    _closeView?.Invoke();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+            }
+            finally
+            {
+                button.IsEnabled = true;
+            }
+        }
 
-        //private void ShortcutRunasCheckBox_Checked(object sender, RoutedEventArgs e)
-        //{
-        //    ShortcutNoWindowCheckBox.IsChecked = false;
-        //    ShortcutNoWindowCheckBox.IsEnabled = false;
-        //}
+        private async void ViewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            try
+            {
+                var file = await StorageFilesService.GetFileFromDataFolderAsync(_editingShortcut.FileName);
+                if (file is null)
+                {
+                    return;
+                }
 
-        //private void ShortcutRunasCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        //{
-        //    ShortcutNoWindowCheckBox.IsEnabled = true;
-        //}
+                StorageFolder folder = await file.GetParentAsync();
+                if (folder is null)
+                {
+                    return;
+                }
 
-        //private async void ViewFileButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        var filePath = _shortcut?.ScriptFilePath;
-        //        if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
-        //        {
-        //            return;
-        //        }
+                var option = new FolderLauncherOptions();
+                option.ItemsToSelect.Add(file);
+                await Launcher.LaunchFolderAsync(folder, option);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+            }
+        }
 
-        //        var directoryName = Path.GetDirectoryName(filePath);
-        //        var fileName = Path.GetFileName(filePath);
+        private async void ResetView()
+        {
+            try
+            {
+                _pickedIconGlyph = _editingShortcut.Icon;
+                AddingShortcutIconButton.Content = _editingShortcut.Icon;
+                AddingShortcutNameTextBox.Text = _editingShortcut.Name;
+                AddingShortcutNameTextBox.PlaceholderText = _editingShortcut.Name;
+                AddingShortcutCategoryTextBox.Text = _editingShortcut.Category;
+                AddingShortcutColorComboBox.SelectedIndex = Enum.IsDefined(_editingShortcut.Color) ? (int)_editingShortcut.Color - 1 : 4;
+                AddingShortcutRunasCheckBox.IsChecked = _editingShortcut.RunAsAdministrator;
+                AddingShortcutNoWindowCheckBox.IsChecked = _editingShortcut.RunWithoutWindow && !_editingShortcut.RunAsAdministrator;
+                AddingShortcutJumpListCheckBox.IsChecked = _editingShortcut.ShowInJumpList;
+                AddingShortcutNoWindowCheckBox.IsEnabled = !_editingShortcut.RunAsAdministrator;
 
-        //        var option = new FolderLauncherOptions();
-        //        StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(directoryName);
-        //        foreach (var file in await folder.GetFilesAsync())
-        //        {
-        //            if (file.Name == fileName)
-        //            {
-        //                option.ItemsToSelect.Add(file);
-        //                break;
-        //            }
-        //        }
+                var file = await StorageFilesService.GetFileFromDataFolderAsync(_editingShortcut.FileName);
+                bool fileExists = file is not null;
+                ViewButton.IsEnabled = fileExists;
+                ViewTextBlock.Text = fileExists ? "PropertyViewFileButtonText".GetLocalized() : "PropertyFileNotFoundButtonText".GetLocalized();
 
-        //        await Launcher.LaunchFolderAsync(folder, option);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        System.Diagnostics.Trace.WriteLine(ex.Message);
-        //    }
-        //}
-
-        //private void ResetButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    ResetLayout();
-        //}
-
-        //private void ConfirmEditButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        string name = string.IsNullOrWhiteSpace(ShortcutNameTextBox.Text) ? _shortcut.ShortcutName : ShortcutNameTextBox.Text;
-        //        string category = string.IsNullOrWhiteSpace(ShortcutCategoryTextBox.Text) ? _shortcut.Category : ShortcutCategoryTextBox.Text;
-        //        int colorIndex = ShortcutColorComboBox.SelectedIndex + 1;
-        //        bool runas = ShortcutRunasCheckBox.IsChecked == true;
-        //        bool noWindow = ShortcutNoWindowCheckBox.IsChecked == true;
-        //        string icon = ShortcutIcon.Glyph;
-
-        //        _viewModel.EditShortcut(_shortcut, name, category, colorIndex, runas, noWindow, icon);
-
-        //        _closePropertyAction?.Invoke();
-        //    }
-        //    catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
-        //}
+                PropertyScrollViewer.ChangeView(0, 0, null, true);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+            }
+        }
     }
 }
