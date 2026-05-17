@@ -16,7 +16,7 @@ namespace Conscripts.Views
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public MainViewModel ViewModel => new();
+        public MainViewModel ViewModel { get; } = new();
 
         public MainPage()
         {
@@ -205,29 +205,28 @@ namespace Conscripts.Views
         private void OpenSettingsView()
         {
             SettingsGrid.Visibility = Visibility.Visible;
-            SettingsContentBorder.Child = new SettingsView();
+            SettingsContentBorder.Child = new SettingsView() { DataContext = this.ViewModel };
             SettingsGrid.Focus(FocusState.Keyboard);
         }
 
         private void OpenWhatsNewView()
         {
             WhatsNewGrid.Visibility = Visibility.Visible;
-            WhatsNewContentBorder.Child = new ReleaseNotesView();
+            WhatsNewContentBorder.Child = new ReleaseNotesView() { DataContext = this.ViewModel };
             WhatsNewGrid.Focus(FocusState.Keyboard);
         }
 
         private void OpenAddingView()
         {
             AddingGrid.Visibility = Visibility.Visible;
-            AddingContentBorder.Child = new AddingView(CloseAddingView);
+            AddingContentBorder.Child = new AddingView(CloseAddingView) { DataContext = this.ViewModel };
             AddingGrid.Focus(FocusState.Keyboard);
         }
 
         private void OpenPropertyView(ShortcutItemViewModel shortcut)
         {
             PropertyGrid.Visibility = Visibility.Visible;
-            //PropertyContentBorder.Child ??= _propertyLayout = new PropertyLayout(_viewModel, ClosePropertyLayout);
-            //_propertyLayout.SetLayout(shortcut);
+            PropertyContentBorder.Child ??= new PropertyView(shortcut, ClosePropertyView) { DataContext = this.ViewModel };
             PropertyGrid.Focus(FocusState.Keyboard);
         }
 
