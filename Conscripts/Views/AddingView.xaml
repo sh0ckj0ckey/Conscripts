@@ -54,7 +54,7 @@
                                 </Image.Source>
                             </Image>
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <TextBlock x:Name="CopyTipTextBlock" Margin="8,8,8,4" Text="" FontSize="13" Opacity="0.9" TextWrapping="WrapWholeWords" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="CopyTipTextBlock" Margin="8,8,8,0" Text="" FontSize="13" Opacity="0.9" TextWrapping="WrapWholeWords" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                 <Button x:Name="RepickFileButton" Margin="0" Style="{ThemeResource TextBlockButtonStyle}" Click="RepickFileButton_Click" HorizontalAlignment="Left" VerticalAlignment="Center">
                                     <StackPanel Orientation="Horizontal" Spacing="6">
                                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE8E6;" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>

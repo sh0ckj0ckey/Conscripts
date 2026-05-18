@@ -84,7 +84,7 @@
                             <ColumnDefinition Width="2*" MaxWidth="232"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock x:Uid="ShortcutNameTextBlock" FontSize="14" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                        <TextBox x:Name="ShortcutNameTextBox" Grid.Column="1" PlaceholderText="" FontSize="14" Height="34" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                        <TextBox x:Name="ShortcutNameTextBox" Grid.Column="1" PlaceholderText="" FontSize="14" Height="34" TextChanged="ShortcutNameTextBox_TextChanged" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                     </Grid>
                     <Grid ColumnSpacing="16" Padding="16,8,8,8" BorderThickness="1,1,1,0" CornerRadius="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
@@ -93,7 +93,7 @@
                             <ColumnDefinition Width="2*" MaxWidth="232"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock x:Uid="ShortcutCategoryTextBlock" FontSize="14" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                        <AutoSuggestBox x:Name="ShortcutCategoryTextBox" x:Uid="ShortcutCategoryTextBox" Grid.Column="1" GotFocus="ShortcutCategoryTextBox_GotFocus" MaxSuggestionListHeight="128" ItemsSource="{x:Bind ViewModel.ShortcutCategories,Mode=OneWay}" FontSize="14" Height="34" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                        <AutoSuggestBox x:Name="ShortcutCategoryTextBox" x:Uid="ShortcutCategoryTextBox" Grid.Column="1" GotFocus="ShortcutCategoryTextBox_GotFocus" TextChanged="ShortcutCategoryTextBox_TextChanged" MaxSuggestionListHeight="128" ItemsSource="{x:Bind ViewModel.ShortcutCategories,Mode=OneWay}" FontSize="14" Height="34" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                     </Grid>
                     <Grid ColumnSpacing="16" Padding="16,8,8,8" BorderThickness="1,1,1,1" CornerRadius="0,0,8,8" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
@@ -102,7 +102,7 @@
                             <ColumnDefinition Width="2*" MaxWidth="128"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock x:Uid="ShortcutColorTextBlock" FontSize="14" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                        <ComboBox x:Name="ShortcutColorComboBox" Grid.Column="1" Height="34" SelectedIndex="4" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <ComboBox x:Name="ShortcutColorComboBox" Grid.Column="1" Height="34" SelectedIndex="4" SelectionChanged="ShortcutColorComboBox_SelectionChanged" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                             <ComboBoxItem>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <Ellipse Height="12" Width="12" Fill="Firebrick" Margin="0,1,0,-1" VerticalAlignment="Center"/>
@@ -168,11 +168,11 @@
                     </Grid>
                     <Grid ColumnSpacing="16" Padding="16,8" BorderThickness="1,1,1,0" CornerRadius="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
-                        <CheckBox x:Name="ShortcutNoWindowCheckBox" x:Uid="ShortcutNoWindowCheckBox" IsChecked="False" HorizontalAlignment="Left"/>
+                        <CheckBox x:Name="ShortcutNoWindowCheckBox" x:Uid="ShortcutNoWindowCheckBox" IsChecked="False" HorizontalAlignment="Left" Checked="ShortcutNoWindowCheckBox_Checked" Unchecked="ShortcutNoWindowCheckBox_Unchecked"/>
                     </Grid>
                     <Grid ColumnSpacing="16" Padding="16,8" BorderThickness="1,1,1,1" CornerRadius="0,0,8,8" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
-                        <CheckBox x:Name="ShortcutJumpListCheckBox" x:Uid="ShortcutJumpListCheckBox" IsChecked="False" HorizontalAlignment="Left"/>
+                        <CheckBox x:Name="ShortcutJumpListCheckBox" x:Uid="ShortcutJumpListCheckBox" IsChecked="False" HorizontalAlignment="Left" Checked="ShortcutJumpListCheckBox_Checked" Unchecked="ShortcutJumpListCheckBox_Unchecked"/>
                     </Grid>
                 </StackPanel>
             </ScrollViewer>

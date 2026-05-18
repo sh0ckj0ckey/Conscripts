@@ -89,7 +89,7 @@ namespace Conscripts.Views
 
         private async void ShortcutGrid_Drop(object sender, DragEventArgs e)
         {
-            Windows.Storage.StorageFile? dropedFile = null;
+            Windows.Storage.StorageFile? droppedFile = null;
 
             if (e.DataView.Contains(Windows.ApplicationModel.DataTransfer.StandardDataFormats.StorageItems))
             {
@@ -101,19 +101,19 @@ namespace Conscripts.Views
                         if (file.FileType.Equals(".bat", StringComparison.OrdinalIgnoreCase) ||
                             file.FileType.Equals(".ps1", StringComparison.OrdinalIgnoreCase))
                         {
-                            dropedFile = file;
+                            droppedFile = file;
                             break;
                         }
                     }
                 }
             }
 
-            if (dropedFile is null)
+            if (droppedFile is null)
             {
                 await new ContentDialog
                 {
-                    Title = "DialogTitleDropedFileInvalid".GetLocalized(),
-                    Content = "DialogContentDropedFileInvalid".GetLocalized(),
+                    Title = "DialogTitleDroppedFileInvalid".GetLocalized(),
+                    Content = "DialogContentDroppedFileInvalid".GetLocalized(),
                     CloseButtonText = "DialogButtonGotIt".GetLocalized(),
                     XamlRoot = this.XamlRoot,
                     RequestedTheme = this.ActualTheme,
@@ -121,8 +121,27 @@ namespace Conscripts.Views
                 return;
             }
 
-            _pickedFilePath = dropedFile.Path;
+            _pickedFilePath = droppedFile.Path;
             UpdateViewFromFile();
+        }
+
+        private void ShortcutIconsGridView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is GridView gridView)
+            {
+                _iconList ??= [.. Icons.GetAllIcons()];
+                gridView.ItemsSource ??= _iconList;
+            }
+        }
+
+        private void ShortcutIconsGridView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (e.ClickedItem is IconInfo icon)
+            {
+                _pickedIconGlyph = icon.Glyph.ToString();
+                ShortcutIconButton.Content = icon.Glyph;
+                ShortcutIconsFlyout?.Hide();
+            }
         }
 
         private void ShortcutCategoryTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -142,25 +161,6 @@ namespace Conscripts.Views
         private void ShortcutRunasCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             ShortcutNoWindowCheckBox.IsEnabled = true;
-        }
-
-        private void ShortcutIconsGridView_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (sender is GridView gridView)
-            {
-                _iconList ??= [.. Icons.GetAllIcons()];
-                gridView.ItemsSource ??= _iconList;
-            }
-        }
-
-        private void ShortcutIconsGridView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            if (e.ClickedItem is IconInfo icon)
-            {
-                ShortcutIconButton.Content = icon.Glyph;
-                _pickedIconGlyph = icon.Glyph.ToString();
-                ShortcutIconsFlyout?.Hide();
-            }
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)

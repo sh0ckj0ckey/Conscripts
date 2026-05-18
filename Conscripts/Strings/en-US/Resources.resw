@@ -203,10 +203,10 @@ File name is</value>
   <data name="PropertiesTitleTextBlock.Text" xml:space="preserve">
     <value>Properties</value>
   </data>
-  <data name="DialogContentDropedFileInvalid" xml:space="preserve">
+  <data name="DialogContentDroppedFileInvalid" xml:space="preserve">
     <value>Only supports .bat or .ps1 files</value>
   </data>
-  <data name="DialogTitleDropedFileInvalid" xml:space="preserve">
+  <data name="DialogTitleDroppedFileInvalid" xml:space="preserve">
     <value>This doesn't work</value>
   </data>
   <data name="AddingDropFileTextBlock.Text" xml:space="preserve">
