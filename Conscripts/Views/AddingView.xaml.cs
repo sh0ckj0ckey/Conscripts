@@ -259,7 +259,7 @@ namespace Conscripts.Views
 
                     Ps1FileIconImage.Visibility = Visibility.Collapsed;
                     BatFileIconImage.Visibility = Visibility.Visible;
-                    CopyTipTextBlock.Text = $"{"AddingCopyNoticeText1".GetLocalized()} {_desiredFileName}.bat {"AddingCopyNoticeText2".GetLocalized()}";
+                    CopyTipTextBlock.Text = $"{"AddingCopyNoticeText1".GetLocalized()} \"{_desiredFileName}.bat\" {"AddingCopyNoticeText2".GetLocalized()}";
                     ShortcutNameTextBox.PlaceholderText = System.IO.Path.GetFileNameWithoutExtension(_pickedFilePath);
                 }
                 else if (string.Equals(fileExt, ".ps1", StringComparison.OrdinalIgnoreCase))
@@ -269,7 +269,7 @@ namespace Conscripts.Views
 
                     Ps1FileIconImage.Visibility = Visibility.Visible;
                     BatFileIconImage.Visibility = Visibility.Collapsed;
-                    CopyTipTextBlock.Text = $"{"AddingCopyNoticeText1".GetLocalized()} {_desiredFileName}.ps1 {"AddingCopyNoticeText2".GetLocalized()}";
+                    CopyTipTextBlock.Text = $"{"AddingCopyNoticeText1".GetLocalized()} \"{_desiredFileName}.ps1\" {"AddingCopyNoticeText2".GetLocalized()}";
                     ShortcutNameTextBox.PlaceholderText = System.IO.Path.GetFileNameWithoutExtension(_pickedFilePath);
                 }
                 else

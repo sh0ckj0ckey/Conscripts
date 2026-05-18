@@ -36,19 +36,32 @@
                             <Button x:Name="PickFileButton" Padding="12,8" Click="PickFileButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal" Spacing="6">
                                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE838;" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <TextBlock x:Uid="AddingPickFileTextBlock" LineHeight="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock x:Uid="AddingSelectFileTextBlock" LineHeight="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Button>
                             <TextBlock x:Uid="AddingDropFileTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7"/>
                         </StackPanel>
 
-                        <StackPanel x:Name="FileSelectedStackPanel" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                            <Image x:Name="Ps1FileIconImage" Source="/Assets/Icons/icon_ps1.png" Height="70" Margin="0,0,0,8" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Image x:Name="BatFileIconImage" Source="/Assets/Icons/icon_bat.png" Height="70" Margin="0,0,0,8" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Button x:Name="RepickFileButton" Padding="0" Height="34" Width="34" CornerRadius="17" Click="RepickFileButton_Click" HorizontalAlignment="Center">
-                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE711;" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Button>
-                            <TextBlock x:Name="CopyTipTextBlock" Text="" Margin="16,8" FontSize="12" Opacity="0.5" TextAlignment="Center" TextWrapping="WrapWholeWords" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <StackPanel x:Name="FileSelectedStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image x:Name="Ps1FileIconImage" Height="48" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Image.Source>
+                                    <BitmapImage UriSource="/Assets/Icons/icon_ps1.png" DecodePixelType="Logical" DecodePixelHeight="96"/>
+                                </Image.Source>
+                            </Image>
+                            <Image x:Name="BatFileIconImage" Height="48" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Image.Source>
+                                    <BitmapImage UriSource="/Assets/Icons/icon_bat.png" DecodePixelType="Logical" DecodePixelHeight="96"/>
+                                </Image.Source>
+                            </Image>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <TextBlock x:Name="CopyTipTextBlock" Margin="8,8,8,4" Text="" FontSize="13" Opacity="0.9" TextWrapping="WrapWholeWords" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <Button x:Name="RepickFileButton" Margin="0" Style="{ThemeResource TextBlockButtonStyle}" Click="RepickFileButton_Click" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE8E6;" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <TextBlock x:Uid="AddingClearSelectionTextBlock" LineHeight="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
 

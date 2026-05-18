@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayDesc" xml:space="preserve">
-    <value>优雅一点点的脚本启动器</value>
+    <value>轻松整理 BAT 和 PS1 脚本文件</value>
   </data>
   <data name="AppFeatureButtonNameAdd" xml:space="preserve">
     <value>添加</value>
@@ -392,7 +392,10 @@
   <data name="ShortcutRightMenuItem.Text" xml:space="preserve">
     <value>向右移动</value>
   </data>
-  <data name="AddingPickFileTextBlock.Text" xml:space="preserve">
+  <data name="AddingSelectFileTextBlock.Text" xml:space="preserve">
     <value>选择文件</value>
+  </data>
+  <data name="AddingClearSelectionTextBlock.Text" xml:space="preserve">
+    <value>清除选择</value>
   </data>
 </root>

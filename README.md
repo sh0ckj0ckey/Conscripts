@@ -18,10 +18,8 @@ But as your collection of script files grows, finding the right one among a sea 
 ## Todo
 
 - [ ] Add card preview in PropertyView
-- [ ] Adjust UI of FilePickedLayout in AddingView
 - [ ] Jumplist
 - [ ] Add a set of currently running shortcuts to restore IsRunning state after calling RebuildCollection, and use it to determine whether any shortcut is still running so the OneShot logic can be handled correctly
-- [ ] Unify control names in AddingView and PropertyView
 
 ## Download
 
