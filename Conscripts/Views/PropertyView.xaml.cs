@@ -17,6 +17,8 @@ namespace Conscripts.Views
     {
         public MainViewModel ViewModel => (MainViewModel)DataContext;
 
+        public ShortcutItemViewModel PreviewShortcut { get; }
+
         private readonly ShortcutItemViewModel _editingShortcut;
 
         private readonly Action _closeView;
@@ -27,6 +29,7 @@ namespace Conscripts.Views
 
         public PropertyView(ShortcutItemViewModel editingShortcut, Action closeView)
         {
+            this.PreviewShortcut = editingShortcut.Clone();
             _editingShortcut = editingShortcut;
             _closeView = closeView;
             _pickedIconGlyph = editingShortcut.Icon;

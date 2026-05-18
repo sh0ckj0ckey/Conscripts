@@ -136,5 +136,23 @@ namespace Conscripts.ViewModels
         {
             _shortcutModel = shortcutModel;
         }
+
+        public ShortcutItemViewModel Clone()
+        {
+            var copiedModel = new ShortcutModel
+            {
+                ScriptFilePath = _shortcutModel.ScriptFilePath,
+                ShortcutName = _shortcutModel.ShortcutName,
+                ShortcutIcon = _shortcutModel.ShortcutIcon,
+                ShortcutType = _shortcutModel.ShortcutType,
+                ShortcutColor = _shortcutModel.ShortcutColor,
+                Category = _shortcutModel.Category,
+                ShortcutRunas = _shortcutModel.ShortcutRunas,
+                NoWindow = _shortcutModel.NoWindow,
+                ShowInJumpList = _shortcutModel.ShowInJumpList,
+            };
+
+            return new ShortcutItemViewModel(copiedModel);
+        }
     }
 }

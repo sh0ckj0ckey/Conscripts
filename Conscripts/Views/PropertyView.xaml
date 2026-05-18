@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:icon="using:NoMewing.SegoeFluentIcons"
+    xmlns:converters="using:Conscripts.Converters"
     mc:Ignorable="d"
     Loaded="UserControl_Loaded">
 
@@ -17,6 +18,11 @@
                BasedOn="{StaticResource DefaultFlyoutPresenterStyle}">
             <Setter Property="Padding" Value="0" />
         </Style>
+
+        <converters:Bool2VisibilityConverter x:Key="Bool2VisibilityConverter"/>
+        <converters:Enum2ColorConverter x:Key="Enum2ColorConverter"/>
+        <converters:Equal2VisibilityConverter x:Key="Equal2VisibilityConverter"/>
+        <converters:Unequal2VisibilityConverter x:Key="Unequal2VisibilityConverter"/>
     </UserControl.Resources>
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -27,23 +33,23 @@
         <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <ScrollViewer x:Name="ContentScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <StackPanel Orientation="Vertical" Margin="20">
-                    <!--<Grid x:Name="CardPreviewGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock FontSize="38" Opacity="0.5" Margin="0,0,8,8" Text="{x:Bind Icon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                    <Grid x:Name="CardPreviewGrid" CornerRadius="4" Width="182" Height="112" Background="{x:Bind PreviewShortcut.Color,Mode=OneWay,Converter={StaticResource Enum2ColorConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock FontSize="38" Opacity="0.5" Margin="0,0,8,8" Text="{x:Bind PreviewShortcut.Icon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
 
-                        <TextBlock FontSize="14" Foreground="White" Margin="12,12,12,12" FontWeight="Bold" Text="{x:Bind Name,Mode=OneWay}" 
+                        <TextBlock FontSize="14" Foreground="White" Margin="12,12,12,12" FontWeight="Bold" Text="{x:Bind PreviewShortcut.Name,Mode=OneWay}" 
                                    TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top"
-                                   Visibility="{x:Bind Color,Mode=OneWay,Converter={StaticResource Unequal2VisibilityConverter},ConverterParameter=Transparent}"/>
-                        <TextBlock FontSize="14" Margin="12,12,12,12" FontWeight="Bold" Text="{x:Bind Name,Mode=OneWay}" 
+                                   Visibility="{x:Bind PreviewShortcut.Color,Mode=OneWay,Converter={StaticResource Unequal2VisibilityConverter},ConverterParameter=Transparent}"/>
+                        <TextBlock FontSize="14" Margin="12,12,12,12" FontWeight="Bold" Text="{x:Bind PreviewShortcut.Name,Mode=OneWay}" 
                                    TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top"
-                                   Visibility="{x:Bind Color,Mode=OneWay,Converter={StaticResource Equal2VisibilityConverter},ConverterParameter=Transparent}"/>
+                                   Visibility="{x:Bind PreviewShortcut.Color,Mode=OneWay,Converter={StaticResource Equal2VisibilityConverter},ConverterParameter=Transparent}"/>
 
                         <StackPanel Orientation="Horizontal" Margin="12,8" Spacing="8" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                            <FontIcon x:Uid="ShortcutRunasIcon" Glyph="&#xEA18;" Visibility="{x:Bind RunAsAdministrator,Mode=OneWay,Converter={StaticResource Bool2VisibilityConverter}}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Opacity="0.5"/>
-                            <FontIcon x:Uid="ShortcutNewWindowIcon" Glyph="&#xF7ED;" Visibility="{x:Bind RunWithoutWindow,Mode=OneWay,Converter={StaticResource Bool2VisibilityConverter},ConverterParameter=!}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Opacity="0.5"/>
+                            <FontIcon x:Uid="ShortcutRunasIcon" Glyph="&#xEA18;" Visibility="{x:Bind PreviewShortcut.RunAsAdministrator,Mode=OneWay,Converter={StaticResource Bool2VisibilityConverter}}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Opacity="0.5"/>
+                            <FontIcon x:Uid="ShortcutNewWindowIcon" Glyph="&#xF7ED;" Visibility="{x:Bind PreviewShortcut.RunWithoutWindow,Mode=OneWay,Converter={StaticResource Bool2VisibilityConverter},ConverterParameter=!}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Opacity="0.5"/>
                         </StackPanel>
-                    </Grid>-->
+                    </Grid>
 
-                    <Border Height="8"/>
+                    <Border Height="24"/>
                     
                     <Grid ColumnSpacing="16" Padding="16,8,8,8" BorderThickness="1,1,1,0" CornerRadius="8,8,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
