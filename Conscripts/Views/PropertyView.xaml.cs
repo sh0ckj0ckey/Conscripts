@@ -39,26 +39,26 @@ namespace Conscripts.Views
             ResetView();
         }
 
-        private void AddingShortcutCategoryTextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void ShortcutCategoryTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (ViewModel.ShortcutCategories.Count > 0)
             {
-                AddingShortcutCategoryTextBox.IsSuggestionListOpen = true;
+                ShortcutCategoryTextBox.IsSuggestionListOpen = true;
             }
         }
 
-        private void AddingShortcutRunasCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void ShortcutRunasCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            AddingShortcutNoWindowCheckBox.IsChecked = false;
-            AddingShortcutNoWindowCheckBox.IsEnabled = false;
+            ShortcutNoWindowCheckBox.IsChecked = false;
+            ShortcutNoWindowCheckBox.IsEnabled = false;
         }
 
-        private void AddingShortcutRunasCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        private void ShortcutRunasCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            AddingShortcutNoWindowCheckBox.IsEnabled = true;
+            ShortcutNoWindowCheckBox.IsEnabled = true;
         }
 
-        private void AddingShortcutIconsGridView_Loaded(object sender, RoutedEventArgs e)
+        private void ShortcutIconsGridView_Loaded(object sender, RoutedEventArgs e)
         {
             if (sender is GridView gridView)
             {
@@ -67,13 +67,13 @@ namespace Conscripts.Views
             }
         }
 
-        private void AddingShortcutIconsGridView_ItemClick(object sender, ItemClickEventArgs e)
+        private void ShortcutIconsGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             if (e.ClickedItem is IconInfo icon)
             {
-                AddingShortcutIconButton.Content = icon.Glyph;
+                ShortcutIconButton.Content = icon.Glyph;
                 _pickedIconGlyph = icon.Glyph.ToString();
-                AddingShortcutIconsFlyout?.Hide();
+                ShortcutIconsFlyout?.Hide();
             }
         }
 
@@ -94,12 +94,12 @@ namespace Conscripts.Views
             try
             {
                 string icon = string.IsNullOrWhiteSpace(_pickedIconGlyph) ? _editingShortcut.Icon : _pickedIconGlyph;
-                string name = string.IsNullOrWhiteSpace(AddingShortcutNameTextBox.Text) ? _editingShortcut.Name : AddingShortcutNameTextBox.Text;
-                string category = string.IsNullOrWhiteSpace(AddingShortcutCategoryTextBox.Text) ? string.Empty : AddingShortcutCategoryTextBox.Text;
-                int color = AddingShortcutColorComboBox.SelectedIndex + 1;
-                bool runAsAdministrator = AddingShortcutRunasCheckBox.IsChecked == true;
-                bool runWithoutWindow = AddingShortcutNoWindowCheckBox.IsChecked == true;
-                bool showInJumpList = AddingShortcutJumpListCheckBox.IsChecked == true;
+                string name = string.IsNullOrWhiteSpace(ShortcutNameTextBox.Text) ? _editingShortcut.Name : ShortcutNameTextBox.Text;
+                string category = string.IsNullOrWhiteSpace(ShortcutCategoryTextBox.Text) ? string.Empty : ShortcutCategoryTextBox.Text;
+                int color = ShortcutColorComboBox.SelectedIndex + 1;
+                bool runAsAdministrator = ShortcutRunasCheckBox.IsChecked == true;
+                bool runWithoutWindow = ShortcutNoWindowCheckBox.IsChecked == true;
+                bool showInJumpList = ShortcutJumpListCheckBox.IsChecked == true;
 
                 bool edited = await ViewModel.EditShortcutAsync(_editingShortcut, icon, name, category, color, runAsAdministrator, runWithoutWindow, showInJumpList);
 
@@ -149,22 +149,22 @@ namespace Conscripts.Views
             try
             {
                 _pickedIconGlyph = _editingShortcut.Icon;
-                AddingShortcutIconButton.Content = _editingShortcut.Icon;
-                AddingShortcutNameTextBox.Text = _editingShortcut.Name;
-                AddingShortcutNameTextBox.PlaceholderText = _editingShortcut.Name;
-                AddingShortcutCategoryTextBox.Text = _editingShortcut.Category;
-                AddingShortcutColorComboBox.SelectedIndex = Enum.IsDefined(_editingShortcut.Color) ? (int)_editingShortcut.Color - 1 : 4;
-                AddingShortcutRunasCheckBox.IsChecked = _editingShortcut.RunAsAdministrator;
-                AddingShortcutNoWindowCheckBox.IsChecked = _editingShortcut.RunWithoutWindow && !_editingShortcut.RunAsAdministrator;
-                AddingShortcutJumpListCheckBox.IsChecked = _editingShortcut.ShowInJumpList;
-                AddingShortcutNoWindowCheckBox.IsEnabled = !_editingShortcut.RunAsAdministrator;
+                ShortcutIconButton.Content = _editingShortcut.Icon;
+                ShortcutNameTextBox.Text = _editingShortcut.Name;
+                ShortcutNameTextBox.PlaceholderText = _editingShortcut.Name;
+                ShortcutCategoryTextBox.Text = _editingShortcut.Category;
+                ShortcutColorComboBox.SelectedIndex = Enum.IsDefined(_editingShortcut.Color) ? (int)_editingShortcut.Color - 1 : 4;
+                ShortcutRunasCheckBox.IsChecked = _editingShortcut.RunAsAdministrator;
+                ShortcutNoWindowCheckBox.IsChecked = _editingShortcut.RunWithoutWindow && !_editingShortcut.RunAsAdministrator;
+                ShortcutJumpListCheckBox.IsChecked = _editingShortcut.ShowInJumpList;
+                ShortcutNoWindowCheckBox.IsEnabled = !_editingShortcut.RunAsAdministrator;
 
                 var file = await StorageFilesService.GetFileFromDataFolderAsync(_editingShortcut.FileName);
                 bool fileExists = file is not null;
                 ViewButton.IsEnabled = fileExists;
                 ViewTextBlock.Text = fileExists ? "PropertyViewFileButtonText".GetLocalized() : "PropertyFileNotFoundButtonText".GetLocalized();
 
-                PropertyScrollViewer.ChangeView(0, 0, null, true);
+                ContentScrollViewer.ChangeView(0, 0, null, true);
             }
             catch (Exception ex)
             {

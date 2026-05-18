@@ -155,7 +155,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock x:Uid="WhatsNewTitleTextBlock" Margin="24,16,0,16" FontWeight="Bold" FontSize="20"/>
+                <TextBlock x:Uid="ReleaseNotesTitleTextBlock" Margin="24,16,0,16" FontWeight="Bold" FontSize="20"/>
                 <Button Height="38" Width="38" Padding="0" Margin="0,0,20,0" Background="Transparent" BorderBrush="Transparent" 
                         HorizontalAlignment="Right" VerticalAlignment="Center" Click="CloseWhatsNew_Click">
                     <FontIcon Glyph="&#xE624;" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
@@ -171,7 +171,7 @@
             <animations:Implicit.HideAnimations>
                 <animations:OpacityAnimation To="0" Duration="0:0:0.2"/>
             </animations:Implicit.HideAnimations>
-            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicInAppFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72" MaxWidth="540">
+            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicInAppFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72" MaxWidth="512">
                 <animations:Implicit.ShowAnimations>
                     <animations:TranslationAnimation From="0,32,0" To="0,0,0" EasingMode="EaseInOut" EasingType="Default" Duration="0:0:0.4"/>
                 </animations:Implicit.ShowAnimations>
@@ -198,7 +198,7 @@
             <animations:Implicit.HideAnimations>
                 <animations:OpacityAnimation To="0" Duration="0:0:0.2"/>
             </animations:Implicit.HideAnimations>
-            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicInAppFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72" MaxWidth="420">
+            <Grid CornerRadius="6" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Background="{ThemeResource AcrylicInAppFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="72" MaxWidth="460">
                 <animations:Implicit.ShowAnimations>
                     <animations:TranslationAnimation From="0,32,0" To="0,0,0" EasingMode="EaseInOut" EasingType="Default" Duration="0:0:0.4"/>
                 </animations:Implicit.ShowAnimations>

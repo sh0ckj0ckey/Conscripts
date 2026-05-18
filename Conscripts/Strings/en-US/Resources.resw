@@ -149,7 +149,7 @@
   </data>
   <data name="AddingCopyNoticeText2" xml:space="preserve">
     <value>to
-"Documents\NoMewing\Conscript\"</value>
+"Documents\NoMewing\Conscripts\"</value>
   </data>
   <data name="DialogContentDeleteConfirm1" xml:space="preserve">
     <value>Are you sure you want to delete</value>
@@ -194,7 +194,7 @@ File name is</value>
   <data name="SettingsTitleTextBlock.Text" xml:space="preserve">
     <value>Settings</value>
   </data>
-  <data name="WhatsNewTitleTextBlock.Text" xml:space="preserve">
+  <data name="ReleaseNotesTitleTextBlock.Text" xml:space="preserve">
     <value>What's New</value>
   </data>
   <data name="AddTitleTextBlock.Text" xml:space="preserve">
@@ -209,58 +209,55 @@ File name is</value>
   <data name="DialogTitleDropedFileInvalid" xml:space="preserve">
     <value>This doesn't work</value>
   </data>
-  <data name="AddingPickFileTextBlock.Text" xml:space="preserve">
-    <value>Choose File</value>
-  </data>
   <data name="AddingDropFileTextBlock.Text" xml:space="preserve">
     <value>or Drag &amp; Drop a file here</value>
   </data>
-  <data name="AddingShortcutNameTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutNameTextBlock.Text" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="AddingShortcutCategoryTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutCategoryTextBlock.Text" xml:space="preserve">
     <value>Category</value>
   </data>
-  <data name="AddingShortcutCategoryTextBox.PlaceholderText" xml:space="preserve">
+  <data name="ShortcutCategoryTextBox.PlaceholderText" xml:space="preserve">
     <value>Uncategorized</value>
   </data>
-  <data name="AddingShortcutColorTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorTextBlock.Text" xml:space="preserve">
     <value>Color</value>
   </data>
-  <data name="AddingShortcutColorGrayTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorGrayTextBlock.Text" xml:space="preserve">
     <value>Gray</value>
   </data>
-  <data name="AddingShortcutColorBrownTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorBrownTextBlock.Text" xml:space="preserve">
     <value>Brown</value>
   </data>
-  <data name="AddingShortcutColorPinkTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorPinkTextBlock.Text" xml:space="preserve">
     <value>Pink</value>
   </data>
-  <data name="AddingShortcutColorPurpleTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorPurpleTextBlock.Text" xml:space="preserve">
     <value>Purple</value>
   </data>
-  <data name="AddingShortcutColorBlueTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorBlueTextBlock.Text" xml:space="preserve">
     <value>Blue</value>
   </data>
-  <data name="AddingShortcutColorGreenTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorGreenTextBlock.Text" xml:space="preserve">
     <value>Green</value>
   </data>
-  <data name="AddingShortcutColorYellowTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorYellowTextBlock.Text" xml:space="preserve">
     <value>Yellow</value>
   </data>
-  <data name="AddingShortcutColorOrangeTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorOrangeTextBlock.Text" xml:space="preserve">
     <value>Orange</value>
   </data>
-  <data name="AddingShortcutColorRedTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorRedTextBlock.Text" xml:space="preserve">
     <value>Red</value>
   </data>
-  <data name="AddingShortcutRunasCheckBox.Content" xml:space="preserve">
+  <data name="ShortcutRunasCheckBox.Content" xml:space="preserve">
     <value>Run as Administrator</value>
   </data>
-  <data name="AddingShortcutNoWindowCheckBox.Content" xml:space="preserve">
+  <data name="ShortcutNoWindowCheckBox.Content" xml:space="preserve">
     <value>Run without new window</value>
   </data>
-  <data name="AddingShortcutIconTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutIconTextBlock.Text" xml:space="preserve">
     <value>Icon</value>
   </data>
   <data name="AddingShortcutResetTextBlock.Text" xml:space="preserve">
@@ -269,10 +266,10 @@ File name is</value>
   <data name="AddingShortcutAddTextBlock.Text" xml:space="preserve">
     <value>Add</value>
   </data>
-  <data name="PropertyEditResetTextBlock.Text" xml:space="preserve">
+  <data name="EditingShortcutResetTextBlock.Text" xml:space="preserve">
     <value>Reset</value>
   </data>
-  <data name="PropertyEditSaveTextBlock.Text" xml:space="preserve">
+  <data name="EditingShortcutConfirmTextBlock.Text" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="SettingsDescriptionTextBlock.Text" xml:space="preserve">
@@ -374,7 +371,7 @@ File name is</value>
   <data name="SettingsBackdropMicaAltComboBoxItem.Content" xml:space="preserve">
     <value>Mica Alt</value>
   </data>
-  <data name="AddingShortcutJumpListCheckBox.Content" xml:space="preserve">
+  <data name="ShortcutJumpListCheckBox.Content" xml:space="preserve">
     <value>Add to JumpList</value>
   </data>
   <data name="ReleaseNotesTitle2026AprTextBlock.Text" xml:space="preserve">
@@ -394,5 +391,8 @@ File name is</value>
   </data>
   <data name="ShortcutRightMenuItem.Text" xml:space="preserve">
     <value>Move right</value>
+  </data>
+  <data name="AddingPickFileTextBlock.Text" xml:space="preserve">
+    <value>Choose File</value>
   </data>
 </root>

@@ -25,9 +25,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <ScrollViewer x:Name="PropertyScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <ScrollViewer x:Name="ContentScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <StackPanel Orientation="Vertical" Margin="20">
-                    <Grid x:Name="CardPreviewGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <!--<Grid x:Name="CardPreviewGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <TextBlock FontSize="38" Opacity="0.5" Margin="0,0,8,8" Text="{x:Bind Icon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
 
                         <TextBlock FontSize="14" Foreground="White" Margin="12,12,12,12" FontWeight="Bold" Text="{x:Bind Name,Mode=OneWay}" 
@@ -41,7 +41,7 @@
                             <FontIcon x:Uid="ShortcutRunasIcon" Glyph="&#xEA18;" Visibility="{x:Bind RunAsAdministrator,Mode=OneWay,Converter={StaticResource Bool2VisibilityConverter}}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Opacity="0.5"/>
                             <FontIcon x:Uid="ShortcutNewWindowIcon" Glyph="&#xF7ED;" Visibility="{x:Bind RunWithoutWindow,Mode=OneWay,Converter={StaticResource Bool2VisibilityConverter},ConverterParameter=!}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Opacity="0.5"/>
                         </StackPanel>
-                    </Grid>
+                    </Grid>-->
 
                     <Border Height="8"/>
                     
@@ -51,13 +51,13 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Uid="AddingShortcutIconTextBlock" FontSize="14" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                        <Button x:Name="AddingShortcutIconButton" Grid.Column="1" Content="&#xE756;" Padding="0" Height="48" Width="48" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <TextBlock x:Uid="ShortcutIconTextBlock" FontSize="14" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                        <Button x:Name="ShortcutIconButton" Grid.Column="1" Content="&#xE756;" Padding="0" Height="48" Width="48" FontSize="18" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Center">
                             <Button.Flyout>
-                                <Flyout x:Name="AddingShortcutIconsFlyout" Placement="Left" FlyoutPresenterStyle="{StaticResource NoPaddingFlyoutPresenterStyle}">
+                                <Flyout x:Name="ShortcutIconsFlyout" Placement="Left" FlyoutPresenterStyle="{StaticResource NoPaddingFlyoutPresenterStyle}">
                                     <Grid Background="Transparent" Padding="0" Width="300" Height="216">
-                                        <GridView x:Name="AddingShortcutIconsGridView" Padding="4" SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                                  Loaded="AddingShortcutIconsGridView_Loaded" ItemClick="AddingShortcutIconsGridView_ItemClick">
+                                        <GridView x:Name="ShortcutIconsGridView" Padding="4" SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                                  Loaded="ShortcutIconsGridView_Loaded" ItemClick="ShortcutIconsGridView_ItemClick">
                                             <GridView.ItemTemplate>
                                                 <DataTemplate x:DataType="icon:IconInfo">
                                                     <Grid Width="34" Height="34">
@@ -77,8 +77,8 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="2*" MaxWidth="232"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Uid="AddingShortcutNameTextBlock" FontSize="14" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                        <TextBox x:Name="AddingShortcutNameTextBox" Grid.Column="1" PlaceholderText="" FontSize="14" Height="34" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="ShortcutNameTextBlock" FontSize="14" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                        <TextBox x:Name="ShortcutNameTextBox" Grid.Column="1" PlaceholderText="" FontSize="14" Height="34" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                     </Grid>
                     <Grid ColumnSpacing="16" Padding="16,8,8,8" BorderThickness="1,1,1,0" CornerRadius="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
@@ -86,8 +86,8 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="2*" MaxWidth="232"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Uid="AddingShortcutCategoryTextBlock" FontSize="14" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                        <AutoSuggestBox x:Name="AddingShortcutCategoryTextBox" x:Uid="AddingShortcutCategoryTextBox" Grid.Column="1" GotFocus="AddingShortcutCategoryTextBox_GotFocus" MaxSuggestionListHeight="128" ItemsSource="{x:Bind ViewModel.ShortcutCategories,Mode=OneWay}" FontSize="14" Height="34" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="ShortcutCategoryTextBlock" FontSize="14" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                        <AutoSuggestBox x:Name="ShortcutCategoryTextBox" x:Uid="ShortcutCategoryTextBox" Grid.Column="1" GotFocus="ShortcutCategoryTextBox_GotFocus" MaxSuggestionListHeight="128" ItemsSource="{x:Bind ViewModel.ShortcutCategories,Mode=OneWay}" FontSize="14" Height="34" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                     </Grid>
                     <Grid ColumnSpacing="16" Padding="16,8,8,8" BorderThickness="1,1,1,1" CornerRadius="0,0,8,8" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
@@ -95,60 +95,60 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="2*" MaxWidth="128"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Uid="AddingShortcutColorTextBlock" FontSize="14" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                        <ComboBox x:Name="AddingShortcutColorComboBox" Grid.Column="1" Height="34" SelectedIndex="4" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <TextBlock x:Uid="ShortcutColorTextBlock" FontSize="14" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                        <ComboBox x:Name="ShortcutColorComboBox" Grid.Column="1" Height="34" SelectedIndex="4" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                             <ComboBoxItem>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <Ellipse Height="12" Width="12" Fill="Firebrick" Margin="0,1,0,-1" VerticalAlignment="Center"/>
-                                    <TextBlock x:Uid="AddingShortcutColorRedTextBlock" VerticalAlignment="Center"/>
+                                    <TextBlock x:Uid="ShortcutColorRedTextBlock" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem>
                             <ComboBoxItem>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <Ellipse Height="12" Width="12" Fill="Tomato" Margin="0,1,0,-1" VerticalAlignment="Center"/>
-                                    <TextBlock x:Uid="AddingShortcutColorOrangeTextBlock" VerticalAlignment="Center"/>
+                                    <TextBlock x:Uid="ShortcutColorOrangeTextBlock" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem>
                             <ComboBoxItem>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <Ellipse Height="12" Width="12" Fill="Goldenrod" Margin="0,1,0,-1" VerticalAlignment="Center"/>
-                                    <TextBlock x:Uid="AddingShortcutColorYellowTextBlock" VerticalAlignment="Center"/>
+                                    <TextBlock x:Uid="ShortcutColorYellowTextBlock" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem>
                             <ComboBoxItem>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <Ellipse Height="12" Width="12" Fill="ForestGreen" Margin="0,1,0,-1" VerticalAlignment="Center"/>
-                                    <TextBlock x:Uid="AddingShortcutColorGreenTextBlock" VerticalAlignment="Center"/>
+                                    <TextBlock x:Uid="ShortcutColorGreenTextBlock" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem>
                             <ComboBoxItem>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <Ellipse Height="12" Width="12" Fill="DodgerBlue" Margin="0,1,0,-1" VerticalAlignment="Center"/>
-                                    <TextBlock x:Uid="AddingShortcutColorBlueTextBlock" VerticalAlignment="Center"/>
+                                    <TextBlock x:Uid="ShortcutColorBlueTextBlock" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem>
                             <ComboBoxItem>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <Ellipse Height="12" Width="12" Fill="Orchid" Margin="0,1,0,-1" VerticalAlignment="Center"/>
-                                    <TextBlock x:Uid="AddingShortcutColorPurpleTextBlock" VerticalAlignment="Center"/>
+                                    <TextBlock x:Uid="ShortcutColorPurpleTextBlock" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem>
                             <ComboBoxItem>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <Ellipse Height="12" Width="12" Fill="DeepPink" Margin="0,1,0,-1" VerticalAlignment="Center"/>
-                                    <TextBlock x:Uid="AddingShortcutColorPinkTextBlock" VerticalAlignment="Center"/>
+                                    <TextBlock x:Uid="ShortcutColorPinkTextBlock" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem>
                             <ComboBoxItem>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <Ellipse Height="12" Width="12" Fill="Sienna" Margin="0,1,0,-1" VerticalAlignment="Center"/>
-                                    <TextBlock x:Uid="AddingShortcutColorBrownTextBlock" VerticalAlignment="Center"/>
+                                    <TextBlock x:Uid="ShortcutColorBrownTextBlock" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem>
                             <ComboBoxItem>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <Ellipse Height="12" Width="12" Fill="DimGray" Margin="0,1,0,-1" VerticalAlignment="Center"/>
-                                    <TextBlock x:Uid="AddingShortcutColorGrayTextBlock" VerticalAlignment="Center"/>
+                                    <TextBlock x:Uid="ShortcutColorGrayTextBlock" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </ComboBoxItem>
                         </ComboBox>
@@ -158,15 +158,15 @@
 
                     <Grid ColumnSpacing="16" Padding="16,8" BorderThickness="1,1,1,0" CornerRadius="8,8,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
-                        <CheckBox x:Name="AddingShortcutRunasCheckBox" x:Uid="AddingShortcutRunasCheckBox" IsChecked="False" HorizontalAlignment="Left" Checked="AddingShortcutRunasCheckBox_Checked" Unchecked="AddingShortcutRunasCheckBox_Unchecked"/>
+                        <CheckBox x:Name="ShortcutRunasCheckBox" x:Uid="ShortcutRunasCheckBox" IsChecked="False" HorizontalAlignment="Left" Checked="ShortcutRunasCheckBox_Checked" Unchecked="ShortcutRunasCheckBox_Unchecked"/>
                     </Grid>
                     <Grid ColumnSpacing="16" Padding="16,8" BorderThickness="1,1,1,0" CornerRadius="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
-                        <CheckBox x:Name="AddingShortcutNoWindowCheckBox" x:Uid="AddingShortcutNoWindowCheckBox" IsChecked="False" HorizontalAlignment="Left"/>
+                        <CheckBox x:Name="ShortcutNoWindowCheckBox" x:Uid="ShortcutNoWindowCheckBox" IsChecked="False" HorizontalAlignment="Left"/>
                     </Grid>
                     <Grid ColumnSpacing="16" Padding="16,8" BorderThickness="1,1,1,1" CornerRadius="0,0,8,8" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
-                        <CheckBox x:Name="AddingShortcutJumpListCheckBox" x:Uid="AddingShortcutJumpListCheckBox" IsChecked="False" HorizontalAlignment="Left"/>
+                        <CheckBox x:Name="ShortcutJumpListCheckBox" x:Uid="ShortcutJumpListCheckBox" IsChecked="False" HorizontalAlignment="Left"/>
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
@@ -183,13 +183,13 @@
                 <Button x:Name="ResetButton" Padding="24,10" Click="ResetButton_Click">
                     <StackPanel Orientation="Horizontal" Spacing="6">
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE72C;" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock x:Uid="PropertyEditResetTextBlock" LineHeight="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="EditingShortcutResetTextBlock" LineHeight="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 <Button x:Name="EditButton" Padding="24,10" Click="EditButton_Click" Style="{ThemeResource AccentButtonStyle}">
                     <StackPanel Orientation="Horizontal" Spacing="6">
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE70F;" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock x:Uid="PropertyEditSaveTextBlock" LineHeight="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="EditingShortcutConfirmTextBlock" LineHeight="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
             </StackPanel>

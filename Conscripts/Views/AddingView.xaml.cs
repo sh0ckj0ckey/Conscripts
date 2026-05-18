@@ -125,26 +125,26 @@ namespace Conscripts.Views
             UpdateViewFromFile();
         }
 
-        private void AddingShortcutCategoryTextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void ShortcutCategoryTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (ViewModel.ShortcutCategories.Count > 0)
             {
-                AddingShortcutCategoryTextBox.IsSuggestionListOpen = true;
+                ShortcutCategoryTextBox.IsSuggestionListOpen = true;
             }
         }
 
-        private void AddingShortcutRunasCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void ShortcutRunasCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            AddingShortcutNoWindowCheckBox.IsChecked = false;
-            AddingShortcutNoWindowCheckBox.IsEnabled = false;
+            ShortcutNoWindowCheckBox.IsChecked = false;
+            ShortcutNoWindowCheckBox.IsEnabled = false;
         }
 
-        private void AddingShortcutRunasCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        private void ShortcutRunasCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            AddingShortcutNoWindowCheckBox.IsEnabled = true;
+            ShortcutNoWindowCheckBox.IsEnabled = true;
         }
 
-        private void AddingShortcutIconsGridView_Loaded(object sender, RoutedEventArgs e)
+        private void ShortcutIconsGridView_Loaded(object sender, RoutedEventArgs e)
         {
             if (sender is GridView gridView)
             {
@@ -153,13 +153,13 @@ namespace Conscripts.Views
             }
         }
 
-        private void AddingShortcutIconsGridView_ItemClick(object sender, ItemClickEventArgs e)
+        private void ShortcutIconsGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             if (e.ClickedItem is IconInfo icon)
             {
-                AddingShortcutIconButton.Content = icon.Glyph;
+                ShortcutIconButton.Content = icon.Glyph;
                 _pickedIconGlyph = icon.Glyph.ToString();
-                AddingShortcutIconsFlyout?.Hide();
+                ShortcutIconsFlyout?.Hide();
             }
         }
 
@@ -190,12 +190,12 @@ namespace Conscripts.Views
                 }
 
                 string icon = _pickedIconGlyph;
-                string name = string.IsNullOrWhiteSpace(AddingShortcutNameTextBox.Text) ? System.IO.Path.GetFileNameWithoutExtension(_pickedFilePath) : AddingShortcutNameTextBox.Text;
-                string category = string.IsNullOrWhiteSpace(AddingShortcutCategoryTextBox.Text) ? string.Empty : AddingShortcutCategoryTextBox.Text;
-                int color = AddingShortcutColorComboBox.SelectedIndex + 1;
-                bool runAsAdministrator = AddingShortcutRunasCheckBox.IsChecked == true;
-                bool runWithoutWindow = AddingShortcutNoWindowCheckBox.IsChecked == true;
-                bool showInJumpList = AddingShortcutJumpListCheckBox.IsChecked == true;
+                string name = string.IsNullOrWhiteSpace(ShortcutNameTextBox.Text) ? System.IO.Path.GetFileNameWithoutExtension(_pickedFilePath) : ShortcutNameTextBox.Text;
+                string category = string.IsNullOrWhiteSpace(ShortcutCategoryTextBox.Text) ? string.Empty : ShortcutCategoryTextBox.Text;
+                int color = ShortcutColorComboBox.SelectedIndex + 1;
+                bool runAsAdministrator = ShortcutRunasCheckBox.IsChecked == true;
+                bool runWithoutWindow = ShortcutNoWindowCheckBox.IsChecked == true;
+                bool showInJumpList = ShortcutJumpListCheckBox.IsChecked == true;
 
                 bool added = await ViewModel.AddShortcutAsync(_pickedFilePath, _desiredFileName, icon, name, category, color, runAsAdministrator, runWithoutWindow, showInJumpList);
 
@@ -220,19 +220,19 @@ namespace Conscripts.Views
             {
                 _pickedFilePath = string.Empty;
                 _pickedIconGlyph = "\uE756";
-                AddingShortcutIconButton.Content = '\uE756';
-                AddingShortcutNameTextBox.Text = "";
-                AddingShortcutNameTextBox.PlaceholderText = "AddingNamePlaceholderText".GetLocalized();
-                AddingShortcutCategoryTextBox.Text = "";
-                AddingShortcutColorComboBox.SelectedIndex = 4;
-                AddingShortcutNoWindowCheckBox.IsEnabled = true;
-                AddingShortcutRunasCheckBox.IsChecked = false;
-                AddingShortcutNoWindowCheckBox.IsChecked = false;
-                AddingShortcutJumpListCheckBox.IsChecked = false;
+                ShortcutIconButton.Content = '\uE756';
+                ShortcutNameTextBox.Text = "";
+                ShortcutNameTextBox.PlaceholderText = "AddingNamePlaceholderText".GetLocalized();
+                ShortcutCategoryTextBox.Text = "";
+                ShortcutColorComboBox.SelectedIndex = 4;
+                ShortcutNoWindowCheckBox.IsEnabled = true;
+                ShortcutRunasCheckBox.IsChecked = false;
+                ShortcutNoWindowCheckBox.IsChecked = false;
+                ShortcutJumpListCheckBox.IsChecked = false;
 
                 UpdateViewFromFile();
 
-                AddingShortcutScrollViewer.ChangeView(0, 0, null, true);
+                ContentScrollViewer.ChangeView(0, 0, null, true);
             }
             catch (Exception ex)
             {
@@ -242,7 +242,7 @@ namespace Conscripts.Views
 
         private void UpdateViewFromFile()
         {
-            AddingShortcutNameTextBox.PlaceholderText = "AddingNamePlaceholderText".GetLocalized();
+            ShortcutNameTextBox.PlaceholderText = "AddingNamePlaceholderText".GetLocalized();
 
             if (string.IsNullOrWhiteSpace(_pickedFilePath))
             {
@@ -260,7 +260,7 @@ namespace Conscripts.Views
                     Ps1FileIconImage.Visibility = Visibility.Collapsed;
                     BatFileIconImage.Visibility = Visibility.Visible;
                     CopyTipTextBlock.Text = $"{"AddingCopyNoticeText1".GetLocalized()} {_desiredFileName}.bat {"AddingCopyNoticeText2".GetLocalized()}";
-                    AddingShortcutNameTextBox.PlaceholderText = System.IO.Path.GetFileNameWithoutExtension(_pickedFilePath);
+                    ShortcutNameTextBox.PlaceholderText = System.IO.Path.GetFileNameWithoutExtension(_pickedFilePath);
                 }
                 else if (string.Equals(fileExt, ".ps1", StringComparison.OrdinalIgnoreCase))
                 {
@@ -270,7 +270,7 @@ namespace Conscripts.Views
                     Ps1FileIconImage.Visibility = Visibility.Visible;
                     BatFileIconImage.Visibility = Visibility.Collapsed;
                     CopyTipTextBlock.Text = $"{"AddingCopyNoticeText1".GetLocalized()} {_desiredFileName}.ps1 {"AddingCopyNoticeText2".GetLocalized()}";
-                    AddingShortcutNameTextBox.PlaceholderText = System.IO.Path.GetFileNameWithoutExtension(_pickedFilePath);
+                    ShortcutNameTextBox.PlaceholderText = System.IO.Path.GetFileNameWithoutExtension(_pickedFilePath);
                 }
                 else
                 {

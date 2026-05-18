@@ -149,7 +149,7 @@
   </data>
   <data name="AddingCopyNoticeText2" xml:space="preserve">
     <value>复制到
-"文档\NoMewing\Conscript\"</value>
+"文档\NoMewing\Conscripts\"</value>
   </data>
   <data name="DialogContentDeleteConfirm1" xml:space="preserve">
     <value>确定要删除脚本</value>
@@ -194,7 +194,7 @@
   <data name="SettingsTitleTextBlock.Text" xml:space="preserve">
     <value>设置</value>
   </data>
-  <data name="WhatsNewTitleTextBlock.Text" xml:space="preserve">
+  <data name="ReleaseNotesTitleTextBlock.Text" xml:space="preserve">
     <value>最近更新</value>
   </data>
   <data name="AddTitleTextBlock.Text" xml:space="preserve">
@@ -209,58 +209,55 @@
   <data name="DialogTitleDropedFileInvalid" xml:space="preserve">
     <value>这个不行</value>
   </data>
-  <data name="AddingPickFileTextBlock.Text" xml:space="preserve">
-    <value>选择文件</value>
-  </data>
   <data name="AddingDropFileTextBlock.Text" xml:space="preserve">
     <value>或拖拽文件至此</value>
   </data>
-  <data name="AddingShortcutNameTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutNameTextBlock.Text" xml:space="preserve">
     <value>名称</value>
   </data>
-  <data name="AddingShortcutCategoryTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutCategoryTextBlock.Text" xml:space="preserve">
     <value>分类</value>
   </data>
-  <data name="AddingShortcutCategoryTextBox.PlaceholderText" xml:space="preserve">
+  <data name="ShortcutCategoryTextBox.PlaceholderText" xml:space="preserve">
     <value>未分类</value>
   </data>
-  <data name="AddingShortcutColorTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorTextBlock.Text" xml:space="preserve">
     <value>颜色</value>
   </data>
-  <data name="AddingShortcutColorGrayTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorGrayTextBlock.Text" xml:space="preserve">
     <value>灰色</value>
   </data>
-  <data name="AddingShortcutColorBrownTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorBrownTextBlock.Text" xml:space="preserve">
     <value>棕色</value>
   </data>
-  <data name="AddingShortcutColorPinkTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorPinkTextBlock.Text" xml:space="preserve">
     <value>粉色</value>
   </data>
-  <data name="AddingShortcutColorPurpleTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorPurpleTextBlock.Text" xml:space="preserve">
     <value>紫色</value>
   </data>
-  <data name="AddingShortcutColorBlueTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorBlueTextBlock.Text" xml:space="preserve">
     <value>蓝色</value>
   </data>
-  <data name="AddingShortcutColorGreenTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorGreenTextBlock.Text" xml:space="preserve">
     <value>绿色</value>
   </data>
-  <data name="AddingShortcutColorYellowTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorYellowTextBlock.Text" xml:space="preserve">
     <value>黄色</value>
   </data>
-  <data name="AddingShortcutColorOrangeTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorOrangeTextBlock.Text" xml:space="preserve">
     <value>橙色</value>
   </data>
-  <data name="AddingShortcutColorRedTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutColorRedTextBlock.Text" xml:space="preserve">
     <value>红色</value>
   </data>
-  <data name="AddingShortcutRunasCheckBox.Content" xml:space="preserve">
+  <data name="ShortcutRunasCheckBox.Content" xml:space="preserve">
     <value>以管理员身份运行</value>
   </data>
-  <data name="AddingShortcutNoWindowCheckBox.Content" xml:space="preserve">
+  <data name="ShortcutNoWindowCheckBox.Content" xml:space="preserve">
     <value>无窗口运行</value>
   </data>
-  <data name="AddingShortcutIconTextBlock.Text" xml:space="preserve">
+  <data name="ShortcutIconTextBlock.Text" xml:space="preserve">
     <value>图标</value>
   </data>
   <data name="AddingShortcutResetTextBlock.Text" xml:space="preserve">
@@ -269,10 +266,10 @@
   <data name="AddingShortcutAddTextBlock.Text" xml:space="preserve">
     <value>添加</value>
   </data>
-  <data name="PropertyEditResetTextBlock.Text" xml:space="preserve">
+  <data name="EditingShortcutResetTextBlock.Text" xml:space="preserve">
     <value>还原</value>
   </data>
-  <data name="PropertyEditSaveTextBlock.Text" xml:space="preserve">
+  <data name="EditingShortcutConfirmTextBlock.Text" xml:space="preserve">
     <value>修改</value>
   </data>
   <data name="SettingsDescriptionTextBlock.Text" xml:space="preserve">
@@ -374,7 +371,7 @@
   <data name="SettingsBackdropMicaAltComboBoxItem.Content" xml:space="preserve">
     <value>云母 Alt</value>
   </data>
-  <data name="AddingShortcutJumpListCheckBox.Content" xml:space="preserve">
+  <data name="ShortcutJumpListCheckBox.Content" xml:space="preserve">
     <value>添加到跳转列表</value>
   </data>
   <data name="ReleaseNotesTitle2026AprTextBlock.Text" xml:space="preserve">
@@ -394,5 +391,8 @@
   </data>
   <data name="ShortcutRightMenuItem.Text" xml:space="preserve">
     <value>向右移动</value>
+  </data>
+  <data name="AddingPickFileTextBlock.Text" xml:space="preserve">
+    <value>选择文件</value>
   </data>
 </root>
