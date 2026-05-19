@@ -21,6 +21,8 @@ namespace Conscripts.ViewModels
 
         private readonly Dictionary<ShortcutItemViewModel, ShortcutModel> _shortcutMap = [];
 
+        private readonly HashSet<string> _runningShortcutFileNames = new(StringComparer.OrdinalIgnoreCase);
+
         public ObservableCollection<ShortcutGroupViewModel> ShortcutGroups { get; } = [];
 
         public ObservableCollection<string> ShortcutCategories { get; } = [];
@@ -45,7 +47,10 @@ namespace Conscripts.ViewModels
                 {
                     shortcut.Category = shortcut.Category?.Trim() ?? string.Empty;
 
-                    var shortcutItem = new ShortcutItemViewModel(shortcut);
+                    var shortcutItem = new ShortcutItemViewModel(shortcut)
+                    {
+                        IsRunning = !string.IsNullOrWhiteSpace(shortcut.ScriptFilePath) && _runningShortcutFileNames.Contains(shortcut.ScriptFilePath)
+                    };
 
                     _shortcutMap[shortcutItem] = shortcut;
 
@@ -374,11 +379,15 @@ namespace Conscripts.ViewModels
             }
         }
 
+        // Rebuild 后的新卡片 IsRunning 残留问题
         public async Task LaunchShortcutAsync(ShortcutItemViewModel launchingShortcut)
         {
+            string? runningKey = null;
+            bool started = false;
+
             try
             {
-                if (launchingShortcut is null || launchingShortcut.IsRunning)
+                if (launchingShortcut is null)
                 {
                     return;
                 }
@@ -398,36 +407,41 @@ namespace Conscripts.ViewModels
                     return;
                 }
 
+                if (!_runningShortcutFileNames.Add(shortcutModel.ScriptFilePath))
+                {
+                    return;
+                }
+
+                runningKey = shortcutModel.ScriptFilePath;
+
                 launchingShortcut.IsRunning = true;
 
-                try
+                var file = await StorageFilesService.GetFileFromDataFolderAsync(shortcutModel.ScriptFilePath);
+                if (file is null)
                 {
-                    var file = await StorageFilesService.GetFileFromDataFolderAsync(shortcutModel.ScriptFilePath);
-                    if (file is null)
-                    {
-                        return;
-                    }
+                    return;
+                }
 
-                    var result = await ScriptLauncher.RunAsync(file.Path, shortcutModel.ShortcutRunas, shortcutModel.NoWindow);
-
-                    if (result.Started && App.Settings.OneShotEnabled)
-                    {
-                        Microsoft.UI.Xaml.Application.Current.Exit();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Trace.WriteLine(ex);
-                }
-                finally
-                {
-                    launchingShortcut.IsRunning = false;
-                }
+                var result = await ScriptLauncher.RunAsync(file.Path, shortcutModel.ShortcutRunas, shortcutModel.NoWindow);
+                started = result.Started;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Trace.WriteLine(ex);
+            }
+            finally
+            {
+                if (!string.IsNullOrWhiteSpace(runningKey))
+                {
+                    _runningShortcutFileNames.Remove(runningKey);
+                }
+
                 launchingShortcut?.IsRunning = false;
+
+                if (started && App.Settings.OneShotEnabled && _runningShortcutFileNames.Count == 0)
+                {
+                    Microsoft.UI.Xaml.Application.Current.Exit();
+                }
             }
         }
     }
