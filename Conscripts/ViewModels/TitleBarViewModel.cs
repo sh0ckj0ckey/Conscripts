@@ -11,7 +11,7 @@ namespace Conscripts.ViewModels
 
         private CancellationTokenSource? _cancellationTokenSource;
 
-        private string _animatedTitleText = string.Empty;
+        private string _animatedTitleText = "Conscripts";
 
         public string AnimatedTitleText
         {
@@ -42,8 +42,8 @@ namespace Conscripts.ViewModels
             const string title = "Conscripts";
             const string cursor = "_";
 
-            string[] leadingBlinkSequence = [cursor, string.Empty, cursor, string.Empty, cursor];
-            string[] trailingBlinkSequence = [title, title + cursor, title, title + cursor, title, title + cursor, title, title + cursor, title, title + cursor, title, title + cursor];
+            string[] leadingBlinkSequence = [title, title + cursor, title, title + cursor, title, title + cursor, title, title + cursor, title, title + cursor, title, title + cursor];
+            string[] trailingBlinkSequence = [cursor, string.Empty, cursor, string.Empty, cursor];
 
             try
             {
@@ -55,10 +55,10 @@ namespace Conscripts.ViewModels
                         await Task.Delay(800, cancellationToken);
                     }
 
-                    for (int i = 1; i <= title.Length; i++)
+                    for (int i = title.Length - 1; i >= 0; i--)
                     {
                         AnimatedTitleText = title[..i] + cursor;
-                        await Task.Delay(_random.Next(95, 141), cancellationToken);
+                        await Task.Delay(_random.Next(65, 96), cancellationToken);
                     }
 
                     foreach (string text in trailingBlinkSequence)
@@ -67,10 +67,10 @@ namespace Conscripts.ViewModels
                         await Task.Delay(800, cancellationToken);
                     }
 
-                    for (int i = title.Length - 1; i >= 0; i--)
+                    for (int i = 1; i <= title.Length; i++)
                     {
                         AnimatedTitleText = title[..i] + cursor;
-                        await Task.Delay(_random.Next(65, 96), cancellationToken);
+                        await Task.Delay(_random.Next(95, 141), cancellationToken);
                     }
                 }
             }
