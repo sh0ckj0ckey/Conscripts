@@ -15,12 +15,6 @@ But as your collection of script files grows, finding the right one among a sea 
  
 只是，当脚本文件越来越多时，每次想要运行脚本，就要从众多图标一样的文件中，找到想要运行的脚本文件，这让人心烦，这不够优雅。如果您也有这种烦恼，那欢迎来体验一下 Conscripts，它是脚本文件的启动中心，将所有的脚本文件藏在幕后，取而代之的，是丰富的图标，和多彩的卡片。
 
-## Todo
-
-- [ ] Add card preview in PropertyView
-- [ ] Jumplist
-- [ ] Add a set of currently running shortcuts to restore IsRunning state after calling RebuildCollection, and use it to determine whether any shortcut is still running so the OneShot logic can be handled correctly
-
 ## Download
 
 <a href="https://apps.microsoft.com/detail/9ppndntlq86q?mode=full">
