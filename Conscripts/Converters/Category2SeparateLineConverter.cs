@@ -3,13 +3,13 @@ using Microsoft.UI.Xaml.Data;
 
 namespace Conscripts.Converters
 {
-    internal partial class Category2SeperateLineConverter : IValueConverter
+    internal partial class Category2SeparateLineConverter : IValueConverter
     {
-        private const string SeperateLineSpecialCategoryName = "376C50B1-B7C1-4E7C-874A-F743DD80D95F";
+        private const string SeparateLineSpecialCategoryName = "376C50B1-B7C1-4E7C-874A-F743DD80D95F";
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            bool visible = SeperateLineSpecialCategoryName == value?.ToString();
+            bool visible = SeparateLineSpecialCategoryName == value?.ToString();
 
             if (parameter?.ToString() == "!")
             {

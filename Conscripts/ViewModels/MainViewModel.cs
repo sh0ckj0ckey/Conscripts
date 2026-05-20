@@ -15,11 +15,9 @@ namespace Conscripts.ViewModels
         /// <summary>
         /// If a category name is this value, it will be displayed as a separator line
         /// </summary>
-        private const string SeperateLineSpecialCategoryName = "376C50B1-B7C1-4E7C-874A-F743DD80D95F";
+        private const string SeparateLineSpecialCategoryName = "376C50B1-B7C1-4E7C-874A-F743DD80D95F";
 
         private readonly List<ShortcutModel> _shortcutModels = [];
-
-        private readonly Dictionary<ShortcutItemViewModel, ShortcutModel> _shortcutMap = [];
 
         private readonly HashSet<string> _runningShortcutFileNames = new(StringComparer.OrdinalIgnoreCase);
 
@@ -36,7 +34,6 @@ namespace Conscripts.ViewModels
         {
             try
             {
-                _shortcutMap.Clear();
                 this.ShortcutGroups.Clear();
                 this.ShortcutCategories.Clear();
 
@@ -45,14 +42,10 @@ namespace Conscripts.ViewModels
 
                 foreach (var shortcut in _shortcutModels)
                 {
-                    shortcut.Category = shortcut.Category?.Trim() ?? string.Empty;
-
                     var shortcutItem = new ShortcutItemViewModel(shortcut)
                     {
                         IsRunning = !string.IsNullOrWhiteSpace(shortcut.ScriptFilePath) && _runningShortcutFileNames.Contains(shortcut.ScriptFilePath)
                     };
-
-                    _shortcutMap[shortcutItem] = shortcut;
 
                     if (!shortcutGroups.TryGetValue(shortcut.Category, out var group))
                     {
@@ -77,7 +70,7 @@ namespace Conscripts.ViewModels
                     this.ShortcutCategories.Add(category);
                 }
 
-                var settingsGroup = new ShortcutGroupViewModel(SeperateLineSpecialCategoryName);
+                var settingsGroup = new ShortcutGroupViewModel(SeparateLineSpecialCategoryName);
                 settingsGroup.Shortcuts.Add(new ShortcutItemViewModel(new ShortcutModel()
                 {
                     ShortcutName = "AppFeatureButtonNameAdd".GetLocalized(),
@@ -125,9 +118,6 @@ namespace Conscripts.ViewModels
             try
             {
                 _shortcutModels.Clear();
-                _shortcutMap.Clear();
-                this.ShortcutGroups.Clear();
-                this.ShortcutCategories.Clear();
 
                 string shortcutsJson = await StorageFilesService.ReadFileAsync("shortcuts.json");
                 if (!string.IsNullOrWhiteSpace(shortcutsJson))
@@ -161,17 +151,26 @@ namespace Conscripts.ViewModels
         {
             try
             {
-                if (!_shortcutMap.TryGetValue(movingShortcut, out var shortcutModel))
+                if (movingShortcut is null)
+                {
+                    return;
+                }
+
+                var shortcutModel = _shortcutModels.FirstOrDefault(x => string.Equals(x.ScriptFilePath, movingShortcut.FileName, StringComparison.OrdinalIgnoreCase));
+
+                if (shortcutModel is null)
                 {
                     return;
                 }
 
                 int modelIndex = _shortcutModels.IndexOf(shortcutModel);
-                if (modelIndex > 0)
+                if (modelIndex <= 0)
                 {
-                    _shortcutModels.RemoveAt(modelIndex);
-                    _shortcutModels.Insert(0, shortcutModel);
+                    return;
                 }
+
+                _shortcutModels.RemoveAt(modelIndex);
+                _shortcutModels.Insert(0, shortcutModel);
 
                 await SaveShortcutsAsync();
 
@@ -187,21 +186,30 @@ namespace Conscripts.ViewModels
         {
             try
             {
-                if (!_shortcutMap.TryGetValue(movingShortcut, out var shortcutModel))
+                if (movingShortcut is null)
+                {
+                    return;
+                }
+
+                var shortcutModel = _shortcutModels.FirstOrDefault(x => string.Equals(x.ScriptFilePath, movingShortcut.FileName, StringComparison.OrdinalIgnoreCase));
+
+                if (shortcutModel is null)
                 {
                     return;
                 }
 
                 int modelIndex = _shortcutModels.IndexOf(shortcutModel);
-                if (modelIndex > 0)
+                if (modelIndex <= 0)
                 {
-                    for (int i = modelIndex - 1; i >= 0; i--)
+                    return;
+                }
+
+                for (int i = modelIndex - 1; i >= 0; i--)
+                {
+                    if (string.Equals(_shortcutModels[i].Category, shortcutModel.Category, StringComparison.Ordinal))
                     {
-                        if (string.Equals(_shortcutModels[i].Category, shortcutModel.Category, StringComparison.Ordinal))
-                        {
-                            (_shortcutModels[i], _shortcutModels[modelIndex]) = (_shortcutModels[modelIndex], _shortcutModels[i]);
-                            break;
-                        }
+                        (_shortcutModels[i], _shortcutModels[modelIndex]) = (_shortcutModels[modelIndex], _shortcutModels[i]);
+                        break;
                     }
                 }
 
@@ -219,21 +227,30 @@ namespace Conscripts.ViewModels
         {
             try
             {
-                if (!_shortcutMap.TryGetValue(movingShortcut, out var shortcutModel))
+                if (movingShortcut is null)
+                {
+                    return;
+                }
+
+                var shortcutModel = _shortcutModels.FirstOrDefault(x => string.Equals(x.ScriptFilePath, movingShortcut.FileName, StringComparison.OrdinalIgnoreCase));
+
+                if (shortcutModel is null)
                 {
                     return;
                 }
 
                 int modelIndex = _shortcutModels.IndexOf(shortcutModel);
-                if (modelIndex >= 0 && modelIndex < _shortcutModels.Count - 1)
+                if (modelIndex < 0 || modelIndex >= _shortcutModels.Count - 1)
                 {
-                    for (int i = modelIndex + 1; i < _shortcutModels.Count; i++)
+                    return;
+                }
+
+                for (int i = modelIndex + 1; i < _shortcutModels.Count; i++)
+                {
+                    if (string.Equals(_shortcutModels[i].Category, shortcutModel.Category, StringComparison.Ordinal))
                     {
-                        if (string.Equals(_shortcutModels[i].Category, shortcutModel.Category, StringComparison.Ordinal))
-                        {
-                            (_shortcutModels[modelIndex], _shortcutModels[i]) = (_shortcutModels[i], _shortcutModels[modelIndex]);
-                            break;
-                        }
+                        (_shortcutModels[modelIndex], _shortcutModels[i]) = (_shortcutModels[i], _shortcutModels[modelIndex]);
+                        break;
                     }
                 }
 
@@ -303,7 +320,14 @@ namespace Conscripts.ViewModels
         {
             try
             {
-                if (!_shortcutMap.TryGetValue(deletingShortcut, out var shortcutModel))
+                if (deletingShortcut is null)
+                {
+                    return;
+                }
+
+                var shortcutModel = _shortcutModels.FirstOrDefault(x => string.Equals(x.ScriptFilePath, deletingShortcut.FileName, StringComparison.OrdinalIgnoreCase));
+
+                if (shortcutModel is null)
                 {
                     return;
                 }
@@ -342,7 +366,14 @@ namespace Conscripts.ViewModels
         {
             try
             {
-                if (!_shortcutMap.TryGetValue(editingShortcut, out var shortcutModel))
+                if (editingShortcut is null)
+                {
+                    return false;
+                }
+
+                var shortcutModel = _shortcutModels.FirstOrDefault(x => string.Equals(x.ScriptFilePath, editingShortcut.FileName, StringComparison.OrdinalIgnoreCase));
+
+                if (shortcutModel is null)
                 {
                     return false;
                 }
@@ -379,9 +410,13 @@ namespace Conscripts.ViewModels
             }
         }
 
-        // Rebuild 后的新卡片 IsRunning 残留问题
         public async Task LaunchShortcutAsync(ShortcutItemViewModel launchingShortcut)
         {
+            ShortcutItemViewModel? FindShortcut(string fileName) =>
+                this.ShortcutGroups
+                .SelectMany(group => group.Shortcuts)
+                .FirstOrDefault(item => string.Equals(item.FileName, fileName, StringComparison.OrdinalIgnoreCase));
+
             string? runningKey = null;
             bool started = false;
 
@@ -392,7 +427,9 @@ namespace Conscripts.ViewModels
                     return;
                 }
 
-                if (!_shortcutMap.TryGetValue(launchingShortcut, out var shortcutModel))
+                var shortcutModel = _shortcutModels.FirstOrDefault(x => string.Equals(x.ScriptFilePath, launchingShortcut.FileName, StringComparison.OrdinalIgnoreCase));
+
+                if (shortcutModel is null)
                 {
                     return;
                 }
@@ -414,13 +451,11 @@ namespace Conscripts.ViewModels
 
                 runningKey = shortcutModel.ScriptFilePath;
 
-                launchingShortcut.IsRunning = true;
+                var currentShortcut = FindShortcut(runningKey);
+                currentShortcut?.IsRunning = true;
 
-                var file = await StorageFilesService.GetFileFromDataFolderAsync(shortcutModel.ScriptFilePath);
-                if (file is null)
-                {
-                    return;
-                }
+                var file = await StorageFilesService.GetFileFromDataFolderAsync(runningKey)
+                    ?? throw new System.IO.FileNotFoundException($"File '{runningKey}' was not found in data folder.", runningKey);
 
                 var result = await ScriptLauncher.RunAsync(file.Path, shortcutModel.ShortcutRunas, shortcutModel.NoWindow);
                 started = result.Started;
@@ -434,13 +469,14 @@ namespace Conscripts.ViewModels
                 if (!string.IsNullOrWhiteSpace(runningKey))
                 {
                     _runningShortcutFileNames.Remove(runningKey);
-                }
 
-                launchingShortcut?.IsRunning = false;
+                    var currentShortcut = FindShortcut(runningKey);
+                    currentShortcut?.IsRunning = false;
 
-                if (started && App.Settings.OneShotEnabled && _runningShortcutFileNames.Count == 0)
-                {
-                    Microsoft.UI.Xaml.Application.Current.Exit();
+                    if (started && App.Settings.OneShotEnabled && _runningShortcutFileNames.Count == 0)
+                    {
+                        Microsoft.UI.Xaml.Application.Current.Exit();
+                    }
                 }
             }
         }

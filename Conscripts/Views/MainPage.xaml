@@ -17,7 +17,7 @@
         <converters:BoolNegationConverter x:Key="BoolNegationConverter"/>
         <converters:Enum2ColorConverter x:Key="Enum2ColorConverter"/>
         <converters:Color2BorderThicknessConverter x:Key="Color2BorderThicknessConverter"/>
-        <converters:Category2SeperateLineConverter x:Key="Category2SeperateLineConverter"/>
+        <converters:Category2SeparateLineConverter x:Key="Category2SeparateLineConverter"/>
         <converters:Equal2VisibilityConverter x:Key="Equal2VisibilityConverter"/>
         <converters:Unequal2VisibilityConverter x:Key="Unequal2VisibilityConverter"/>
     </Page.Resources>
@@ -35,11 +35,11 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <Border Grid.Row="0" Margin="-20,24,-20,16" Visibility="{x:Bind Category,Converter={StaticResource Category2SeperateLineConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <Border Grid.Row="0" Margin="-20,24,-20,16" Visibility="{x:Bind Category,Converter={StaticResource Category2SeparateLineConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                             <Border Height="1" Background="{ThemeResource ControlElevationBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                         </Border>
 
-                        <TextBlock Grid.Row="0" FontSize="16" Margin="12,16,0,12" FontWeight="Bold" Text="{x:Bind Category}" Visibility="{x:Bind Category,Converter={StaticResource Category2SeperateLineConverter},ConverterParameter=!}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" FontSize="16" Margin="12,16,0,12" FontWeight="Bold" Text="{x:Bind Category}" Visibility="{x:Bind Category,Converter={StaticResource Category2SeparateLineConverter},ConverterParameter=!}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
                         <controls:ItemsRepeater Grid.Row="1" ItemsSource="{x:Bind Shortcuts,Mode=OneWay}">
                             <controls:ItemsRepeater.Layout>
