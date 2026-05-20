@@ -1,6 +1,8 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
+using Windows.Win32;
+using Windows.Win32.Foundation;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -59,6 +61,10 @@ namespace Conscripts
             {
                 MainWindow ??= new MainWindow();
                 MainWindow.Activate();
+
+                var hWnd = new HWND(WinRT.Interop.WindowNative.GetWindowHandle(MainWindow));
+                PInvoke.ShowWindow(hWnd, Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD.SW_RESTORE);
+                PInvoke.SetForegroundWindow(hWnd);
             });
         }
     }
