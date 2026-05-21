@@ -23,12 +23,12 @@
                                 <BitmapImage UriSource="/Assets/Conscripts.png" DecodePixelType="Logical" DecodePixelHeight="112"/>
                             </Image.Source>
                         </Image>
-                        <StackPanel Grid.Column="1" Margin="16,0,0,0" Orientation="Vertical" Spacing="4" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <StackPanel Grid.Column="1" Margin="16,0,0,0" Orientation="Vertical" Spacing="6" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                             <TextBlock FontFamily="{ThemeResource CascadiaCodeFont}" HorizontalAlignment="Left">
                                 <Run Text="Conscripts" FontSize="17" FontWeight="Medium"/>
                                 <Run Text="{x:Bind AppVersion}" FontSize="13"/>
                             </TextBlock>
-                            <TextBlock x:Uid="SettingsDescriptionTextBlock" MaxWidth="300" FontSize="12" Opacity="0.7" FontFamily="{ThemeResource CascadiaCodeFont}" LineHeight="16" TextWrapping="WrapWholeWords" HorizontalAlignment="Left"/>
+                            <TextBlock x:Uid="SettingsDescriptionTextBlock" FontSize="12" Opacity="0.7" FontFamily="{ThemeResource CascadiaCodeFont}" LineHeight="16" TextWrapping="WrapWholeWords" HorizontalAlignment="Left"/>
                         </StackPanel>
                     </Grid>
                 </controls:SettingsCard.Header>
