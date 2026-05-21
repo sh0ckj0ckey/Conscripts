@@ -1,7 +1,12 @@
 using System;
+using System.Runtime.InteropServices;
+using Conscripts.Helpers;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using WinRT;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -15,9 +20,7 @@ namespace Conscripts
     {
         private readonly Windows.UI.ViewManagement.UISettings _uiSettings = new();
 
-        private readonly Helpers.WindowPlacementService _windowPlacementService = new();
-
-        private Helpers.WindowPlacement _lastNormalWindowPlacement;
+        private readonly WindowPlacementService _windowPlacementService = new();
 
         public ViewModels.TitleBarViewModel TitleBarViewModel { get; } = new();
 
@@ -124,7 +127,7 @@ namespace Conscripts
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Trace.WriteLine(ex);
+                System.Diagnostics.Trace.WriteLine($"Failed to UpdateAppTheme: {ex}");
             }
         }
 
@@ -133,7 +136,9 @@ namespace Conscripts
         /// </summary>
         private void UpdateAppBackdrop()
         {
-            this.SystemBackdrop = App.Settings.BackdropIndex == 2 ?
+            try
+            {
+                this.SystemBackdrop = App.Settings.BackdropIndex == 2 ?
                 new Microsoft.UI.Xaml.Media.DesktopAcrylicBackdrop() :
                 new Microsoft.UI.Xaml.Media.MicaBackdrop()
                 {
@@ -141,6 +146,11 @@ namespace Conscripts
                         Microsoft.UI.Composition.SystemBackdrops.MicaKind.BaseAlt :
                         Microsoft.UI.Composition.SystemBackdrops.MicaKind.Base
                 };
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine($"Failed to UpdateAppBackdrop: {ex}");
+            }
         }
 
         /// <summary>
@@ -153,34 +163,42 @@ namespace Conscripts
         /// </seealso>
         private void SetWindowMinSize(double width, double height)
         {
-            if (this.Content is not FrameworkElement windowContent)
+            try
             {
-                System.Diagnostics.Debug.WriteLine("Window content is not a FrameworkElement.");
-                return;
-            }
+                if (this.Content is not FrameworkElement windowContent)
+                {
+                    System.Diagnostics.Trace.WriteLine("Window content is not a FrameworkElement.");
+                    return;
+                }
 
-            if (windowContent.XamlRoot is null)
+                if (windowContent.XamlRoot is null)
+                {
+                    System.Diagnostics.Trace.WriteLine("Window content's XamlRoot is null.");
+                    return;
+                }
+
+                var presenter = this.AppWindow.Presenter.As<OverlappedPresenter>();
+                if (presenter is null)
+                {
+                    System.Diagnostics.Trace.WriteLine("Window's AppWindow.Presenter is not an OverlappedPresenter.");
+                    return;
+                }
+
+                var scale = windowContent.XamlRoot.RasterizationScale;
+                if (scale <= 0)
+                {
+                    scale = 1.0;
+                }
+
+                var minWidth = width * scale;
+                var minHeight = height * scale;
+                presenter.PreferredMinimumWidth = (int)minWidth;
+                presenter.PreferredMinimumHeight = (int)minHeight;
+            }
+            catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Window content's XamlRoot is null.");
-                return;
+                System.Diagnostics.Trace.WriteLine($"Failed to SetWindowMinSize: {ex}");
             }
-
-            if (this.AppWindow.Presenter is not OverlappedPresenter presenter)
-            {
-                System.Diagnostics.Debug.WriteLine("Window's AppWindow.Presenter is not an OverlappedPresenter.");
-                return;
-            }
-
-            var scale = windowContent.XamlRoot.RasterizationScale;
-            if (scale <= 0)
-            {
-                scale = 1.0;
-            }
-
-            var minWidth = width * scale;
-            var minHeight = height * scale;
-            presenter.PreferredMinimumWidth = (int)minWidth;
-            presenter.PreferredMinimumHeight = (int)minHeight;
         }
 
         /// <summary>
@@ -188,53 +206,71 @@ namespace Conscripts
         /// </summary>
         private void RestoreWindowPlacement()
         {
-            if (this.AppWindow.Presenter is not OverlappedPresenter presenter)
+            try
             {
-                System.Diagnostics.Debug.WriteLine("Window's AppWindow.Presenter is not an OverlappedPresenter.");
-                return;
+                if (!_windowPlacementService.TryLoad(out var placement))
+                {
+                    int defaultWidth = 960;
+                    int defaultHeight = 680;
+                    this.AppWindow.Resize(new Windows.Graphics.SizeInt32(defaultWidth, defaultHeight));
+                    return;
+                }
+
+                int x = (int)Math.Round(placement.X);
+                int y = (int)Math.Round(placement.Y);
+                int width = (int)Math.Round(placement.Width);
+                int height = (int)Math.Round(placement.Height);
+
+                this.AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(x, y, width, height));
+
+                var presenter = this.AppWindow.Presenter.As<OverlappedPresenter>();
+                if (presenter is null)
+                {
+                    System.Diagnostics.Trace.WriteLine("Window's AppWindow.Presenter is not an OverlappedPresenter.");
+                    return;
+                }
+
+                if (placement.IsMaximized)
+                {
+                    presenter.Maximize();
+                }
             }
-
-            if (!_windowPlacementService.TryLoad(out var placement))
+            catch (Exception ex)
             {
-                int defaultWidth = 960;
-                int defaultHeight = 680;
-                this.AppWindow.Resize(new Windows.Graphics.SizeInt32(defaultWidth, defaultHeight));
-                return;
-            }
-
-            _lastNormalWindowPlacement = placement with { IsMaximized = false };
-
-            int x = (int)Math.Round(placement.X);
-            int y = (int)Math.Round(placement.Y);
-            int width = (int)Math.Round(placement.Width);
-            int height = (int)Math.Round(placement.Height);
-
-            this.AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(x, y, width, height));
-
-            if (placement.IsMaximized)
-            {
-                presenter.Maximize();
+                System.Diagnostics.Trace.WriteLine($"Failed to RestoreWindowPlacement: {ex}");
             }
         }
 
         /// <summary>
-        /// Records the current window's placement (position, size, and maximized state) to be saved for future sessions.
+        /// Gets the current window placement from Win32, including the restored bounds and maximized state.
         /// </summary>
-        private void RecordLastNormalWindowPlacement()
+        /// <returns>
+        /// A <see cref="WindowPlacement"/> representing the window's restored position, size, and whether it is maximized.
+        /// </returns>
+        private WindowPlacement GetCurrentWindowPlacement()
         {
-            if (this.AppWindow.Presenter is not OverlappedPresenter presenter)
+            IntPtr hwndValue = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            HWND hwnd = new(hwndValue);
+
+            var placement = new Windows.Win32.UI.WindowsAndMessaging.WINDOWPLACEMENT()
             {
-                return;
+                length = (uint)Marshal.SizeOf<Windows.Win32.UI.WindowsAndMessaging.WINDOWPLACEMENT>()
+            };
+
+            if (!PInvoke.GetWindowPlacement(hwnd, ref placement))
+            {
+                var position = this.AppWindow.Position;
+                var size = this.AppWindow.Size;
+                return new WindowPlacement(position.X, position.Y, size.Width, size.Height, false);
             }
 
-            if (presenter.State != OverlappedPresenterState.Restored)
-            {
-                return;
-            }
-
-            var position = this.AppWindow.Position;
-            var size = this.AppWindow.Size;
-            _lastNormalWindowPlacement = new Helpers.WindowPlacement(position.X, position.Y, size.Width, size.Height, false);
+            RECT rect = placement.rcNormalPosition;
+            return new WindowPlacement(
+                rect.left,
+                rect.top,
+                rect.right - rect.left,
+                rect.bottom - rect.top,
+                placement.showCmd == Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD.SW_SHOWMAXIMIZED);
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
@@ -245,26 +281,11 @@ namespace Conscripts
 
             this.SetWindowMinSize(680, 460);
 
-            this.RecordLastNormalWindowPlacement();
-
-            this.AppWindow.Changed -= AppWindow_Changed;
-            this.AppWindow.Changed += AppWindow_Changed;
-
             if (sender is FrameworkElement rootGrid && rootGrid.XamlRoot is not null)
             {
                 rootGrid.XamlRoot.Changed -= RootGridXamlRoot_Changed;
                 rootGrid.XamlRoot.Changed += RootGridXamlRoot_Changed;
             }
-        }
-
-        private void AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs args)
-        {
-            if (!args.DidPositionChange && !args.DidSizeChange)
-            {
-                return;
-            }
-
-            this.RecordLastNormalWindowPlacement();
         }
 
         private void RootGridXamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args)
@@ -274,12 +295,11 @@ namespace Conscripts
 
         private void Window_Closed(object sender, WindowEventArgs args)
         {
-            this.AppWindow.Changed -= AppWindow_Changed;
+            var placement = this.GetCurrentWindowPlacement();
+            _windowPlacementService.Save(placement);
 
-            bool isMaximized = this.AppWindow.Presenter is OverlappedPresenter presenter && presenter.State == OverlappedPresenterState.Maximized;
-            _windowPlacementService.Save(_lastNormalWindowPlacement with { IsMaximized = isMaximized });
+            this.TitleBarViewModel.Stop();
 
-            TitleBarViewModel.Stop();
             Application.Current.Exit();
         }
     }

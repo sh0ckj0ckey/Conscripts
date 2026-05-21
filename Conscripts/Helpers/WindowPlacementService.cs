@@ -20,7 +20,9 @@ namespace Conscripts.Helpers
                 _localSettings.Values[KeyY] is double y &&
                 _localSettings.Values[KeyWidth] is double width &&
                 _localSettings.Values[KeyHeight] is double height &&
-                _localSettings.Values[KeyIsMaximized] is bool isMaximized)
+                _localSettings.Values[KeyIsMaximized] is bool isMaximized &&
+                width > 0 &&
+                height > 0)
             {
                 placement = new WindowPlacement(x, y, width, height, isMaximized);
                 return true;

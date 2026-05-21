@@ -482,7 +482,14 @@ namespace Conscripts.ViewModels
 
                     if (started && App.Settings.OneShotEnabled && _runningShortcutFileNames.Count == 0)
                     {
-                        Microsoft.UI.Xaml.Application.Current.Exit();
+                        if (App.MainWindow is not null)
+                        {
+                            App.MainWindow.Close();
+                        }
+                        else
+                        {
+                            Microsoft.UI.Xaml.Application.Current.Exit();
+                        }
                     }
                 }
             }

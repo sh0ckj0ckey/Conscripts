@@ -62,7 +62,7 @@ namespace Conscripts
                 MainWindow ??= new MainWindow();
                 MainWindow.Activate();
 
-                var hWnd = new HWND(WinRT.Interop.WindowNative.GetWindowHandle(MainWindow));
+                HWND hWnd = new(WinRT.Interop.WindowNative.GetWindowHandle(MainWindow));
                 PInvoke.ShowWindow(hWnd, Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD.SW_RESTORE);
                 PInvoke.SetForegroundWindow(hWnd);
             });
