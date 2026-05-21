@@ -384,7 +384,7 @@ File name is</value>
     <value>Added an option to put scripts in the Jump List. When enabled, you can right-click the app in the Start menu or taskbar to quickly run added scripts;</value>
   </data>
   <data name="ReleaseNotesTitle2026AprRun3.Text" xml:space="preserve">
-    <value>Upgraded the underlying framework for better startup, performance, and compatibility.</value>
+    <value>Updated the app framework for improved startup time, performance, and compatibility.</value>
   </data>
   <data name="ShortcutLeftMenuItem.Text" xml:space="preserve">
     <value>Move left</value>
