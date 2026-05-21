@@ -85,7 +85,7 @@ namespace Conscripts.Helpers
                     }
 
                     JumpListItem task = JumpListItem.CreateWithArguments(shortcut.ScriptFilePath, shortcut.ShortcutName);
-                    task.GroupName = shortcut.Category;
+                    // task.GroupName = shortcut.Category;
                     task.Description = $"Run {shortcut.ShortcutName}";
                     task.Logo = logoUri;
 
