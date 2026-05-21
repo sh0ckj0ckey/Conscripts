@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Conscripts.Models;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Text;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;
