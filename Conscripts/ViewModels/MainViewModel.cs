@@ -134,6 +134,7 @@ namespace Conscripts.ViewModels
                 }
 
                 RebuildShortcutCollections();
+                _ = JumpListHelper.UpdateJumpListAsync([.. _shortcutModels]);
             }
             catch (Exception ex)
             {
@@ -175,6 +176,7 @@ namespace Conscripts.ViewModels
                 await SaveShortcutsAsync();
 
                 RebuildShortcutCollections();
+                _ = JumpListHelper.UpdateJumpListAsync([.. _shortcutModels]);
             }
             catch (Exception ex)
             {
@@ -216,6 +218,7 @@ namespace Conscripts.ViewModels
                 await SaveShortcutsAsync();
 
                 RebuildShortcutCollections();
+                _ = JumpListHelper.UpdateJumpListAsync([.. _shortcutModels]);
             }
             catch (Exception ex)
             {
@@ -257,6 +260,7 @@ namespace Conscripts.ViewModels
                 await SaveShortcutsAsync();
 
                 RebuildShortcutCollections();
+                _ = JumpListHelper.UpdateJumpListAsync([.. _shortcutModels]);
             }
             catch (Exception ex)
             {
@@ -306,6 +310,7 @@ namespace Conscripts.ViewModels
                 await SaveShortcutsAsync();
 
                 RebuildShortcutCollections();
+                _ = JumpListHelper.UpdateJumpListAsync([.. _shortcutModels]);
 
                 return true;
             }
@@ -339,6 +344,7 @@ namespace Conscripts.ViewModels
                 await SaveShortcutsAsync();
 
                 RebuildShortcutCollections();
+                _ = JumpListHelper.UpdateJumpListAsync([.. _shortcutModels]);
 
                 if (!string.IsNullOrWhiteSpace(fileName))
                 {
@@ -400,6 +406,7 @@ namespace Conscripts.ViewModels
                 await SaveShortcutsAsync();
 
                 RebuildShortcutCollections();
+                _ = JumpListHelper.UpdateJumpListAsync([.. _shortcutModels]);
 
                 return true;
             }
