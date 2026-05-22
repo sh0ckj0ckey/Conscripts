@@ -21,7 +21,7 @@ namespace Conscripts.Helpers
         private const string IconCacheFolderName = "JumpListIcons";
         private const string IconFontFamily = "Segoe Fluent Icons";
         private const int IconSize = 64;
-        private const float CornerRadius = 24f;
+        private const float CornerRadius = 16f;
         private const float FontSize = 46f;
 
         private static readonly Dictionary<string, Uri> _iconsCache = new(StringComparer.Ordinal);
@@ -86,7 +86,7 @@ namespace Conscripts.Helpers
 
                     JumpListItem task = JumpListItem.CreateWithArguments(shortcut.ScriptFilePath, shortcut.ShortcutName);
                     // task.GroupName = shortcut.Category;
-                    task.Description = $"Run {shortcut.ShortcutName}";
+                    task.Description = shortcut.ShortcutName;
                     task.Logo = logoUri;
 
                     jumpList.Items.Add(task);
