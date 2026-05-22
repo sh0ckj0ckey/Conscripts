@@ -26,11 +26,61 @@ namespace Conscripts.Helpers
 
         private static readonly Dictionary<string, Uri> _iconsCache = new(StringComparer.Ordinal);
 
+        private static IReadOnlyList<ShortcutModel>? _pendingShortcuts = null;
+
+        private static bool _isUpdating = false;
+
+        /// <summary>
+        /// Requests a JumpList refresh using the supplied shortcuts.
+        /// Safe to call repeatedly from the UI thread; if JumpList is not supported, the request is ignored.
+        /// </summary>
+        public static void RequestUpdateJumpList(List<ShortcutModel> shortcuts)
+        {
+            if (shortcuts is null)
+            {
+                return;
+            }
+
+            if (!JumpList.IsSupported())
+            {
+                return;
+            }
+
+            _pendingShortcuts = [.. shortcuts];
+
+            if (_isUpdating)
+            {
+                return;
+            }
+
+            _isUpdating = true;
+
+            _ = ProcessPendingUpdateAsync();
+        }
+
+        private static async Task ProcessPendingUpdateAsync()
+        {
+            try
+            {
+                while (_pendingShortcuts is not null)
+                {
+                    var shortcuts = _pendingShortcuts;
+                    _pendingShortcuts = null;
+
+                    await UpdateJumpListAsync(shortcuts);
+                }
+            }
+            finally
+            {
+                _isUpdating = false;
+            }
+        }
+
         /// <summary>
         /// Rebuilds the JumpList from the supplied shortcuts.
         /// Safe to call at any time; silently returns if JumpList is not supported.
         /// </summary>
-        public static async Task UpdateJumpListAsync(IEnumerable<ShortcutModel> shortcuts)
+        private static async Task UpdateJumpListAsync(IReadOnlyList<ShortcutModel> shortcuts)
         {
             if (shortcuts is null)
             {
@@ -84,7 +134,7 @@ namespace Conscripts.Helpers
                         _iconsCache[key] = logoUri;
                     }
 
-                    JumpListItem task = JumpListItem.CreateWithArguments(shortcut.ScriptFilePath, shortcut.ShortcutName);
+                    JumpListItem task = JumpListItem.CreateWithArguments($"script={Uri.EscapeDataString(shortcut.ScriptFilePath)}", shortcut.ShortcutName);
                     // task.GroupName = shortcut.Category;
                     task.Description = shortcut.ShortcutName;
                     task.Logo = logoUri;
