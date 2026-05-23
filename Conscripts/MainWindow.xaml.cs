@@ -210,8 +210,15 @@ namespace Conscripts
             {
                 if (!_windowPlacementService.TryLoad(out var placement))
                 {
-                    int defaultWidth = 960;
-                    int defaultHeight = 680;
+                    IntPtr hwndValue = WinRT.Interop.WindowNative.GetWindowHandle(this);
+                    HWND hwnd = new(hwndValue);
+
+                    uint dpi = PInvoke.GetDpiForWindow(hwnd);
+                    double scale = dpi > 0 ? dpi / 96.0 : 1.0;
+
+                    int defaultWidth = (int)Math.Round(960 * scale);
+                    int defaultHeight = (int)Math.Round(680 * scale);
+
                     this.AppWindow.Resize(new Windows.Graphics.SizeInt32(defaultWidth, defaultHeight));
                     return;
                 }

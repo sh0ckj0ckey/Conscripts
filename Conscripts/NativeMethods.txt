@@ -1,3 +1,4 @@
 ﻿ShowWindow
 SetForegroundWindow
 GetWindowPlacement
+GetDpiForWindow
