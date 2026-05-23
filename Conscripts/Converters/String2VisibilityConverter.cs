@@ -3,7 +3,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace Conscripts.Converters
 {
-    internal partial class StringToVisibilityConverter : IValueConverter
+    internal partial class String2VisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

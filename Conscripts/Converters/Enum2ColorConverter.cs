@@ -22,7 +22,7 @@ namespace Conscripts.Converters
                 case ShortcutColor.Transparent:
                     if (!_shortcutColors.TryGetValue(ShortcutColor.Transparent, out colorBrush))
                     {
-                        colorBrush = new SolidColorBrush(Colors.Transparent);
+                        colorBrush = new SolidColorBrush(Colors.LightSlateGray);
                         _shortcutColors.Add(ShortcutColor.Transparent, colorBrush);
                     }
                     break;

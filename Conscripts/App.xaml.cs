@@ -1,6 +1,10 @@
-﻿using Microsoft.UI.Xaml;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Conscripts.Messages;
+using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
+using Windows.ApplicationModel.Activation;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 
@@ -16,6 +20,8 @@ namespace Conscripts
     {
         private readonly Microsoft.UI.Dispatching.DispatcherQueue _dispatcherQueue;
 
+        private static string? _launchArguments = null;
+
         internal static MainWindow? MainWindow { get; private set; } = null;
 
         internal static Helpers.SettingsService Settings { get; } = new Helpers.SettingsService();
@@ -29,6 +35,13 @@ namespace Conscripts
             this.InitializeComponent();
 
             _dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+
+            WeakReferenceMessenger.Default.Register<ConsumeLaunchArgumentsRequestMessage>(this, static (_, message) =>
+            {
+                string? arguments = _launchArguments;
+                _launchArguments = null;
+                message.Reply(arguments);
+            });
 
             UnhandledException += (s, e) =>
             {
@@ -51,20 +64,36 @@ namespace Conscripts
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
+            var activationArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
+            if (activationArgs is not null && activationArgs.Kind == ExtendedActivationKind.Launch && activationArgs.Data is ILaunchActivatedEventArgs launchArgs)
+            {
+                _launchArguments = launchArgs.Arguments?.Trim();
+            }
+
             MainWindow ??= new MainWindow();
             MainWindow.Activate();
         }
 
-        public void ShowMainWindow()
+        internal void HandleRedirectedActivation(AppActivationArguments args)
         {
             _dispatcherQueue.TryEnqueue(() =>
             {
                 MainWindow ??= new MainWindow();
-                MainWindow.Activate();
 
                 HWND hWnd = new(WinRT.Interop.WindowNative.GetWindowHandle(MainWindow));
                 PInvoke.ShowWindow(hWnd, Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD.SW_RESTORE);
                 PInvoke.SetForegroundWindow(hWnd);
+
+                MainWindow.Activate();
+
+                if (args is not null && args.Kind == ExtendedActivationKind.Launch && args.Data is ILaunchActivatedEventArgs launchArgs)
+                {
+                    var arguments = launchArgs.Arguments?.Trim();
+                    if (!string.IsNullOrWhiteSpace(arguments))
+                    {
+                        WeakReferenceMessenger.Default.Send(new RedirectedActivationArgumentsMessage(arguments));
+                    }
+                }
             });
         }
     }

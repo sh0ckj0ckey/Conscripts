@@ -5,21 +5,20 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Conscripts.Helpers;
+using Conscripts.Messages;
 using Conscripts.Models;
 
 namespace Conscripts.ViewModels
 {
     public partial class MainViewModel : ObservableObject
     {
-        /// <summary>
-        /// If a category name is this value, it will be displayed as a separator line
-        /// </summary>
-        private const string SeparateLineSpecialCategoryName = "376C50B1-B7C1-4E7C-874A-F743DD80D95F";
-
         private readonly List<ShortcutModel> _shortcutModels = [];
 
         private readonly HashSet<string> _runningShortcutFileNames = new(StringComparer.OrdinalIgnoreCase);
+
+        public ObservableCollection<ShortcutItemViewModel> AppShortcuts { get; } = [];
 
         public ObservableCollection<ShortcutGroupViewModel> ShortcutGroups { get; } = [];
 
@@ -27,7 +26,106 @@ namespace Conscripts.ViewModels
 
         public MainViewModel()
         {
-            _ = LoadShortcutsAsync();
+            _ = InitializeAsync();
+        }
+
+        private async Task InitializeAsync()
+        {
+            try
+            {
+                this.AppShortcuts.Clear();
+                this.AppShortcuts.Add(new ShortcutItemViewModel(new ShortcutModel()
+                {
+                    ShortcutName = "AppFeatureButtonNameAdd".GetLocalized(),
+                    ShortcutIcon = "\uE710",
+                    ShortcutType = ShortcutType.None,
+                    ShortcutColor = ShortcutColor.Transparent,
+                    Category = "add",
+                    ShortcutRunas = false,
+                    NoWindow = true,
+                    ShowInJumpList = false,
+                }));
+                this.AppShortcuts.Add(new ShortcutItemViewModel(new ShortcutModel()
+                {
+                    ShortcutName = "AppFeatureButtonNameWhatsNew".GetLocalized(),
+                    ShortcutIcon = "\uF133",
+                    ShortcutType = ShortcutType.None,
+                    ShortcutColor = ShortcutColor.Transparent,
+                    Category = "whatsnew",
+                    ShortcutRunas = false,
+                    NoWindow = true,
+                    ShowInJumpList = false,
+                }));
+                this.AppShortcuts.Add(new ShortcutItemViewModel(new ShortcutModel()
+                {
+                    ShortcutName = "AppFeatureButtonNameSettings".GetLocalized(),
+                    ShortcutIcon = "\uE713",
+                    ShortcutType = ShortcutType.None,
+                    ShortcutColor = ShortcutColor.Transparent,
+                    Category = "settings",
+                    ShortcutRunas = false,
+                    NoWindow = true,
+                    ShowInJumpList = false,
+                }));
+
+                await LoadShortcutsAsync();
+
+                WeakReferenceMessenger.Default.Register<RedirectedActivationArgumentsMessage>(this, (_, message) =>
+                {
+                    string? arguments = message.Value;
+                    if (!string.IsNullOrWhiteSpace(arguments))
+                    {
+                        _ = HandleLaunchArgumentsAsync(arguments);
+                    }
+                });
+
+                string? launchArguments = WeakReferenceMessenger.Default.Send<ConsumeLaunchArgumentsRequestMessage>();
+                if (!string.IsNullOrWhiteSpace(launchArguments))
+                {
+                    _ = HandleLaunchArgumentsAsync(launchArguments);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+            }
+        }
+
+        private async Task HandleLaunchArgumentsAsync(string arguments)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(arguments))
+                {
+                    return;
+                }
+
+                arguments = arguments.Trim();
+
+                const string scriptPrefix = "script=";
+                if (!arguments.StartsWith(scriptPrefix, StringComparison.OrdinalIgnoreCase))
+                {
+                    return;
+                }
+
+                string encodedFileName = arguments[scriptPrefix.Length..];
+                if (string.IsNullOrWhiteSpace(encodedFileName))
+                {
+                    return;
+                }
+
+                string scriptFileName = Uri.UnescapeDataString(encodedFileName);
+                if (string.IsNullOrWhiteSpace(scriptFileName))
+                {
+                    return;
+                }
+
+                await LaunchShortcutByFileNameAsync(scriptFileName);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+            }
         }
 
         private void RebuildShortcutCollections()
@@ -69,43 +167,6 @@ namespace Conscripts.ViewModels
                 {
                     this.ShortcutCategories.Add(category);
                 }
-
-                var settingsGroup = new ShortcutGroupViewModel(SeparateLineSpecialCategoryName);
-                settingsGroup.Shortcuts.Add(new ShortcutItemViewModel(new ShortcutModel()
-                {
-                    ShortcutName = "AppFeatureButtonNameAdd".GetLocalized(),
-                    ShortcutIcon = "\uE710",
-                    ShortcutType = ShortcutType.None,
-                    ShortcutColor = ShortcutColor.Transparent,
-                    Category = "add",
-                    ShortcutRunas = false,
-                    NoWindow = true,
-                    ShowInJumpList = false,
-                }));
-                settingsGroup.Shortcuts.Add(new ShortcutItemViewModel(new ShortcutModel()
-                {
-                    ShortcutName = "AppFeatureButtonNameWhatsNew".GetLocalized(),
-                    ShortcutIcon = "\uF133",
-                    ShortcutType = ShortcutType.None,
-                    ShortcutColor = ShortcutColor.Transparent,
-                    Category = "whatsnew",
-                    ShortcutRunas = false,
-                    NoWindow = true,
-                    ShowInJumpList = false,
-                }));
-                settingsGroup.Shortcuts.Add(new ShortcutItemViewModel(new ShortcutModel()
-                {
-                    ShortcutName = "AppFeatureButtonNameSettings".GetLocalized(),
-                    ShortcutIcon = "\uE713",
-                    ShortcutType = ShortcutType.None,
-                    ShortcutColor = ShortcutColor.Transparent,
-                    Category = "settings",
-                    ShortcutRunas = false,
-                    NoWindow = true,
-                    ShowInJumpList = false,
-                }));
-
-                this.ShortcutGroups.Add(settingsGroup);
             }
             catch (Exception ex)
             {
@@ -492,6 +553,32 @@ namespace Conscripts.ViewModels
                         }
                     }
                 }
+            }
+        }
+
+        private async Task LaunchShortcutByFileNameAsync(string fileName)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(fileName))
+                {
+                    return;
+                }
+
+                var shortcut = this.ShortcutGroups
+                    .SelectMany(group => group.Shortcuts)
+                    .FirstOrDefault(item => string.Equals(item.FileName, fileName, StringComparison.OrdinalIgnoreCase));
+
+                if (shortcut is null)
+                {
+                    return;
+                }
+
+                await this.LaunchShortcutAsync(shortcut);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
             }
         }
     }
