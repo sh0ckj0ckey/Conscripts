@@ -16,7 +16,6 @@
         <converters:Bool2VisibilityConverter x:Key="Bool2VisibilityConverter"/>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter"/>
         <converters:Enum2ColorConverter x:Key="Enum2ColorConverter"/>
-        <converters:Color2BorderThicknessConverter x:Key="Color2BorderThicknessConverter"/>
         <converters:Category2SeparateLineConverter x:Key="Category2SeparateLineConverter"/>
         <converters:Equal2VisibilityConverter x:Key="Equal2VisibilityConverter"/>
         <converters:Unequal2VisibilityConverter x:Key="Unequal2VisibilityConverter"/>
@@ -47,9 +46,9 @@
                             </controls:ItemsRepeater.Layout>
                             <DataTemplate x:DataType="viewmodels:ShortcutItemViewModel">
                                 <Grid CornerRadius="4" Background="{x:Bind Color,Mode=OneWay,Converter={StaticResource Enum2ColorConverter}}">
-                                    <Button Padding="0" Background="Transparent" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                    <Button Padding="0" Background="Transparent" CornerRadius="4" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                             DataContext="{x:Bind }" IsEnabled="{x:Bind IsRunning,Mode=OneWay,Converter={StaticResource BoolNegationConverter}}" 
-                                            BorderThickness="{x:Bind Color,Mode=OneWay,Converter={StaticResource Color2BorderThicknessConverter}}" ToolTipService.ToolTip="{x:Bind Name,Mode=OneWay}"
+                                            ToolTipService.ToolTip="{x:Bind Name,Mode=OneWay}"
                                             Click="Button_Click" ContextRequested="Button_ContextRequested">
                                         <Button.Resources>
                                             <MenuFlyout x:Key="ShortcutMenuFlyout" Placement="Bottom">
