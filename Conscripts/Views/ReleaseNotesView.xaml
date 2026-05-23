@@ -9,29 +9,42 @@
     mc:Ignorable="d">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
-        <StackPanel Orientation="Vertical" Margin="20">
-            <Image Height="96" Width="96" Margin="0,0,0,16" HorizontalAlignment="Left" VerticalAlignment="Center">
+        <StackPanel Orientation="Vertical" Margin="20" Spacing="4">
+            <Image Height="96" Width="96" Margin="0,0,0,12" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <Image.Source>
                     <BitmapImage UriSource="/Assets/Conscripts_Skeleton.png" DecodePixelType="Logical" DecodePixelHeight="192"/>
                 </Image.Source>
             </Image>
 
-            <TextBlock x:Uid="ReleaseNotesTitle2026AprTextBlock" FontWeight="Bold" FontSize="16" TextWrapping="WrapWholeWords"/>
-            <TextBlock FontSize="14" TextWrapping="WrapWholeWords">
-                <LineBreak/><Run x:Uid="ReleaseNotesTitle2026AprRun1"/><LineBreak/>
-                <LineBreak/><Run x:Uid="ReleaseNotesTitle2026AprRun2"/><LineBreak/>
-                <LineBreak/><Run x:Uid="ReleaseNotesTitle2026AprRun3"/><LineBreak/>
-                <LineBreak/>
-            </TextBlock>
+            <Grid RowSpacing="8" BorderThickness="1" CornerRadius="8" Padding="16" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock x:Uid="ReleaseNotesTitle2026AprTextBlock" FontWeight="Bold" FontSize="16" TextWrapping="WrapWholeWords"/>
+                <TextBlock x:Uid="ReleaseNotesTitle2026AprRun1" Grid.Row="1" FontSize="14" TextWrapping="WrapWholeWords"/>
+                <TextBlock x:Uid="ReleaseNotesTitle2026AprRun2" Grid.Row="2" FontSize="14" TextWrapping="WrapWholeWords"/>
+                <TextBlock x:Uid="ReleaseNotesTitle2026AprRun3" Grid.Row="3" FontSize="14" TextWrapping="WrapWholeWords"/>
+            </Grid>
 
-            <TextBlock Opacity="0.5" x:Uid="ReleaseNotesTitle2024NovTextBlock" FontWeight="Bold" FontSize="16" TextWrapping="WrapWholeWords"/>
-            <TextBlock Opacity="0.5" FontSize="14" TextWrapping="WrapWholeWords">
-                <LineBreak/><Run x:Uid="ReleaseNotesTitle2024NovRun1"/><LineBreak/>
-                <LineBreak/><Run x:Uid="ReleaseNotesTitle2024NovRun2"/><LineBreak/>
-                <LineBreak/><Run x:Uid="ReleaseNotesTitle2024NovRun3"/><LineBreak/>
-                <LineBreak/><Run x:Uid="ReleaseNotesTitle2024NovRun4"/><LineBreak/>
-                <LineBreak/><Run x:Uid="ReleaseNotesTitle2024NovRun5"/><LineBreak/>
-            </TextBlock>
+            <Grid RowSpacing="8" BorderThickness="1" CornerRadius="8" Padding="16" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock x:Uid="ReleaseNotesTitle2024NovTextBlock" FontWeight="Bold" FontSize="16" TextWrapping="WrapWholeWords"/>
+                <TextBlock x:Uid="ReleaseNotesTitle2024NovRun1" Grid.Row="1" FontSize="14" TextWrapping="WrapWholeWords"/>
+                <TextBlock x:Uid="ReleaseNotesTitle2024NovRun2" Grid.Row="2" FontSize="14" TextWrapping="WrapWholeWords"/>
+                <TextBlock x:Uid="ReleaseNotesTitle2024NovRun3" Grid.Row="3" FontSize="14" TextWrapping="WrapWholeWords"/>
+                <TextBlock x:Uid="ReleaseNotesTitle2024NovRun4" Grid.Row="4" FontSize="14" TextWrapping="WrapWholeWords"/>
+                <TextBlock x:Uid="ReleaseNotesTitle2024NovRun5" Grid.Row="5" FontSize="14" TextWrapping="WrapWholeWords"/>
+            </Grid>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

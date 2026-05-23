@@ -65,7 +65,7 @@
                         </StackPanel>
                     </Grid>
 
-                    <Border Height="8"/>
+                    <Border Height="4"/>
 
                     <Grid ColumnSpacing="16" Padding="16,8,8,8" BorderThickness="1,1,1,0" CornerRadius="8,8,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
@@ -176,7 +176,7 @@
                         </ComboBox>
                     </Grid>
 
-                    <Border Height="8"/>
+                    <Border Height="4"/>
 
                     <Grid ColumnSpacing="16" Padding="16,8" BorderThickness="1,1,1,0" CornerRadius="8,8,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
