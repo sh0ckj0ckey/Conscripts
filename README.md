@@ -18,7 +18,7 @@ But as your collection of script files grows, finding the right one among a sea 
 ## Download
 
 <a href="https://apps.microsoft.com/detail/9ppndntlq86q?mode=full">
-	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
+	<img src="https://get.microsoft.com/images/en-us%20light.svg" width="200"/>
 </a>
 
 ## Screenshots
