@@ -74,14 +74,17 @@ namespace Conscripts.Views
             }
         }
 
-        private void Button_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
+        private void MenuFlyout_Opening(object sender, object e)
         {
-            if (sender is not Button btn || btn.DataContext is not ShortcutItemViewModel shortcut)
+            if (sender is not MenuFlyout menuFlyout)
             {
                 return;
             }
 
-            args.Handled = true;
+            if (menuFlyout.Target is not Button button || button.DataContext is not ShortcutItemViewModel shortcut)
+            {
+                return;
+            }
 
             if (shortcut.Type == ShortcutType.None || shortcut.IsRunning)
             {
@@ -94,16 +97,11 @@ namespace Conscripts.Views
                 return;
             }
 
-            if (btn.Resources["ShortcutMenuFlyout"] is not MenuFlyout flyout)
-            {
-                return;
-            }
-
             int index = group.Shortcuts.IndexOf(shortcut);
             bool isFirst = index <= 0;
             bool isLast = index >= group.Shortcuts.Count - 1;
 
-            foreach (var item in flyout.Items)
+            foreach (var item in menuFlyout.Items)
             {
                 item?.Visibility = (item?.Tag?.ToString()) switch
                 {
@@ -112,8 +110,6 @@ namespace Conscripts.Views
                     _ => Visibility.Visible,
                 };
             }
-
-            flyout.ShowAt(btn);
         }
 
         private async void FrontMenuItem_Click(object sender, RoutedEventArgs e)

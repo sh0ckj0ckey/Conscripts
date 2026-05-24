@@ -48,38 +48,9 @@
                                     <Grid CornerRadius="4" Background="{x:Bind Color,Mode=OneWay,Converter={StaticResource Enum2ColorConverter}}">
                                         <Button Padding="0" Background="Transparent" CornerRadius="4" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                                 DataContext="{x:Bind }" IsEnabled="{x:Bind IsRunning,Mode=OneWay,Converter={StaticResource BoolNegationConverter}}" ToolTipService.ToolTip="{x:Bind Name,Mode=OneWay}"
-                                                Click="Button_Click" ContextRequested="Button_ContextRequested">
+                                                Click="Button_Click">
                                             <Button.Resources>
                                                 <ResourceDictionary>
-                                                    <MenuFlyout x:Key="ShortcutMenuFlyout" Placement="Bottom">
-                                                        <MenuFlyoutItem x:Name="FrontMenuItem" x:Uid="ShortcutFrontMenuItem" Tag="front" Click="FrontMenuItem_Click">
-                                                            <MenuFlyoutItem.Icon>
-                                                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEA4F;"/>
-                                                            </MenuFlyoutItem.Icon>
-                                                        </MenuFlyoutItem>
-                                                        <MenuFlyoutItem x:Name="LeftMenuItem" x:Uid="ShortcutLeftMenuItem" Tag="left" Click="LeftMenuItem_Click">
-                                                            <MenuFlyoutItem.Icon>
-                                                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE64E;"/>
-                                                            </MenuFlyoutItem.Icon>
-                                                        </MenuFlyoutItem>
-                                                        <MenuFlyoutItem x:Name="RightMenuItem" x:Uid="ShortcutRightMenuItem" Tag="right" Click="RightMenuItem_Click">
-                                                            <MenuFlyoutItem.Icon>
-                                                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE64D;"/>
-                                                            </MenuFlyoutItem.Icon>
-                                                        </MenuFlyoutItem>
-                                                        <MenuFlyoutItem x:Name="InfoMenuItem" x:Uid="ShortcutPropertiesMenuItem" Tag="properties" Click="InfoMenuItem_Click">
-                                                            <MenuFlyoutItem.Icon>
-                                                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE90F;"/>
-                                                            </MenuFlyoutItem.Icon>
-                                                        </MenuFlyoutItem>
-                                                        <MenuFlyoutSeparator/>
-                                                        <MenuFlyoutItem x:Name="DeleteMenuItem" x:Uid="ShortcutDeleteMenuItem" Tag="delete" Click="DeleteMenuItem_Click">
-                                                            <MenuFlyoutItem.Icon>
-                                                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE74D;"/>
-                                                            </MenuFlyoutItem.Icon>
-                                                        </MenuFlyoutItem>
-                                                    </MenuFlyout>
-
                                                     <ResourceDictionary.ThemeDictionaries>
                                                         <ResourceDictionary x:Key="Dark">
                                                             <SolidColorBrush x:Key="ButtonForeground" Color="#FFFFFF" />
@@ -102,12 +73,43 @@
                                                     </ResourceDictionary.ThemeDictionaries>
                                                 </ResourceDictionary>
                                             </Button.Resources>
+                                            <Button.ContextFlyout>
+                                                <MenuFlyout Opening="MenuFlyout_Opening" Placement="Bottom">
+                                                    <MenuFlyoutItem x:Name="FrontMenuItem" x:Uid="ShortcutFrontMenuItem" Tag="front" Click="FrontMenuItem_Click">
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEA4F;"/>
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+                                                    <MenuFlyoutItem x:Name="LeftMenuItem" x:Uid="ShortcutLeftMenuItem" Tag="left" Click="LeftMenuItem_Click">
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE64E;"/>
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+                                                    <MenuFlyoutItem x:Name="RightMenuItem" x:Uid="ShortcutRightMenuItem" Tag="right" Click="RightMenuItem_Click">
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE64D;"/>
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+                                                    <MenuFlyoutItem x:Name="InfoMenuItem" x:Uid="ShortcutPropertiesMenuItem" Tag="properties" Click="InfoMenuItem_Click">
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE90F;"/>
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+                                                    <MenuFlyoutSeparator/>
+                                                    <MenuFlyoutItem x:Name="DeleteMenuItem" x:Uid="ShortcutDeleteMenuItem" Tag="delete" Click="DeleteMenuItem_Click">
+                                                        <MenuFlyoutItem.Icon>
+                                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE74D;"/>
+                                                        </MenuFlyoutItem.Icon>
+                                                    </MenuFlyoutItem>
+                                                </MenuFlyout>
+                                            </Button.ContextFlyout>
+                                            
                                             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                                 <TextBlock FontSize="38" Opacity="0.5" Margin="8" Text="{x:Bind Icon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
 
                                                 <StackPanel Orientation="Horizontal" Spacing="8" Margin="12,8" Opacity="0.5" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                                                    <FontIcon x:Uid="ShortcutRunasIcon" Glyph="&#xEA18;" Visibility="{x:Bind RunAsAdministrator,Mode=OneWay,Converter={StaticResource Bool2VisibilityConverter}}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14"/>
-                                                    <FontIcon x:Uid="ShortcutNewWindowIcon" Glyph="&#xF7ED;" Visibility="{x:Bind RunWithoutWindow,Mode=OneWay,Converter={StaticResource Bool2VisibilityConverter},ConverterParameter=!}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14"/>
+                                                    <FontIcon x:Uid="ShortcutRunasIcon" FontSize="14" Glyph="&#xEA18;" Visibility="{x:Bind RunAsAdministrator,Mode=OneWay,Converter={StaticResource Bool2VisibilityConverter}}" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
+                                                    <FontIcon x:Uid="ShortcutNewWindowIcon" FontSize="14" Glyph="&#xF7ED;" Visibility="{x:Bind RunWithoutWindow,Mode=OneWay,Converter={StaticResource Bool2VisibilityConverter},ConverterParameter=!}" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
                                                 </StackPanel>
 
                                                 <TextBlock FontSize="14" FontWeight="Bold" Margin="12" Text="{x:Bind Name,Mode=OneWay}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top"/>
