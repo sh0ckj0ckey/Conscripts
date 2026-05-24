@@ -32,9 +32,9 @@ namespace Conscripts
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-
             _dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+
+            this.InitializeComponent();
 
             WeakReferenceMessenger.Default.Register<ConsumeLaunchArgumentsRequestMessage>(this, static (_, message) =>
             {

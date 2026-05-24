@@ -18,6 +18,8 @@ namespace Conscripts
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        private readonly Microsoft.UI.Dispatching.DispatcherQueue _dispatcherQueue;
+
         private readonly Windows.UI.ViewManagement.UISettings _uiSettings = new();
 
         private readonly WindowPlacementService _windowPlacementService = new();
@@ -26,6 +28,8 @@ namespace Conscripts
 
         public MainWindow()
         {
+            _dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+
             InitializeComponent();
 
             this.ExtendsContentIntoTitleBar = true;
@@ -42,7 +46,7 @@ namespace Conscripts
             {
                 if (App.Settings.AppearanceIndex == 0)
                 {
-                    Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
+                    _dispatcherQueue.TryEnqueue(() =>
                     {
                         this.UpdateAppTheme();
                     });
@@ -51,7 +55,7 @@ namespace Conscripts
 
             App.Settings.AppearanceSettingChanged += (_, _) =>
             {
-                Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
+                _dispatcherQueue.TryEnqueue(() =>
                 {
                     this.UpdateAppTheme();
                 });
@@ -59,7 +63,7 @@ namespace Conscripts
 
             App.Settings.BackdropSettingChanged += (_, _) =>
             {
-                Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
+                _dispatcherQueue.TryEnqueue(() =>
                 {
                     this.UpdateAppBackdrop();
                 });
