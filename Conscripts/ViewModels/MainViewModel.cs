@@ -448,11 +448,7 @@ namespace Conscripts.ViewModels
                 name = string.IsNullOrWhiteSpace(name) ? shortcutModel.ShortcutName : name;
                 category = category?.Trim() ?? string.Empty;
 
-                int modelIndex = _shortcutModels.IndexOf(shortcutModel);
-                if (modelIndex >= 0)
-                {
-                    _shortcutModels.RemoveAt(modelIndex);
-                }
+                bool categoryChanged = !string.Equals(shortcutModel.Category, category, StringComparison.Ordinal);
 
                 shortcutModel.ShortcutIcon = icon;
                 shortcutModel.ShortcutName = name;
@@ -462,7 +458,11 @@ namespace Conscripts.ViewModels
                 shortcutModel.NoWindow = runWithoutWindow;
                 shortcutModel.ShowInJumpList = showInJumpList;
 
-                _shortcutModels.Insert(0, shortcutModel);
+                if (categoryChanged)
+                {
+                    _shortcutModels.Remove(shortcutModel);
+                    _shortcutModels.Insert(0, shortcutModel);
+                }
 
                 await SaveShortcutsAsync();
 
