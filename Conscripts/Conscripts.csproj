@@ -4,10 +4,11 @@
         <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
         <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
         <RootNamespace>Conscripts</RootNamespace>
+        <Nullable>enable</Nullable>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <ApplicationIcon>Assets\Conscripts.ico</ApplicationIcon>
         <DefaultLanguage>en-US</DefaultLanguage>
-
+        
         <Platforms>x86;x64;ARM64</Platforms>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
         <PublishProfile>win-$(Platform).pubxml</PublishProfile>
@@ -18,8 +19,6 @@
         <UseWinUI>true</UseWinUI>
         <WinUISDKReferences>false</WinUISDKReferences>
 
-        <Nullable>enable</Nullable>
-
         <PublishTrimmed>True</PublishTrimmed>
         <PublishAot>True</PublishAot>
         <IsAotCompatible>true</IsAotCompatible>
@@ -27,20 +26,23 @@
         <CsWinRTAotOptimizerEnabled>true</CsWinRTAotOptimizerEnabled>
         <CsWinRTAotWarningLevel>2</CsWinRTAotWarningLevel>
 
+        <!--https://learn.microsoft.com/en-us/windows/uwp/app-resources/build-resources-into-app-package-->
+        <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
+        <AppxDefaultResourceQualifiers>Language=en-US;zh-Hans</AppxDefaultResourceQualifiers>
+
+        <SelfContained>true</SelfContained>
+        <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+        <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
         <EnableMsixTooling>true</EnableMsixTooling>
-        <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-        <DefaultLanguage>en-US</DefaultLanguage>
         <AppxBundle>Always</AppxBundle>
-        <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
+        <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
         <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+        <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+        <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
         <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
         <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-        <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
         <GenerateTestArtifacts>True</GenerateTestArtifacts>
         <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-        <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-        <SelfContained>true</SelfContained>
-        <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
     </PropertyGroup>
     <ItemGroup>
         <None Remove="Assets\CascadiaCode.ttf" />
