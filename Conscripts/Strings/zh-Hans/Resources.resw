@@ -387,15 +387,21 @@
     <value>升级了底层技术框架，带来更好的启动体验、性能表现与兼容性。</value>
   </data>
   <data name="ShortcutLeftMenuItem.Text" xml:space="preserve">
-    <value>向左移动</value>
+    <value>左移</value>
   </data>
   <data name="ShortcutRightMenuItem.Text" xml:space="preserve">
-    <value>向右移动</value>
+    <value>右移</value>
   </data>
   <data name="AddingSelectFileTextBlock.Text" xml:space="preserve">
     <value>选择文件</value>
   </data>
   <data name="AddingClearSelectionTextBlock.Text" xml:space="preserve">
     <value>清除选择</value>
+  </data>
+  <data name="SettingsMinimizeSettingsCard.Description" xml:space="preserve">
+    <value>从跳转列表启动脚本时，Conscripts 将保持最小化状态运行</value>
+  </data>
+  <data name="SettingsMinimizeSettingsCard.Header" xml:space="preserve">
+    <value>跳转列表安静启动</value>
   </data>
 </root>

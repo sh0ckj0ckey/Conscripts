@@ -318,13 +318,13 @@ File name is</value>
     <value>Script files are stored in "Documents"</value>
   </data>
   <data name="SettingsDataViewFilesTextBlock.Text" xml:space="preserve">
-    <value>View files</value>
+    <value>View Files</value>
   </data>
   <data name="SettingsFeaturesTextBlock.Text" xml:space="preserve">
     <value>Features</value>
   </data>
   <data name="SettingsOneShotSettingsCard.Header" xml:space="preserve">
-    <value>One Shot mode</value>
+    <value>One Shot Mode</value>
   </data>
   <data name="SettingsOneShotSettingsCard.Description" xml:space="preserve">
     <value>Conscripts will exit after the script execution finishes</value>
@@ -345,7 +345,7 @@ File name is</value>
     <value>GitHub Repository</value>
   </data>
   <data name="SettingsCodeSettingsCard.Header" xml:space="preserve">
-    <value>Source code</value>
+    <value>Source Code</value>
   </data>
   <data name="SettingsCodeSettingsCard.Description" xml:space="preserve">
     <value>Go to GitHub to view the source code</value>
@@ -372,7 +372,7 @@ File name is</value>
     <value>Mica Alt</value>
   </data>
   <data name="ShortcutJumpListCheckBox.Content" xml:space="preserve">
-    <value>Add to JumpList</value>
+    <value>Add to Jump List</value>
   </data>
   <data name="ReleaseNotesTitle2026AprTextBlock.Text" xml:space="preserve">
     <value>Updates in April 2026</value>
@@ -397,5 +397,11 @@ File name is</value>
   </data>
   <data name="AddingClearSelectionTextBlock.Text" xml:space="preserve">
     <value>Clear selection</value>
+  </data>
+  <data name="SettingsMinimizeSettingsCard.Description" xml:space="preserve">
+    <value>Conscripts will stay minimized when launching a script from the Jump List</value>
+  </data>
+  <data name="SettingsMinimizeSettingsCard.Header" xml:space="preserve">
+    <value>Jump List Quiet Launch</value>
   </data>
 </root>
