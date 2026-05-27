@@ -224,6 +224,13 @@ namespace Conscripts
                     int defaultHeight = (int)Math.Round(680 * scale);
 
                     this.AppWindow.Resize(new Windows.Graphics.SizeInt32(defaultWidth, defaultHeight));
+
+                    var area = DisplayArea.GetFromWindowId(this.AppWindow.Id, DisplayAreaFallback.Nearest)?.WorkArea;
+                    if (area is not null)
+                    {
+                        this.AppWindow.Move(new Windows.Graphics.PointInt32(area.Value.X + (area.Value.Width - this.AppWindow.Size.Width) / 2, area.Value.Y + (area.Value.Height - this.AppWindow.Size.Height) / 2));
+                    }
+
                     return;
                 }
 
