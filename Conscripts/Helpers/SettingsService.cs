@@ -6,9 +6,9 @@ namespace Conscripts.Helpers
 {
     public partial class SettingsService : ObservableObject
     {
-        private const string SETTING_NAME_APPEARANCEINDEX = "AppearanceIndex";
-        private const string SETTING_NAME_BACKDROPINDEX = "BackdropIndex";
-        private const string SETTING_NAME_ONESHOTMODE = "IsOneShotModeEnabled";
+        private const string Settings_Appearance = "AppearanceIndex";
+        private const string Settings_Backdrop = "BackdropIndex";
+        private const string Settings_OneShot = "IsOneShotModeEnabled";
 
         private readonly ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
 
@@ -20,7 +20,7 @@ namespace Conscripts.Helpers
 
         private int _backdropIndex = -1;
 
-        private bool? _oneShotEnabled = null;
+        private bool? _isOneShotModeEnabled = null;
 
         /// <summary>
         /// App's Theme, 0-System 1-Dark 2-Light.
@@ -33,19 +33,19 @@ namespace Conscripts.Helpers
                 {
                     if (_appearanceIndex < 0)
                     {
-                        if (_localSettings.Values[SETTING_NAME_APPEARANCEINDEX] == null)
+                        if (_localSettings.Values[Settings_Appearance] == null)
                         {
                             _appearanceIndex = 0;
                         }
-                        else if (_localSettings.Values[SETTING_NAME_APPEARANCEINDEX]?.ToString() == "0")
+                        else if (_localSettings.Values[Settings_Appearance]?.ToString() == "0")
                         {
                             _appearanceIndex = 0;
                         }
-                        else if (_localSettings.Values[SETTING_NAME_APPEARANCEINDEX]?.ToString() == "1")
+                        else if (_localSettings.Values[Settings_Appearance]?.ToString() == "1")
                         {
                             _appearanceIndex = 1;
                         }
-                        else if (_localSettings.Values[SETTING_NAME_APPEARANCEINDEX]?.ToString() == "2")
+                        else if (_localSettings.Values[Settings_Appearance]?.ToString() == "2")
                         {
                             _appearanceIndex = 2;
                         }
@@ -62,7 +62,7 @@ namespace Conscripts.Helpers
             set
             {
                 SetProperty(ref _appearanceIndex, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_APPEARANCEINDEX] = _appearanceIndex;
+                _localSettings.Values[Settings_Appearance] = _appearanceIndex;
                 AppearanceSettingChanged?.Invoke(this, _appearanceIndex);
             }
         }
@@ -78,19 +78,19 @@ namespace Conscripts.Helpers
                 {
                     if (_backdropIndex < 0)
                     {
-                        if (_localSettings.Values[SETTING_NAME_BACKDROPINDEX] == null)
+                        if (_localSettings.Values[Settings_Backdrop] == null)
                         {
                             _backdropIndex = 0;
                         }
-                        else if (_localSettings.Values[SETTING_NAME_BACKDROPINDEX]?.ToString() == "0")
+                        else if (_localSettings.Values[Settings_Backdrop]?.ToString() == "0")
                         {
                             _backdropIndex = 0;
                         }
-                        else if (_localSettings.Values[SETTING_NAME_BACKDROPINDEX]?.ToString() == "1")
+                        else if (_localSettings.Values[Settings_Backdrop]?.ToString() == "1")
                         {
                             _backdropIndex = 1;
                         }
-                        else if (_localSettings.Values[SETTING_NAME_BACKDROPINDEX]?.ToString() == "2")
+                        else if (_localSettings.Values[Settings_Backdrop]?.ToString() == "2")
                         {
                             _backdropIndex = 2;
                         }
@@ -107,7 +107,7 @@ namespace Conscripts.Helpers
             set
             {
                 SetProperty(ref _backdropIndex, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_BACKDROPINDEX] = _backdropIndex;
+                _localSettings.Values[Settings_Backdrop] = _backdropIndex;
                 BackdropSettingChanged?.Invoke(this, _backdropIndex);
             }
         }
@@ -115,38 +115,37 @@ namespace Conscripts.Helpers
         /// <summary>
         /// Indicates whether the one-shot mode is enabled.
         /// </summary>
-        public bool OneShotEnabled
+        public bool IsOneShotModeEnabled
         {
             get
             {
                 try
                 {
-                    if (_oneShotEnabled is null)
+                    if (_isOneShotModeEnabled is null)
                     {
-                        if (_localSettings.Values[SETTING_NAME_ONESHOTMODE] == null)
+                        if (_localSettings.Values[Settings_OneShot] == null)
                         {
-                            _oneShotEnabled = false;
+                            _isOneShotModeEnabled = false;
                         }
-                        else if (_localSettings.Values[SETTING_NAME_ONESHOTMODE]?.ToString() == "True")
+                        else if (_localSettings.Values[Settings_OneShot]?.ToString() == "True")
                         {
-                            _oneShotEnabled = true;
+                            _isOneShotModeEnabled = true;
                         }
                         else
                         {
-                            _oneShotEnabled = false;
+                            _isOneShotModeEnabled = false;
                         }
                     }
                 }
                 catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
-                _oneShotEnabled ??= false;
-                return _oneShotEnabled ?? false;
+                _isOneShotModeEnabled ??= false;
+                return _isOneShotModeEnabled ?? false;
             }
             set
             {
-                SetProperty(ref _oneShotEnabled, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_ONESHOTMODE] = _oneShotEnabled;
+                SetProperty(ref _isOneShotModeEnabled, value);
+                _localSettings.Values[Settings_OneShot] = _isOneShotModeEnabled;
             }
         }
     }
-
 }

@@ -541,7 +541,7 @@ namespace Conscripts.ViewModels
                     var currentShortcut = FindShortcut(runningKey);
                     currentShortcut?.IsRunning = false;
 
-                    if (started && App.Settings.OneShotEnabled && _runningShortcutFileNames.Count == 0)
+                    if (started && App.Settings.IsOneShotModeEnabled && _runningShortcutFileNames.Count == 0)
                     {
                         if (App.MainWindow is not null)
                         {

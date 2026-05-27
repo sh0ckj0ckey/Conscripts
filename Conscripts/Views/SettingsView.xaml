@@ -39,6 +39,7 @@
                     </StackPanel>
                 </Button>
             </controls:SettingsCard>
+            
             <TextBlock x:Uid="SettingsPersonalizationTextBlock" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
             <controls:SettingsCard x:Uid="SettingsThemeSettingsCard">
                 <controls:SettingsCard.HeaderIcon>
@@ -62,6 +63,7 @@
                     <ComboBoxItem x:Uid="SettingsBackdropAcrylicComboBoxItem"/>
                 </ComboBox>
             </controls:SettingsCard>
+            
             <TextBlock x:Uid="SettingsDataTextBlock" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
             <controls:SettingsCard x:Uid="SettingsDataFileSettingsCard">
                 <controls:SettingsCard.HeaderIcon>
@@ -80,8 +82,9 @@
                 <controls:SettingsCard.HeaderIcon>
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE945;"/>
                 </controls:SettingsCard.HeaderIcon>
-                <ToggleSwitch MinWidth="0" Background="Transparent" IsOn="{x:Bind Settings.OneShotEnabled,Mode=TwoWay}"/>
+                <ToggleSwitch MinWidth="0" Background="Transparent" IsOn="{x:Bind Settings.IsOneShotModeEnabled,Mode=TwoWay}"/>
             </controls:SettingsCard>
+            
             <TextBlock x:Uid="SettingsAboutTextBlock" Margin="4,10,0,10" FontWeight="Bold" FontSize="14"/>
             <controls:SettingsCard x:Uid="SettingsContactSettingsCard">
                 <controls:SettingsCard.HeaderIcon>
@@ -116,6 +119,7 @@
                     </StackPanel>
                 </Button>
             </controls:SettingsCard>
+            
             <TextBlock Text="©2026 NoMewing" Opacity="0.5" FontFamily="{ThemeResource CascadiaCodeFont}" FontSize="12" Margin="4,8,4,8"/>
         </StackPanel>
     </ScrollViewer>
