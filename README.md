@@ -3,7 +3,7 @@
 </p>
 
 <h3 align="center">Conscripts</h3>
-<h4 align="center">Keeps your BAT and PS1 scripts organized in one place</h4>
+<h4 align="center">Keeps BAT and PS1 scripts organized in one place</h4>
 
 ## Overview
 
