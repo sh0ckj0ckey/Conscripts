@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="Conscripts/Assets/Conscripts.png" alt="logo" height="128" width="128"/>
+    <img src="Conscripts/Assets/Conscripts.png" alt="logo" height="96" width="96"/>
 </p>
 
 <h3 align="center">Conscripts</h3>
