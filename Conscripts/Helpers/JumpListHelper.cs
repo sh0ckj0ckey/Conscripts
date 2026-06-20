@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Conscripts.Models;
 using Microsoft.Graphics.Canvas;
@@ -100,7 +101,14 @@ namespace Conscripts.Helpers
 
                 StorageFolder iconFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(IconCacheFolderName, CreationCollisionOption.OpenIfExists);
 
-                foreach (var shortcut in shortcuts)
+                var orderedShortcuts = shortcuts
+                    .Where(shortcut => shortcut?.ShowInJumpList == true && !string.IsNullOrWhiteSpace(shortcut.ScriptFilePath))
+                    .Select((shortcut, index) => new { Shortcut = shortcut, Index = index })
+                    .OrderBy(x => x.Shortcut.Category ?? string.Empty, StringComparer.CurrentCulture)
+                    .ThenBy(x => x.Index)
+                    .Select(x => x.Shortcut);
+
+                foreach (var shortcut in orderedShortcuts)
                 {
                     if (shortcut?.ShowInJumpList != true)
                     {
