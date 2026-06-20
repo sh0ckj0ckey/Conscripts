@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
+using Windows.ApplicationModel.Activation;
 
 namespace Conscripts;
 
@@ -31,25 +32,29 @@ public static class Program
 
     private static async Task<bool> DecideRedirectionAsync()
     {
-        bool isRedirect = false;
         AppActivationArguments args = AppInstance.GetCurrent().GetActivatedEventArgs();
         AppInstance keyInstance = AppInstance.FindOrRegisterForKey("NoMewing.Conscripts");
 
         if (keyInstance.IsCurrent)
         {
             keyInstance.Activated += Program_Activated;
-        }
-        else
-        {
-            isRedirect = true;
-            await keyInstance.RedirectActivationToAsync(args);
+            return false;
         }
 
-        return isRedirect;
+        await keyInstance.RedirectActivationToAsync(args);
+        return true;
     }
 
     private static void Program_Activated(object? sender, AppActivationArguments args)
     {
-        _app?.HandleRedirectedActivation(args);
+        ExtendedActivationKind kind = args.Kind;
+        string? launchArguments = null;
+
+        if (kind == ExtendedActivationKind.Launch && args.Data is ILaunchActivatedEventArgs launchArgs)
+        {
+            launchArguments = string.IsNullOrWhiteSpace(launchArgs.Arguments) ? null : launchArgs.Arguments.Trim();
+        }
+
+        _app?.HandleRedirectedActivation(kind, launchArguments);
     }
 }

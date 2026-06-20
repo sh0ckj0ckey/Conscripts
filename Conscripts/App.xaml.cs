@@ -74,7 +74,7 @@ namespace Conscripts
             MainWindow.Activate();
         }
 
-        internal void HandleRedirectedActivation(AppActivationArguments args)
+        internal void HandleRedirectedActivation(ExtendedActivationKind kind, string? launchArguments)
         {
             _dispatcherQueue.TryEnqueue(() =>
             {
@@ -86,12 +86,11 @@ namespace Conscripts
 
                 MainWindow.Activate();
 
-                if (args is not null && args.Kind == ExtendedActivationKind.Launch && args.Data is ILaunchActivatedEventArgs launchArgs)
+                if (kind == ExtendedActivationKind.Launch)
                 {
-                    var arguments = launchArgs.Arguments?.Trim();
-                    if (!string.IsNullOrWhiteSpace(arguments))
+                    if (!string.IsNullOrWhiteSpace(launchArguments))
                     {
-                        WeakReferenceMessenger.Default.Send(new RedirectedActivationArgumentsMessage(arguments));
+                        WeakReferenceMessenger.Default.Send(new RedirectedActivationArgumentsMessage(launchArguments));
                     }
                 }
             });
